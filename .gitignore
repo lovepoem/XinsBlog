@@ -61,7 +61,7 @@ typings/
 
 # next.js build output
 .next
-#db.jsondb.json
+#db.json
 .idea/
 public/
 Would skip repository .deploy_git/
