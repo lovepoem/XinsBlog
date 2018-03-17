@@ -61,10 +61,10 @@ typings/
 
 # next.js build output
 .next
-#db.json
+db.json
 .idea/
 public/
 Would skip repository .deploy_git/
 package-lock.json
-#package.json
+package.json
 .deploy_git/
