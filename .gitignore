@@ -66,4 +66,5 @@ typings/
 public/
 Would skip repository .deploy_git/
 package-lock.json
+#package.json
 .deploy_git/
