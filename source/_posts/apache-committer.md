@@ -36,7 +36,7 @@
 
 3、退出并重新登入Github，输入用户名、密码后会多一步。动态密码的填写，用app的动态密码
 4、需要约半个小时,会有邮件通知加入xx project-committers开发者组。或者自己去[apache teams](https://github.com/orgs/apache/teams) 查看。
-   注意：2fa提交后你已经clone的项目会有权限校验问题，处理方法为：
+  
 
 ## 四、The apache way
    社区重于代码
