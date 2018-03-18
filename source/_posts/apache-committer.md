@@ -9,18 +9,18 @@ title: Apache 提交者注册流程
 
 ## 一、项目提交apache孵化器
 ### 书写孵化项目提案
-   在孵化项目提案中，会有初始化提交者列表这一选项。确认你是初始化提交者的一员。项目在apache孵化器社区投票通过后，提交者可以开始准备注册账户了。
+   在孵化项目提案中，会有初始化提交者列表这一选项。确认你是初始化提交者的一员。项目在apache孵化器社区投票通过后，提交者可以开始准备注册账户了。可以参看[孵化器wiki](https://wiki.apache.org/incubator/)
 ## 二、个人开发者提交ICLA
 
 ### 1、选apache id
    在[apache提交者列表页](http://people.apache.org/committer-index.html)查看可用的apache id，
 ### 2、个人提交者授权协议（ICLA）：
-   下载[ICLA模板](https://www.apache.org/licenses/icla.pdf)，查找可用的id。将icla.pdf个人信息填写正确后发送邮件给秘书 secretary@apache.org,秘书会帮忙创建apache 用户id。同时会创建一个your id@apache.org的邮箱，可以在[apache提交者列表页](http://people.apache.org/committer-index.html)查看查找用户是否已经创建。
+   下载[ICLA模板](https://www.apache.org/licenses/icla.pdf)，查找可用的id。将icla.pdf个人信息填写正确后打印,签名、扫描、并当做附件发送邮件给秘书 secretary@apache.org,秘书会帮忙创建apache 用户id。同时会创建一个your id@apache.org的邮箱，可以在[apache提交者列表页](http://people.apache.org/committer-index.html)查看查找用户是否已经创建。
 
 ## 三、加入apache开发者组
-   * 1、登入[Apache账户工具](https://id.apache.org/)，首次登入可以选忘记密码获得初始化密码，会发送到forward邮箱
+   * 1、登入[Apache账户工具](https://id.apache.org/)，首次登入可以选忘记密码获得初始化密码，会发送到forward邮箱(在孵化项目提案中提交的开发者邮件)
    * 2、修改编辑页面的homepage url，[apache提交者列表页](http://people.apache.org/committer-index.html)中你的账户能加主页链接。
-   * 3、修改编辑页面的github账户，会发有邮件邀请你加入github.com/apache组。
+   * 3、修改编辑页面的github账户，会发有邮件邀请你加入github.com/apache组。这时间请看[ASF工作方式](http://www.apache.org/foundation/how-it-works.html#developers)对ASF开发做一些基本了解。
 ## 四、获得提交者对项目的写权限
 
 [GitBox账户链接工具](https://gitbox.apache.org/setup/)的填写
@@ -47,9 +47,11 @@ title: Apache 提交者注册流程
    参考官网[帮助链接一](https://help.github.com/articles/https-cloning-errors/#provide-access-token-if-2fa-enabled)和[帮助链接二](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
   * b. 改用ssh
    ssh-keygen 然后把pub文件中的内入粘贴到github上
-   
+  
 * 注意：一定要保证github的2fa为"enable"状态。当你将2fa设置为"off"时候，将会被对应的apache committer写权限组除名，直到你再次设置成功为止。
 
 ## 四、The apache way
+   参看[wiki](http://apache.org/foundation/governance/)
+
    社区重于代码
    如果没有在社区(邮件列表)谈过，就当没有发生过
