@@ -7,7 +7,7 @@ title: 雨中人
 subtitle: Open source project developer
 description: Open source project developer
 author: 雨中人
-language: zh-CN
+language: zh-Hans
 timezone:
 
 # URL
@@ -71,3 +71,29 @@ deploy:
   type: git
   repository: https://github.com/lovepoem/lovepoem.github.io.git
   branch: master
+sidebar:
+  position: left
+scheme: Pisces
+avatar: /images/avatar.png
+toc:
+  enable: true
+
+  # Automatically add list number to toc.
+  number: true
+
+  # If true, all words will placed on next lines if header width longer then sidebar width.
+  wrap: false
+  # Code Highlight theme
+  # Available value:
+  #    normal | night | night eighties | night blue | night bright
+  # https://github.com/chriskempson/tomorrow-theme
+highlight_theme: normal
+menu:
+  home: 首页
+  archives: 归档
+  categories: 分类
+  tags: 标签
+  about: 关于
+  search: 搜索
+  commonweal: 公益404
+  something: 有料
