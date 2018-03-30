@@ -20,7 +20,7 @@ title: Apache 提交者注册流程
 ## 三、加入apache开发者组
    * 1、登入[Apache账户工具](https://id.apache.org/)，首次登入可以选忘记密码获得初始化密码，会发送到forward邮箱(在孵化项目提案中提交的开发者邮件)
    * 2、修改编辑页面的homepage url，[apache提交者列表页](http://people.apache.org/committer-index.html)中你的账户能加主页链接。
-   * 3、修改编辑页面的github账户，会发有邮件邀请你加入github.com/apache组。这时间请看[ASF工作方式](http://www.apache.org/foundation/how-it-works.html#developers)对ASF开发做一些基本了解。
+   * 3、修改编辑页面的github账户，会发有邮件邀请你加入github.com/apache-commiiters组。这时间请看[ASF工作方式](http://www.apache.org/foundation/how-it-works.html#developers)对ASF开发做一些基本了解。
 ## 四、获得提交者对项目的写权限
 
 [GitBox账户链接工具](https://gitbox.apache.org/setup/)的填写
@@ -34,7 +34,7 @@ title: Apache 提交者注册流程
 * 1)、在手机安装 “google身份验证器” app
 * 2)、按照[授权GitHub 2FA wiki](https://help.github.com/articles/configuring-two-factor-authentication-via-a-totp-mobile-app/)一步一步操作。
 
-   在[两因素授权验证(2. Scan this barcode with your app.)](https://github.com/settings/two_factor_authentication/verify)界面，不选择建议用手机扫描二维码，因为有些手机会扫描不出来。
+   在[两因素授权验证(2. Scan this barcode with your app.)](https://github.com/settings/two_factor_authentication/verify)界面，不建议选择用手机扫描二维码，因为有些手机会扫描不出来。
    请打开手机 “google身份验证器” app，点“+”选择“输入提供的秘钥”： “账户名”填入github账户，“您的秘钥”填打开网页中“enter this text code” 链接里面的文本。手机app点”添加“后将为此账户生成的6位数字动态。将此6位数字填入网页中的文本框，然后点“Enable”。这样2fa就设置成功了。
 
 * 3)、退出并重新登入Github，输入用户名、密码后会多一步。动态密码的填写，用app的动态密码
