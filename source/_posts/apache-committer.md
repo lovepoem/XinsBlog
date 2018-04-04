@@ -49,9 +49,12 @@ title: Apache 提交者注册流程
    ssh-keygen 然后把pub文件中的内入粘贴到github上
   
 * 注意：一定要保证github的2fa为"enable"状态。当你将2fa设置为"off"时候，将会被对应的apache committer写权限组除名，直到你再次设置成功为止。
-
-## 五、The apache way
+  
+## 五、其他
+   ### The apache way
    参看[wiki](http://apache.org/foundation/governance/)
 
    社区重于代码
    如果没有在社区(邮件列表)讨论过，就当没有发生过
+   ### 小福利
+   Jetbrains给apache提交者一个小福利，就是可以免费使用idea的全产品系列。具体注册地址为：https://www.jetbrains.com/shop/eform/apache?product=ALL
