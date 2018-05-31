@@ -7,9 +7,12 @@ title: Apache 提交者注册流程
    中国互联网公司这十几年的蓬勃发展，涌现了BAT、华为等一批公司开源项目的领军者，不少个人开发者也不断闪耀在开源领域。
    我最近有幸参与了一个Apache项目的孵化初始化过程，从一个committer的视角将一些注册的流程记录一下。
 
-## 一、项目提交apache孵化器
-### 书写孵化项目提案
-   在孵化项目提案中，会有初始化提交者列表这一选项。确认你是初始化提交者的一员。项目在apache孵化器社区投票通过后，提交者可以开始准备注册账户了。可以参看[孵化器wiki](https://wiki.apache.org/incubator/)
+## 一、apache提交者的产生
+### 项目孵化初始化提交者
+   项目孵化阶段，在孵化项目提案中，会有初始化提交者列表这一选项。确认你是初始化提交者的一员。项目在apache孵化器社区投票通过后，提交者可以开始准备注册账户了。可以参看[孵化器wiki](https://wiki.apache.org/incubator/)
+### 活跃的贡献者被选举为提交者
+   在后期的开发过程中，活跃的贡献者被选举为提交者。见[如何成为committer](https://www.apache.org/dev/new-committers-guide.html#becoming-a-committer)
+   
 ## 二、个人开发者提交ICLA
 
 ### 1、选apache id
@@ -19,8 +22,12 @@ title: Apache 提交者注册流程
 
 ## 三、加入apache开发者组
    * 1、登入[Apache账户工具](https://id.apache.org/)，首次登入可以选忘记密码获得初始化密码，会发送到forward邮箱(在孵化项目提案中提交的开发者邮件)
-   * 2、修改编辑页面的homepage url，[apache提交者列表页](http://people.apache.org/committer-index.html)中你的账户能加主页链接。
-   * 3、修改编辑页面的github账户，会发有邮件邀请你加入github.com/apache-commiiters组。这时间请看[ASF工作方式](http://www.apache.org/foundation/how-it-works.html#developers)对ASF开发做一些基本了解。
+   * 2、关于apache邮箱：apache.org邮箱并没有自己的邮件内容存储服务器。他是需要借用其他邮件提供商的邮件内容存储、分发功能。在很多投票环节是建议用apache邮箱的。
+    这就就有一个问题，怎么在其他邮箱里面配置好apache.org邮箱转发功能：
+    1）收件箱：收取发送到apache.org的邮件。这个在第一步配置好Apache账户工具的forward邮箱就可以用forward邮箱收取邮件了
+    2）发件箱：将发出的邮件显示发件邮箱为apache.org邮箱。请参考：[设置apache邮箱指南](https://reference.apache.org/committer/email)和[gmail邮箱设置方式]http://gmailblog.blogspot.com/2009/07/send-mail-from-another-address-without.html。 其他邮箱服务的设置方式不方便找到，gmail的最方便，建议换成gmail邮箱(不是广告)。
+   * 3、修改编辑页面的homepage url，[apache提交者列表页](http://people.apache.org/committer-index.html)中你的账户能加主页链接。
+   * 4、修改编辑页面的github账户，会发有邮件邀请你加入github.com/apache-commiiters组。这时间请看[ASF工作方式](http://www.apache.org/foundation/how-it-works.html#developers)对ASF开发做一些基本了解。
 ## 四、获得提交者对项目的写权限
 
 [GitBox账户链接工具](https://gitbox.apache.org/setup/)的填写
