@@ -25,7 +25,7 @@ title: Apache 提交者注册流程
    * 2、关于apache邮箱：apache.org邮箱并没有自己的邮件内容存储服务器。他是需要借用其他邮件提供商的邮件内容存储、分发功能。在很多投票环节是建议用apache邮箱的。
     这就就有一个问题，怎么在其他邮箱里面配置好apache.org邮箱转发功能：
     1）收件箱：收取发送到apache.org的邮件。这个在第一步配置好Apache账户工具的forward邮箱就可以用forward邮箱收取邮件了
-    2）发件箱：将发出的邮件显示发件邮箱为apache.org邮箱。请参考：[设置apache邮箱指南](https://reference.apache.org/committer/email)和[gmail邮箱设置方式]http://gmailblog.blogspot.com/2009/07/send-mail-from-another-address-without.html。 其他邮箱服务的设置方式不方便找到，gmail的最方便，建议换成gmail邮箱(不是广告)。
+    2）发件箱：将发出的邮件显示发件邮箱为apache.org邮箱。请参考：[设置apache邮箱指南](https://reference.apache.org/committer/email)和[gmail邮箱设置方式](http://gmailblog.blogspot.com/2009/07/send-mail-from-another-address-without.html)。 其他邮箱服务的设置方式不方便找到，gmail的最方便，建议换成gmail邮箱(不是广告)。
    * 3、修改编辑页面的homepage url，[apache提交者列表页](http://people.apache.org/committer-index.html)中你的账户能加主页链接。
    * 4、修改编辑页面的github账户，会发有邮件邀请你加入github.com/apache-commiiters组。这时间请看[ASF工作方式](http://www.apache.org/foundation/how-it-works.html#developers)对ASF开发做一些基本了解。
 ## 四、提交者获得对项目的写权限
