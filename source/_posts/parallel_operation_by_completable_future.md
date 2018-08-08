@@ -1,0 +1,105 @@
+---
+title: 利用java8的CompletableFuture异步并行操作
+---
+**需求点**：业务上常常有这样一个需求：从多个数据源取得，合并成一个结果。这个操作，假设有3个数据源，同步处理，需要queryData1，queryData2，queryData3。执行时间会是3个时间之和。异步的操作getAllInfoByProductId：起一个业务的线程池，并发执行业务，然后一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据，这样明显执行时间会小于3个业务时间之和。而是用了执行最长的业务时间，加上守护线程的消耗。
+     现在java8提供了一个很好的CompletableFuture工具
+ ```java
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
+/**
+ * 并行获取各个数据源的数据合并成一个数据组合
+ */
+public class ParallelTest {
+    /**
+     * 获取基本信息
+     *
+     * @return
+     */
+    public String getProductBaseInfo(String productId) {
+        return productId + "商品基础信息";
+    }
+
+    /**
+     * 获取详情信息
+     *
+     * @return
+     */
+    public String getProductDetailInfo(String productId) {
+        return productId + "商品详情信息";
+    }
+
+    /**
+     * 获取sku信息
+     *
+     * @return
+     */
+    public String getProductSkuInfo(String productId) {
+        return productId + "商品sku信息";
+    }
+
+    /**
+     * 取得一个商品的所有信息（基础、详情、sku）
+     *
+     * @param productId
+     * @return
+     */
+    public String getAllInfoByProductId(String productId) {
+        CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> getProductBaseInfo(productId));
+        CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> getProductDetailInfo(productId));
+        CompletableFuture<String> f3 = CompletableFuture.supplyAsync(() -> getProductSkuInfo(productId));
+        //等待三个数据源都返回后，再组装数据。这里会有一个线程阻塞
+        CompletableFuture.allOf(f1, f2, f3).join();
+        try {
+            String baseInfo = f1.get();
+            String detailInfo = f2.get();
+            String skuInfo = f3.get();
+            return baseInfo + "" + detailInfo + skuInfo;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+   /**
+    *   并行获取数据的计算
+    */
+    @Test
+    public void testGetAllInfoParalleByProductId() throws ExecutionException, InterruptedException {
+        ParallelTest test = new ParallelTest();
+        String info = test.getAllInfoByProductId("1111");
+        Assertions.assertNotNull(info);
+    }
+   /**
+    *   同步获取执行的处理
+    */
+    @Test
+    public void testGetAllInfoDirectly() throws ExecutionException, InterruptedException {
+        ParallelTest test = new ParallelTest();
+        String info1 = getProductBaseInfo("1111");
+        String info2 = getProductDetailInfo("1111");
+        String info3 = getProductSkuInfo("1111");
+        String info=baseInfo + "" + detailInfo + skuInfo;
+        Assertions.assertNotNull(info);
+    }
+}
+ ```
+allOf是等待所有任务完成，接触阻塞，获取各个数据源的数据。
+其他的类似处理：
+1、以前在处理类似问题的时候，用了twitter的一个util工具
+ ```xml
+<dependency>
+	<groupId>com.twitter</groupId>
+	<artifactId>util-core_2.11</artifactId>
+	<version>${util-core_2.11.version}</version>
+</dependency>
+ ```
+ 用这个工具包的Future实现了类似的功能，但是多加了一种语言依赖
+ 2、后来又尝试用jdk的Future和线程池实现类似功能。自己造了轮子各种调试，现在有jdk8的官方的支持，太爽了。
+
+ 参考：
+ https://blog.csdn.net/u011726984/article/details/79320004
