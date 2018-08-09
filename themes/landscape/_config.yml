@@ -28,7 +28,6 @@ archive_type: 'monthly'
 show_count: false
 
 # Miscellaneous
-baidu_tongji: true
 gauges_analytics:
 favicon: /favicon.png
 twitter:
