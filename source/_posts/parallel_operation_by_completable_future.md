@@ -1,7 +1,9 @@
 ---
 title: 利用java8的CompletableFuture异步并行操作
 ---
-**需求点**：业务上常常有这样一个需求：从多个数据源取得，合并成一个结果。这个操作，假设有3个数据源，同步处理，需要queryData1，queryData2，queryData3。执行时间会是3个时间之和。异步的操作getAllInfoByProductId：起一个业务的线程池，并发执行业务，然后一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据，这样明显执行时间会小于3个业务时间之和。而是用了执行最长的业务时间，加上守护线程的消耗。
+**需求点**：业务上常常有这样一个需求：从多个数据源取得，合并成一个结果。
+   这个操作，假设有3个数据源，同步处理，需要queryData1，queryData2，queryData3。执行时间会是3个时间之和。
+   一般的异步异步设计方案为：起一个业务的线程池，并发执行业务，然后一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据，这样明显执行时间会小于3个业务时间之和（例如下面的getAllInfoByProductId）。而是用了执行最长的业务时间，加上守护线程的消耗。
      现在java8提供了一个很好的CompletableFuture工具
  ```java
 import org.junit.jupiter.api.Assertions;
@@ -89,6 +91,45 @@ public class ParallelTest {
 }
  ```
 allOf是等待所有任务完成，接触阻塞，获取各个数据源的数据。
+
+**改进**
+对于上面的例子，使用了默认的线程池，线程数为cpu核数-1。这个并不能很好地利用资源。下面为线程数计算的公式：
+
+```
+服务器端最佳线程数量=((线程等待时间+线程cpu时间)/线程cpu时间) * cpu数量
+```
+下面例子中也将executor线程池暴露出来，方便配置线程数和做一些其他处理。
+```java
+    /**
+     * 取得一个商品的所有信息（基础、详情、sku）
+     *
+     * @param productId
+     * @return
+     */
+    public String getAllInfoByProductId(String productId) {
+        ExecutorService executor = Executors.newFixedThreadPool(100);
+        CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> getProductBaseInfo(productId),executor);
+        CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> getProductDetailInfo(productId),executor);
+        CompletableFuture<String> f3 = CompletableFuture.supplyAsync(() -> getProductSkuInfo(productId),executor);
+
+        CompletableFuture.allOf(f1, f2, f3).join();
+        try {
+            String baseInfo = f1.get();
+            String detailInfo = f2.get();
+            String skuInfo = f3.get();
+            return baseInfo + "" + detailInfo + skuInfo;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+```
+
+
+
 其他的类似处理：
 1、以前在处理类似问题的时候，用了twitter的一个util工具
  ```xml
