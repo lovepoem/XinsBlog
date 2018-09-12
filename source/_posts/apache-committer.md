@@ -19,6 +19,8 @@ title: Apache 提交者注册流程
    在[apache提交者列表页](http://people.apache.org/committer-index.html)查看可用的apache id，
 ### 2、个人提交者授权协议（ICLA）：
    下载[ICLA模板](https://www.apache.org/licenses/icla.pdf)，查找可用的id。将icla.pdf个人信息填写正确后打印,签名、扫描、并当做附件发送邮件给秘书 secretary@apache.org,秘书会帮忙创建apache 用户id。同时会创建一个your id@apache.org的邮箱，可以在[apache提交者列表页](http://people.apache.org/committer-index.html)查看查找用户是否已经创建。
+### 3、导师帮助提交用户id创建请求
+   导师将帮助提交apache账户创建请求给root邮件组，会有人帮助建立id。一般需要2天时间账户会建立，请等待并在[apache提交者列表页](http://people.apache.org/committer-index.html)查看查找用户是否已经创建。
 
 ## 三、加入apache开发者组
    * 1、登入[Apache账户工具](https://id.apache.org/)，首次登入可以选忘记密码获得初始化密码，会发送到forward邮箱(在孵化项目提案中提交的开发者邮件)
