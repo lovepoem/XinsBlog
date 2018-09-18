@@ -100,6 +100,7 @@ allOf是等待所有任务完成，接触阻塞，获取各个数据源的数据
 ```
 下面例子中也将executor线程池暴露出来，方便配置线程数和做一些其他处理。
 ```java
+ExecutorService executor = Executors.newFixedThreadPool(100);    
     /**
      * 取得一个商品的所有信息（基础、详情、sku）
      *
@@ -107,12 +108,10 @@ allOf是等待所有任务完成，接触阻塞，获取各个数据源的数据
      * @return
      */
     public String getAllInfoByProductId(String productId) {
-        ExecutorService executor = Executors.newFixedThreadPool(100);
         CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> getProductBaseInfo(productId),executor);
         CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> getProductDetailInfo(productId),executor);
         CompletableFuture<String> f3 = CompletableFuture.supplyAsync(() -> getProductSkuInfo(productId),executor);
 
-        CompletableFuture.allOf(f1, f2, f3).join();
         try {
             String baseInfo = f1.get();
             String detailInfo = f2.get();
