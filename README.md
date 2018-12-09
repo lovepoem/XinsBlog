@@ -6,7 +6,5 @@
 
 相关：
 * Hexo: https://hexo.io/
-
-* landscape https://github.com/hexojs/hexo-theme-landscape
-* next: https://github.com/iissnan/hexo-theme-next
-*       http://theme-next.iissnan.com/getting-started.html
+* hexo-theme-skapp https://github.com/Mrminfive/hexo-theme-skapp
+* git submodule https://www.jianshu.com/p/b49741cb1347
