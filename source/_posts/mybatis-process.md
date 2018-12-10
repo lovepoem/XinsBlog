@@ -1,5 +1,6 @@
 ---
 title: mybatis调用流程
+cover: /images/jdk.png
 author: 
   nick: 王欣
   link: http://lovepoem.github.io

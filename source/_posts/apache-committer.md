@@ -1,5 +1,6 @@
 ---
 title: Apache 提交者注册流程
+cover: /images/jdk.png
 author: 
   nick: 王欣
   link: http://lovepoem.github.io

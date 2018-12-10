@@ -1,7 +1,7 @@
 ---
 title: java8表达式
 subtitle:  表达式的使用方式，lambda表达式的jdk实现
-cover: /images/asm.png
+cover: /images/jdk.png
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
