@@ -6,9 +6,9 @@ author:
   nick: 王欣
   link: http://lovepoem.github.io
 tags:
-  - java8
+- java8
 categories: 
-  - java8 
+- java8 
 date: 2018-08-08 02:01:02  
 ---
 

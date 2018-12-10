@@ -5,13 +5,13 @@ author:
   nick: 王欣
   link: http://lovepoem.github.io
 tags: 
-    - 并行 
-    - 异步 
-    - java8
+- 并行 
+- 异步 
+- java8
 categories: 
-    - 并行 
-    - 异步 
-    - java8 
+- 并行 
+- 异步 
+- java8 
 date: 2018-08-08 12:01:02
 ---
 **需求点**：业务上常常有这样一个需求：从多个数据源取得，合并成一个结果。
