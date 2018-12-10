@@ -3,6 +3,8 @@ title: java 8 表达式
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
+tags: java8
+categories: java    
 ---
 
 java 8 表达式

@@ -3,6 +3,8 @@ title: 浅谈工作流引擎
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
+tags: 工作流
+categories: java 工作流    
 ---
 [TOC]
 ## 一、工作流相关概念
