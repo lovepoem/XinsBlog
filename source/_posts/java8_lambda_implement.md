@@ -4,7 +4,7 @@ author:
   nick: 王欣
   link: http://lovepoem.github.io
 tags: java8
-categories: java    
+categories: lambda表达式    
 ---
 
 java 8 表达式
