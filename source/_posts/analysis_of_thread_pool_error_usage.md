@@ -1,6 +1,7 @@
 ---
 title: 线程池使用中遇到的问题
 cover: /images/java.jpg
+subtitle:  对于一个线程池使用的低级错误的分析
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
