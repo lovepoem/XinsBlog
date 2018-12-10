@@ -1,6 +1,6 @@
 ---
 title: 线程池使用中遇到的问题
-cover: /images/jdk.png
+cover: /images/java.jpg
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
