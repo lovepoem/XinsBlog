@@ -1,6 +1,6 @@
 ---
 title: spring5 新功能
-cover: /images/jdk.png
+cover: /images/java.jpg
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
