@@ -4,6 +4,12 @@
 - title: email
   icon: icon-email
   link: mailto:xin.victorwang@gmail.com
+- title: weibo
+  icon: icon-weibo
+  link: https://weibo.com/wangxinvictor
+- title: twitter
+  icon: icon-twitter
+  link: https://twitter.com/wangxinvictor
 - title: rss
   icon: icon-rss
   link: /atom.xml

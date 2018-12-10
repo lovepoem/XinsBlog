@@ -3,34 +3,33 @@
 title: 王欣的博客
 
 # banner显示的子标题
-subtitle: 开源项目提交者
+subtitle: 王欣的博客
 
 # banner显示的简短介绍
-subtitle_desc: 开源项目提交者 dubbo rpc
+subtitle_desc: 开源项目提交者
 
 # seo关键字
-keywords: 开源项目提交者 dubbo rpc
+keywords: 开源项目提交者 dubbo rpc2
 
 # 博客介绍（同时用于seo）
-description: 开源项目提交者 dubbo rpc
-
+description: 王欣，Dubbo项目committer、PPMC。专注于rpc、性能相关的技术，开源项目积极分子。
 # 个人介绍
 introduction: 锲而不舍、金石可镂
 
 # 博客的favicon图标，支持本地及在线两种方式，本地请将图标放置于 themes/hexo-theme-skapp/source/img 目录下
-favicon_ico: themes/skapp/source/img/favicon.ico
+favicon_ico: /images/favicon.ico
 
 # 博客的左上角logo图标，支持本地及在线两种方式
-logo: http://oo12ugek5.bkt.clouddn.com/images/logo-text-white.png
+logo: /images/wangxin.png
 
 # 头像/二维码（用于显示在底部）二选一
-avatar: http://oo12ugek5.bkt.clouddn.com/images/qrcode.png
+avatar: https://avatars2.githubusercontent.com/u/827112?s=400&u=b52ee4c5af5eceba6a4d565a0d5e3ed41536c194&v=4
 
 # 文章的默认封面
-default_cover: http://oo12ugek5.bkt.clouddn.com/images/default_cover.png
+default_cover: /images/java.jpg
 
 # header 的背景图
-header_cover: img/banner.jpg
+header_cover: /images/banner.jpg
 
 # 404 页面的背景图
 error_page_bg: http://oo12ugek5.bkt.clouddn.com/blog/images/dogs.jpg
@@ -44,7 +43,7 @@ author:
   link: https://lovepoem.github.io/
 # 用于页面 footer 的站长信息
 about:
-  info: 技术博客
+  info: 王欣的博客，工作生活的一些思考。
   address: Beijing, China
   email: xin.victorwang@gmail.com
 language: zh-cn
@@ -65,13 +64,10 @@ code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
 menu:
-  home: 首页
-  archives: 归档
-  categories: 分类
-  tags: 标签
-  about: 关于
-  search: 搜索
-  commonweal: 公益404
+  home: /
+  archive: /archives
+  tags: /tags
+  about: https://github.com/lovepoem
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

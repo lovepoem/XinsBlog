@@ -1,6 +1,9 @@
 ---
-title:jvm 分析
+title: jvm 分析
 author: 
   nick: 王欣
-  link: https://github.com/lovepoem
+  link: http://lovepoem.github.io
+tags: 性能  
 ---
+
+jvm 分析  

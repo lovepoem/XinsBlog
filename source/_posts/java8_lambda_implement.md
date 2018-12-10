@@ -2,7 +2,7 @@
 title: java 8 表达式
 author: 
   nick: 王欣
-  link: https://github.com/lovepoem
+  link: http://lovepoem.github.io
 ---
 
 java 8 表达式

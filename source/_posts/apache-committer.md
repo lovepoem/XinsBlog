@@ -2,7 +2,8 @@
 title: Apache 提交者注册流程
 author: 
   nick: 王欣
-  link: https://github.com/lovepoem
+  link: http://lovepoem.github.io
+tags: apache流程  
 ---
 [TOC]
 
