@@ -3,8 +3,13 @@ title: 利用java8的CompletableFuture异步并行操作
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
-tags: 并行 异步 java8
-categories: 并行 
+tags: 
+    - 并行 
+    - 异步 
+    - java8
+categories: 
+    - 并行 
+date: 2018-08-08 12:01:02
 ---
 **需求点**：业务上常常有这样一个需求：从多个数据源取得，合并成一个结果。
    这个操作，假设有3个数据源，同步处理，需要queryData1，queryData2，queryData3。执行时间会是3个时间之和。

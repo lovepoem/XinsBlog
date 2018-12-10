@@ -3,8 +3,11 @@ title: mybatis调用流程
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
-tags: mybatis
-categories: mybatis 
+tags: 
+- mybatis
+categories: 
+- mybatis 
+date: 2014-07-05 02:01:02
 ---
 [TOC]
 ### 一、什么是MyBatis      
