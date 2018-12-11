@@ -148,11 +148,11 @@ feed:
 # Sitemap
 sitemap:
   path: sitemap.xml
-# Gitalk
-#gitTalk:
-#  clientId: ***
-#  clientSecret: ***
-#  repo: ***
-#  owner: ***
-#  admin:
-#    - ***
+#  Gitalk
+gitTalk:
+  clientId: ab1477fe01cd521ae26e
+  clientSecret: 94fa48ef2f297325686aaa6306876b7183b99482
+  repo: https://github.com/lovepoem/lovepoem.github.io
+  owner: lovepoem
+  admin:
+    - lovepoem
