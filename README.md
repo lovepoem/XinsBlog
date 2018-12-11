@@ -8,4 +8,4 @@
 * Hexo: https://hexo.io/
 * hexo-theme-skapp https://github.com/Mrminfive/hexo-theme-skapp
 * git submodule https://www.jianshu.com/p/b49741cb1347
-* gitalk https://www.jianshu.com/p/78c64d07124d
+* gitalk https://www.jianshu.com/p/78c64d07124d https://www.jianshu.com/p/b4ca8e7c7980
