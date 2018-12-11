@@ -1,6 +1,6 @@
 ---
 title: spring5 新功能
-cover: /images/java.jpg
+cover: /images/spring.png
 subtitle:  spring5 新功能列表
 author: 
   nick: 王欣
