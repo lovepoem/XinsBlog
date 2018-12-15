@@ -18,4 +18,3 @@ date: 2018-05-12 17:01:02
  * [中文版](https://github.com/dubbo/awesome-dubbo/raw/master/slides/meetup/201805%40Beijing/dubbo-and-weidian's-practice-on-microservice-architecture.pdf)
    
  * [English Version](https://github.com/dubbo/awesome-dubbo/blob/master/slides/meetup/201805%40Beijing/dubbo-and-weidian's-practice-on-microservice-architecture-en.pdf) 
-

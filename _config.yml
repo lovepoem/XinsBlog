@@ -9,7 +9,7 @@ subtitle: 王欣的博客
 subtitle_desc: 开源项目提交者
 
 # seo关键字
-keywords: 开源项目提交者 dubbo rpc2
+keywords: 开源项目提交者,dubbo,rpc,apache,架构师
 
 # 博客介绍（同时用于seo）
 description: 王欣，Dubbo项目committer、PPMC。专注于rpc、性能相关的技术，开源项目积极分子。
@@ -17,8 +17,7 @@ description: 王欣，Dubbo项目committer、PPMC。专注于rpc、性能相关�
 introduction: 锲而不舍、金石可镂
 
 # 博客的favicon图标，支持本地及在线两种方式，本地请将图标放置于 themes/hexo-theme-skapp/source/img 目录下
-favicon_ico: /images/favicon.ico
-
+favicon_ico: /images/wangxin-min.png
 # 博客的左上角logo图标，支持本地及在线两种方式
 logo: /images/wangxin.png
 
