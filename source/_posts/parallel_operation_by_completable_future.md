@@ -1,7 +1,7 @@
 ---
 title: 利用java8的CompletableFuture异步并行操作
 cover: /images/java.jpg
-subtitle:  业务上常常有这样一个需求：从多个数据源取得，合并成一个结果。现在java8提供了一个很好的CompletableFuture工具。 一般的异步异步设计方案为：起一个业务的线程池，并发执行业务，然后一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据，这样明显执行时间会小于3个业务时间之和（例如下面的getAllInfoByProductId）。而是用了执行最长的业务时间，加上守护线程的消耗。
+subtitle:  业务上常常有这样一个需求：一个服务常常会从多个数据源取得数据，然后并成一个结果。现在java8提供了一个很好的CompletableFuture工具。 一般的异步异步设计方案为：起一个业务的线程池，并发执行业务，然后一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据，这样明显执行时间会小于3个业务时间之和（例如下面的getAllInfoByProductId）。而是用了执行最长的业务时间，加上守护线程的消耗。
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
@@ -13,10 +13,14 @@ categories:
 - 并行 
 date: 2018-08-08 12:01:02
 ---
-**需求点**：业务上常常有这样一个需求：从多个数据源取得，合并成一个结果。
-   这个操作，假设有3个数据源，同步处理，需要queryData1，queryData2，queryData3。执行时间会是3个时间之和。
-   一般的异步异步设计方案为：起一个业务的线程池，并发执行业务，然后一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据，这样明显执行时间会小于3个业务时间之和（例如下面的getAllInfoByProductId）。而是用了执行最长的业务时间，加上守护线程的消耗。
-     现在java8提供了一个很好的CompletableFuture工具
+**需求点**：业务上常常有这样一个需求：一个服务常常会从多个数据源取得数据，然后并成一个结果。
+   这个操作，假设有3个数据源，同步处理通常的做法是：需要queryData1，queryData2，queryData3。执行时间会是3个时间之和。
+​      一般的异步设计方案为：起一个业务的线程池，并发执行业务，然后由一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据。这样明显执行时间会小于3个业务时间之和（例如下面的getAllInfoByProductId）。因为：消耗时间=执行最长的业务时间+守护线程的时间。
+
+​      例如用 jdk的Future和线程池实现类似功能，自己造了轮子各种调试。
+
+​     现在java8提供了一个很好的CompletableFuture工具，非常爽。Talk is cheap, show you the code：
+
  ```java
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -139,11 +143,11 @@ public class ParallelTest {
             return null;
         }
     }
- ```
+```
 
+当然还有其他的类似处理：
+   以前在处理类似问题的时候，用了twitter的一个util工具（scala语言实现）
 
-其他的类似处理：
-1、以前在处理类似问题的时候，用了twitter的一个util工具
  ```xml
 <dependency>
 	<groupId>com.twitter</groupId>
@@ -152,7 +156,6 @@ public class ParallelTest {
 </dependency>
  ```
  用这个工具包的Future实现了类似的功能，但是多加了一种语言依赖
- 2、后来又尝试用jdk的Future和线程池实现类似功能。自己造了轮子各种调试，现在有jdk8的官方的支持，太爽了。
 
  参考：
  https://blog.csdn.net/u011726984/article/details/79320004

@@ -35,6 +35,7 @@ date: 2018-06-05 02:01:02
 ## 三、加入apache开发者组
    * 1、登入[Apache账户工具](https://id.apache.org/)，首次登入可以选忘记密码获得初始化密码，会发送到forward邮箱(在孵化项目提案中提交的开发者邮件)
    * 2、关于apache邮箱：apache.org邮箱并没有自己的邮件内容存储服务器。他是需要借用其他邮件提供商的邮件内容存储、分发功能。在很多投票环节是建议用apache邮箱的。
+
     这就就有一个问题，怎么在其他邮箱里面配置好apache.org邮箱转发功能：
     1）收件箱：收取发送到apache.org的邮件。这个在第一步配置好Apache账户工具的forward邮箱就可以用forward邮箱收取邮件了
     2）发件箱：将发出的邮件显示发件邮箱为apache.org邮箱。请参考：[设置apache邮箱指南](https://reference.apache.org/committer/email)和[gmail邮箱设置方式](http://gmailblog.blogspot.com/2009/07/send-mail-from-another-address-without.html)。 其他邮箱服务的设置方式不方便找到，gmail的最方便，建议换成gmail邮箱(不是广告)。
@@ -51,6 +52,7 @@ date: 2018-06-05 02:01:02
 ### 3、在github.com设置github账户两因素授权（2FA）
    按照[授权GitHub 2FA wiki](https://help.github.com/articles/configuring-two-factor-authentication-via-a-totp-mobile-app/)操作如下：
 * 1)、在手机安装 “google身份验证器” app
+
 * 2)、按照[授权GitHub 2FA wiki](https://help.github.com/articles/configuring-two-factor-authentication-via-a-totp-mobile-app/)一步一步操作。
 
    在[两因素授权验证(2. Scan this barcode with your app.)](https://github.com/settings/two_factor_authentication/verify)界面，不建议选择用手机扫描二维码，因为有些手机会扫描不出来。
@@ -66,9 +68,11 @@ date: 2018-06-05 02:01:02
    参考官网[帮助链接一](https://help.github.com/articles/https-cloning-errors/#provide-access-token-if-2fa-enabled)和[帮助链接二](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
   * b. 改用ssh
    ssh-keygen 然后把pub文件中的内容粘贴到github上
-  
-* 注意：一定要保证github的2fa为"enable"状态。当你将2fa设置为"off"时候，将会被对应的apache committer写权限组除名，直到你再次设置成功为止。
-  
+
+* 注意：
+
+  *一定要保证github的2fa为"enable"状态。当你将2fa设置为"off"时候，将会被对应的apache committer写权限组除名，直到你再次设置成功为止。
+  * 如果你原有的手机丢失，将会非常糟糕：web页面的github站点可就登入不了了。2fa加解密算法，类似于银行账户在PC机登录时候用的USB优盘，同一个账户在不同手机的动态码是不同的。需要你用以前备份文件github-recovery-codes.txt的还原码，所以请在磁盘或者其他存储(邮箱)等备份好这个文件。如果还原码都没有，需要邮件联系github客服，他们会要求你验证本地PC机器ssh账户，这是最后兜底的方案，所以本地ssh也是很有必要设置的。
 ## 五、其他
    ### The apache way
    参看[wiki](http://apache.org/foundation/governance/)
