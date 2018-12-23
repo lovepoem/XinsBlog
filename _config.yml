@@ -66,7 +66,7 @@ menu:
   home: /
   archive: /archives
   tags: /tags
-  about: https://github.com/lovepoem
+  github: https://github.com/lovepoem
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
