@@ -1,6 +1,6 @@
 ---
 title: java8表达式
-cover: /images/java.jpg
+cover: /images/java.png
 subtitle:  对于一个线程池使用的低级错误的分析
 author: 
   nick: 王欣
