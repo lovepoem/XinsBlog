@@ -121,10 +121,10 @@ sidebar:
 scheme: Pisces
 toc:
   enable: true
-
+  maxDepth: 3
   # Automatically add list number to toc.
   number: true
-
+  slugify: false
   # If true, all words will placed on next lines if header width longer then sidebar width.
   wrap: false
   # Code Highlight theme
