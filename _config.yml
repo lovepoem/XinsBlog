@@ -25,13 +25,13 @@ logo: /images/wangxin.png
 avatar: https://avatars2.githubusercontent.com/u/827112?s=400&u=b52ee4c5af5eceba6a4d565a0d5e3ed41536c194&v=4
 
 # 文章的默认封面
-default_cover: /images/java.jpg
+default_cover: /images/java.png
 
 # header 的背景图
 header_cover: /images/banner.jpeg
 
 # 404 页面的背景图
-error_page_bg: http://oo12ugek5.bkt.clouddn.com/blog/images/dogs.jpg
+error_page_bg: /images/404.jpg
 
 # 页面加载loading图标
 loader_img: http://oo12ugek5.bkt.clouddn.com/blog/images/loader.gif
