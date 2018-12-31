@@ -82,11 +82,10 @@ awk -F "|" '{totalCnt[$3]++;if($5=="fail"){failCnt[$3]++}}END{for(i in totalCnt)
 执行结果
 
 ```
-	getById 25%
+getById 25%
 updateById 16.6667%
 insert 0%
 ```
-
 
 
 
