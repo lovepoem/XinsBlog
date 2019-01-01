@@ -1,3 +1,4 @@
+---
 title: 升级到Spring Framework 5.x.须知
 cover: /images/spring.png
 subtitle:  升级到Spring Framework 5.x.须知
@@ -9,11 +10,13 @@ tags:
 categories: 
 - spring 
 date: 2018-09-05 02:01:02   
-##一、spring5.0 做了哪些改变
+---
+
+## 一、spring5.0 做了哪些改变
 首先我们先看一下官网文档[《升级到Spring Framework 5.x.》]( https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-5.x).细节已经讲的很清楚，我们再做一些分析。
 
 
-###spring5.0 新的改变
+### spring5.0 新的改变
 - Spring Framework 5.0需要JDK 8（Java SE 8）或更高版本，因为它的整个代码库现在基于Java 8源代码级别	
 
 - 为Spring WebFlux添加了Netty 4.1和Undertow 1.4
@@ -40,10 +43,10 @@ date: 2018-09-05 02:01:02
 
 Spring Framework不再支持：Portlet，Velocity，JasperReports，XMLBeans，JDO，Guava（由Caffeine支持取代）。如果这些对您的项目至关重要，那么您应该继续使用Spring Framework 4.3.x（支持到2020年）。或者，您可以在自己的项目中创建自定义适配器类（可能从Spring Framework 4.x派生）
 
-##二、spring5.1 做了哪些改变
+## 二、spring5.1 做了哪些改变
 对于JDK 11的支持 ，ASM和CGLIB做了以及的升级，以支持最新的这些jdk
 
-##三、我们该怎么办？
+## 三、我们该怎么办？
    我的一个观点是积极拥抱新的spring5包，尤其是新项目。
   - 首先新的特性是一个框架资源投入的方向
 
