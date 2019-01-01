@@ -1,7 +1,7 @@
 ---
 title: 升级到Spring Framework 5.x.须知
 cover: /images/spring.png
-subtitle:  升级到Spring Framework 5.x.须知
+subtitle:  升级到Spring Framework  5.x.须知
 author: 
   nick: 王欣
   link: http://lovepoem.github.io

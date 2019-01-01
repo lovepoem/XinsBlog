@@ -2,6 +2,7 @@
 # 博客的标题
 title: 王欣的博客
 
+seotitle: 王欣的博客|微服务|RPC
 # banner显示的子标题
 subtitle: 王欣的博客
 
@@ -38,7 +39,7 @@ loader_img: http://oo12ugek5.bkt.clouddn.com/blog/images/loader.gif
 
 # 站长信息
 author:
-  name: lovepoem
+  name: Xin Wang(王欣)
   link: https://lovepoem.github.io/
 # 用于页面 footer 的站长信息
 about:
