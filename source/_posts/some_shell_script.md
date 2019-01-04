@@ -62,7 +62,7 @@ awk '/2018-10-01/' trace.log |awk -F'|' '{print $3}'  |sort|uniq -c|sort -rn| he
 3、对于各个接口的执行时间ms按照(0-50,50-100，100-300，300以上)范围进行数量统计
 
 ```shell
- awk -F "|" '{totalCnt[$3]++;if($4<=50){ms50[$3]++};if($4>50 && $4<=100){ms100[$3]++};if($4>100 && $4<=300){ms300[$3]++};if($4>300){ms300b[$3]++}}END{for(i in totalCnt)print i,int(ms50[i]),int(ms100[i]),int(ms300[i]),int(ms300b[i])}' trace.log
+     awk -F "|" '{totalCnt[$3]++;if($4<=50){ms50[$3]++};if($4>50 && $4<=100){ms100[$3]++};if($4>100 && $4<=300){ms300[$3]++};if($4>300){ms300b[$3]++}}END{for(i in totalCnt)print i,int(ms50[i]),int(ms100[i]),int(ms300[i]),int(ms300b[i])}' trace.log
 ```
 
 执行结果
@@ -85,6 +85,20 @@ awk -F "|" '{totalCnt[$3]++;if($5=="fail"){failCnt[$3]++}}END{for(i in totalCnt)
 getById 25%
 updateById 16.6667%
 insert 0%
+```
+
+5、查询trace.log各个接口的平均耗时
+
+```shell
+awk -F "|" '{totalCnt[$3]++;{rtSum[$3]+=$4}}END{for(i in totalCnt)print i,(rtSum[i]/totalCnt[i])}' trace.log
+```
+
+执行结果
+
+```
+getById 525.25
+updateById 250
+insert 20
 ```
 
 
