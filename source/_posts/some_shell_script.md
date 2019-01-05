@@ -48,7 +48,7 @@ awk -F "|" '{if($4>=200){print $1" "$2" "$3" "$4 }}' trace.log
 2、2018-10-01 日接口数量排行前3
 
 ```shell
-awk '/2018-10-01/' trace.log |awk -F "|" '{print $3}'  |sort|uniq -c|sort -rn| head -3 
+awk '/2018-10-01/' trace.log |awk -F "|"	 '{print $3}'  |sort|uniq -c|sort -rn| head -3 
 ```
 
 执行结果
