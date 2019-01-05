@@ -48,7 +48,7 @@ awk -F "|" '{if($4>=200){print $1" "$2" "$3" "$4 }}' trace.log
 2、2018-10-01 日接口数量排行前3
 
 ```shell
-awk '/2018-10-01/' trace.log |awk -F'|' '{print $3}'  |sort|uniq -c|sort -rn| head -3 
+awk '/2018-10-01/' trace.log |awk -F "|" '{print $3}'  |sort|uniq -c|sort -rn| head -3 
 ```
 
 执行结果
@@ -96,9 +96,9 @@ awk -F "|" '{totalCnt[$3]++;{rtSum[$3]+=$4}}END{for(i in totalCnt)print i,(rtSum
 执行结果
 
 ```
-getById 525.25
-updateById 250
-insert 20
+getById 25%
+updateById 16.6667%
+insert 0%
 ```
 
 
