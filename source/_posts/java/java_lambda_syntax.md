@@ -1,7 +1,7 @@
 ---
 title: Java lambda表达式(一)——语法
 cover: /images/java.png
-subtitle:长期以来，Java语言被吐槽”臃肿不堪“，不如Ruby、python、groovy等”动态“原因简介明了。所谓简明了，大家一般指的是下面这些,代码行数多。jdk开发者从Java 8 开始，提供了越来越丰富的语法糖，各种lambda 表达式让代码越来越简明。比如 for each、 java bean的getter、setter，所以Java程序员的代码量一般很高。Lambda 表达式是一个匿名方法，将行为像数据一样进行传递
+subtitle: 长期以来，Java语言被吐槽”臃肿不堪“，不如Ruby、python、groovy等”动态“原因简介明了。所谓简明了，大家一般指的是下面这些,代码行数多。jdk开发者从Java 8 开始，提供了越来越丰富的语法糖，各种lambda 表达式让代码越来越简明。比如 for each、 java bean的getter、setter，所以Java程序员的代码量一般很高。Lambda 表达式是一个匿名方法，将行为像数据一样进行传递
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
@@ -13,8 +13,6 @@ categories:
 - lambda表达式 
 date: 2018-07-08 11:01:02
 ---
-
-
 ##  一.为什么要用lambda 表达式
 
 ###  1. 为什么要用lambda表达式？

@@ -1,7 +1,7 @@
 ---
 title: Java lambda表达式(二)————利用java8的CompletableFuture异步并行操作
 cover: /images/java.png
-subtitle:  业务上常常有这样一个需求：一个服务常常会从多个数据源取得数据，然后并成一个结果。现在java8提供了一个很好的CompletableFuture工具。 一般的异步异步设计方案为：起一个业务的线程池，并发执行业务，然后一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据，这样明显执行时间会小于3个业务时间之和（例如下面的getAllInfoByProductId）。而是用了执行最长的业务时间，加上守护线程的消耗。
+subtitle: 业务上常常有这样一个需求：一个服务常常会从多个数据源取得数据，然后并成一个结果。现在java8提供了一个很好的CompletableFuture工具。 一般的异步异步设计方案为：起一个业务的线程池，并发执行业务，然后一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据，这样明显执行时间会小于3个业务时间之和（例如下面的getAllInfoByProductId）。而是用了执行最长的业务时间，加上守护线程的消耗。
 author: 
   nick: 王欣
   link: http://lovepoem.github.io
