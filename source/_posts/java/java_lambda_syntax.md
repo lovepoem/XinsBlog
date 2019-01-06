@@ -104,7 +104,7 @@ private Map<Artist,List<Album>> nameOfAllAlbums(Stream<Album> albums){
 #### 聊天室(回调) TODO
 
 #### 利用java8的CompletableFuture异步并行操作(Future)
-示例代码见：[《Java lambda表达式(二)---利用java8的CompletableFuture异步并行操作》](https://lovepoem.github.io/2018/08/08/parallel_operation_by_completable_future/)
+示例代码见：[《Java lambda表达式(二)---利用java8的CompletableFuture异步并行操作》](https://lovepoem.github.io/2018/08/08/java/parallel_operation_by_completable_future/)
 
 
 参考：《Java 8函数式编程》https://book.douban.com/subject/26346017/
