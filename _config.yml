@@ -134,7 +134,8 @@ toc:
   # https://github.com/chriskempson/tomorrow-theme
 highlight_theme: normal
 # Baidu statistic
-baidu_statistic: baidu_verify_5stQ3RVSV8.html
+#baidu_statistic: baidu_verify_5stQ3RVSV8.html
+baidu_statistic: ffaad2994a5f8f16d591e919e16488df
 # Google statistic
 google_statistic: google327b939e5efe3f3f.html
 # Busuanzi
