@@ -12,6 +12,8 @@ date: 2018-12-31 20:40:02
 
 ---
 
+一、应用日志分析
+
 下面的日志信息`trace.log`,字段分别是：`时间| traceId|接口名|执行时间ms|执行结果`
 
 ```log
@@ -99,6 +101,35 @@ awk -F "|" '{totalCnt[$3]++;{rtSum[$3]+=$4}}END{for(i in totalCnt)print i,(rtSum
 getById 25%
 updateById 16.6667%
 insert 0%
+```
+
+二 、简单数据处理
+
+1、删除id.txt重复id 
+
+```shell
+aaaaa
+2
+111
+2
+111
+aaaaa
+aaaaa
+aaaaa
+```
+
+脚本
+
+```shell
+cat id.txt | sort | uniq
+```
+
+执行结果
+
+```
+111
+2
+aaaaa
 ```
 
 
