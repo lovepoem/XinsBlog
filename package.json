@@ -6,7 +6,7 @@
     "version": "3.8.0"
   },
   "dependencies": {
-    "gitalk": "^1.4.1",
+    "gitalk": "^1.5.0",
     "hexo": "^3.8.0",
     "hexo-autoprefixer": "^1.0.0",
     "hexo-deployer-git": "^0.3.1",
@@ -26,7 +26,7 @@
     "hexo-server": "^0.2.2",
     "hexo-toc": "^1.1.0",
     "lunr": "github:mamboer/lunr.js",
-    "moment": "^2.23.0",
+    "moment": "^2.24.0",
     "node-sass": "^4.11.0",
     "npm": "^5.10.0",
     "object-assign": "^4.1.1"

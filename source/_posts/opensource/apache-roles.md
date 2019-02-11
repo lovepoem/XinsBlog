@@ -1,5 +1,5 @@
 ---
-title: 【翻译】 apache 基金会角色列表
+title: [翻译]--apache 基金会角色列表
 cover: /images/asf.png
 subtitle:  很多想为开源项目做贡献的人，常常搞不明白 apache 基金会的一些角色。对于想”升级打怪“的人，翻译了一下asf的一些原文介绍
   author: 
