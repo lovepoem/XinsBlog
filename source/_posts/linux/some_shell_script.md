@@ -98,9 +98,9 @@ awk -F "|" '{totalCnt[$3]++;{rtSum[$3]+=$4}}END{for(i in totalCnt)print i,(rtSum
 执行结果
 
 ```
-getById 25%
-updateById 16.6667%
-insert 0%
+getById 525.25
+updateById 250
+insert 20
 ```
 
 二 、简单数据处理
@@ -124,7 +124,7 @@ aaaaa
 cat id.txt | sort | uniq
 ```
 
-执行结果
+**执行结果**
 
 ```
 111
