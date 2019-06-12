@@ -155,7 +155,7 @@ gitTalk:
   distractionFreeMode: true # 是否开启分心自由模式 也就是免打扰
   clientId: dfeb42da2955f5c18a8f
   clientSecret: ec47674c973490128eda38c44beef41d08fe7ce5
-  repo: lovepoem
+  repo: lovepoem.github.io
   owner: lovepoem
   admin:
     - lovepoem
