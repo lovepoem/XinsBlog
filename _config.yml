@@ -153,8 +153,8 @@ sitemap:
 gitTalk:
   enable: true #是否开启
   distractionFreeMode: true # 是否开启分心自由模式 也就是免打扰
-  clientId: 03c88b113369091050c1
-  clientSecret: bf73d7179dd2eaacbc8400faa7633abfb12cb0c7
+  clientId: cab0a5f7d15336dc5d6d
+  clientSecret: 37ec5da30dea4a6b764274d7c545743f5171dd2e
   repo: lovepoem
   owner: lovepoem
   admin:
