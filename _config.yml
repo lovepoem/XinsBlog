@@ -153,9 +153,9 @@ sitemap:
 gitTalk:
   enable: true #是否开启
   distractionFreeMode: true # 是否开启分心自由模式 也就是免打扰
-  clientId: ab1477fe01cd521ae26e
-  clientSecret: 94fa48ef2f297325686aaa6306876b7183b99482
-  repo: wangxin.io
+  clientId: 03c88b113369091050c1
+  clientSecret: bf73d7179dd2eaacbc8400faa7633abfb12cb0c7
+  repo: lovepoem
   owner: lovepoem
   admin:
     - lovepoem
