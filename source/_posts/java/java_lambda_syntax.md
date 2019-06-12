@@ -4,7 +4,7 @@ cover: /images/java.png
 subtitle: 长期以来，Java语言被吐槽”臃肿不堪“，不如Ruby、python、groovy等”动态“原因简介明了。所谓简明了，大家一般指的是下面这些,代码行数多。jdk开发者从Java 8 开始，提供了越来越丰富的语法糖，各种lambda 表达式让代码越来越简明。比如 for each、 java bean的getter、setter，所以Java程序员的代码量一般很高。Lambda 表达式是一个匿名方法，将行为像数据一样进行传递
 author: 
   nick: 王欣
-  link: http://lovepoem.github.io
+  link: http://wangxin.io
 tags:
 - java8
 - lambda
@@ -104,7 +104,7 @@ private Map<Artist,List<Album>> nameOfAllAlbums(Stream<Album> albums){
 #### 聊天室(回调) TODO
 
 #### 利用java8的CompletableFuture异步并行操作(Future)
-示例代码见：[《Java lambda表达式(二)---利用java8的CompletableFuture异步并行操作》](https://lovepoem.github.io/2018/08/08/java/parallel_operation_by_completable_future/)
+示例代码见：[《Java lambda表达式(二)---利用java8的CompletableFuture异步并行操作》](https://wangxin.io/2018/08/08/java/parallel_operation_by_completable_future/)
 
 
 参考：《Java 8函数式编程》https://book.douban.com/subject/26346017/

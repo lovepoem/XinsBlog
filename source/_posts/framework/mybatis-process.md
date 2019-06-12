@@ -4,7 +4,7 @@ cover: /images/mybatis.png
 subtitle:  MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。可以对配置和原生Map使用简单的 XML 或注解，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。MyBatis并不刻意于完成ORM(对象映射)的完整概念，而是旨在更简单、更方便地完成数据库操作功能，减轻开发人员的工作量.
 author: 
   nick: 王欣
-  link: http://lovepoem.github.io
+  link: http://wangxin.io
 tags: 
 - mybatis
 categories: 

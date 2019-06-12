@@ -4,7 +4,7 @@ cover: /images/java.png
 subtitle:  对于一个线程池使用的低级错误的分析
 author: 
   nick: 王欣
-  link: http://lovepoem.github.io
+  link: http://wangxin.io
 tags: 
 - 性能
 categories: 

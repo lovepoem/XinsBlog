@@ -40,14 +40,14 @@ loader_img: http://oo12ugek5.bkt.clouddn.com/blog/images/loader.gif
 # 站长信息
 author:
   name: Xin Wang(王欣)
-  link: https://lovepoem.github.io/
+  link: https://wangxin.io/
 # 用于页面 footer 的站长信息
 about:
   info: 王欣的博客，工作生活的一些思考。
   address: Beijing, China
   email: xin.victorwang@gmail.com
 language: zh-cn
-url: https://lovepoem.github.io/
+url: https://wangxin.io/
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 root: /
@@ -73,7 +73,7 @@ menu:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://github.com/lovepoem/lovepoem.github.io.git
+  repository: https://github.com/lovepoem/wangxin.io.git
   branch: master
   # Pagination
   ## Set per_page to 0 to disable pagination
@@ -155,7 +155,7 @@ gitTalk:
   distractionFreeMode: true # 是否开启分心自由模式 也就是免打扰
   clientId: ab1477fe01cd521ae26e
   clientSecret: 94fa48ef2f297325686aaa6306876b7183b99482
-  repo: lovepoem.github.io
+  repo: wangxin.io
   owner: lovepoem
   admin:
     - lovepoem

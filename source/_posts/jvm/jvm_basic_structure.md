@@ -4,7 +4,7 @@ cover: /images/java.png
 subtitle:  我们知道，java语言不像C++，将内存的分配和回收给程序员来处理。java用统一的垃圾回收机制来管理java进程的内存，就是通常所说的垃圾回收：GC（Garbage Collection）
 author: 
   nick: 王欣
-  link: http://lovepoem.github.io
+  link: http://wangxin.io
 tags: 
 - jvm
 categories: 
@@ -29,4 +29,3 @@ date: 2018-10-08 02:01:02
 
 
 
-  

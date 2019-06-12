@@ -4,7 +4,7 @@ cover: /images/java.png
 subtitle: 感受了Java lambda表达式的方便后，我们会思考其实现的原理。做到“知其然，知其所以然” 
 author: 
   nick: 王欣
-  link: http://lovepoem.github.io
+  link: http://wangxin.io
 tags:
 - java8
 - lambda

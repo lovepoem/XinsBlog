@@ -4,7 +4,7 @@ cover: /images/workflow.png
 subtitle:  工作流(Workflow) 是对工作流程及其各操作步骤之间业务规则的抽象、概括描述。工作流建模，即将工作流程中的工作如何前后组织在一起的逻辑和规则，在计算机中以恰当的模型表达并对其实施计算。工作流要解决的主要问题是：为实现某个业务目标，利用计算机在多个参与者之间按某种预定规则自动传递文档、信息或者任务。（维基百科[工作流技术](https://zh.wikipedia.org/wiki/工作流技术) ）
 author: 
   nick: 王欣
-  link: http://lovepoem.github.io
+  link: http://wangxin.io
 tags: 
     - 工作流
 categories: 

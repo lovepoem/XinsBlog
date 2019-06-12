@@ -4,7 +4,7 @@ cover: /images/java.png
 subtitle:  为什么Redis读写快？
 author: 
   nick: 王欣
-  link: http://lovepoem.github.io
+  link: http://wangxin.io
 tags: 
 - redis
 categories: 
