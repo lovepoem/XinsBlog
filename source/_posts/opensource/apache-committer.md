@@ -4,7 +4,7 @@ cover: /images/asf.png
 subtitle:  中国互联网公司这十几年的蓬勃发展，涌现了BAT、华为等一批公司开源项目的领军者，不少个人开发者也不断闪耀在开源领域。我最近有幸参与了一个Apache项目的孵化初始化过程，从一个committer的视角将一些注册的流程记录一下。
 author: 
   nick: 王欣
-  link: http://wangxin.io
+  link: https://wangxin.io
 tags: 
 - apache流程  
 categories: 

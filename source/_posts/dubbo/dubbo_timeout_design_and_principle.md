@@ -4,7 +4,7 @@ cover: /images/java.png
 subtitle:  拿dubbo这个rpc框架的timeout机制，配合tcp的超时处理
 author: 
   nick: 王欣
-  link: http://wangxin.io
+  link: https://wangxin.io
 tags: 
 - dubbo
 categories: 

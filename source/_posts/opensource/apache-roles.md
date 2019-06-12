@@ -4,7 +4,7 @@ cover: /images/asf.png
 subtitle:  很多想为开源项目做贡献的人，常常搞不明白 apache 基金会的一些角色。对于想”升级打怪“的人，翻译了一下asf的一些原文介绍
 author: 
   nick: 王欣
-  link: http://wangxin.io
+  link: https://wangxin.io
 tags: 
 - apache流程  
 categories: 

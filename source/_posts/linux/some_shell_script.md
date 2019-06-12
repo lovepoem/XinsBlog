@@ -3,7 +3,7 @@ title: 一些日常用的shell统计脚本
 subtitle:  一些日常用的shell统计脚本，实战中的case。用了awk等一些指令
 author: 
   nick: 王欣
-  link: http://wangxin.io
+  link: https://wangxin.io
 tags: 
 - 统计
 categories: 

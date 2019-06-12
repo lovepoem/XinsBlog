@@ -4,7 +4,7 @@ cover: /images/java.png
 subtitle: Dubbo代码分析---服务端线程池
 author: 
   nick: 王欣
-  link: http://wangxin.io
+  link: https://wangxin.io
 tags: 
 - dubbo
 categories: 
