@@ -73,7 +73,7 @@ menu:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://github.com/lovepoem/wangxin.io.git
+  repository: https://github.com/lovepoem/lovepoem.github.io.git
   branch: master
   # Pagination
   ## Set per_page to 0 to disable pagination
