@@ -67,6 +67,7 @@ menu:
   home: /
   archive: /archives
   tags: /tags
+  about: /about
   github: https://github.com/lovepoem
 
 # Deployment
