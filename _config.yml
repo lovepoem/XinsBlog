@@ -35,7 +35,7 @@ header_cover: /images/banner.jpeg
 error_page_bg: /images/404.jpg
 
 # 页面加载loading图标
-loader_img: http://oo12ugek5.bkt.clouddn.com/blog/images/loader.gif
+loader_img: /images/loading.gif
 
 # 站长信息
 author:
