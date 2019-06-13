@@ -5,3 +5,8 @@ date: 2018-12-09 23:03:22
 tags:
 type: about
 ---
+王欣，Apache Dubbo项目committer、PMC。专注于rpc、性能相关的技术，拥抱开源。
+github： https://github.com/lovepoem
+email :  xin.victorwang@gmail.com
+twitter: wangxinvictor
+weibo:   wangxinvictor
