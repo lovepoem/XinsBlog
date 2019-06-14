@@ -23,7 +23,7 @@ favicon_ico: /images/wangxin-min.png
 logo: /images/wangxin.png
 
 # 头像/二维码（用于显示在底部）二选一
-avatar: https://avatars2.githubusercontent.com/u/827112?s=400&u=b52ee4c5af5eceba6a4d565a0d5e3ed41536c194&v=4
+avatar: /images/me.png
 
 # 文章的默认封面
 default_cover: /images/java.png
