@@ -1,7 +1,7 @@
 ---
 title: 升级到Spring Framework 5.x.须知
 cover: /images/spring.png
-subtitle:  升级到Spring Framework  5.x.须知
+subtitle:  升级到Spring Framework  5.x.须知。本文翻译了spring5的一些改动点，方便要升级到spring5的开发者参考。
 author: 
   nick: 王欣
   link: https://wangxin.io

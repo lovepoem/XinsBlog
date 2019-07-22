@@ -37,8 +37,9 @@ date: 2018-07-08 11:01:02
 我们有这一样一个例子：计算一个小组中男人的数量。
 **外部迭代**
 我们一般会用for循环来计算
-```
- int count = 0;
+
+```java
+int count = 0;
 for(Member meber : allMembers){
      if(member.isMale()){
        count++; 
@@ -47,7 +48,7 @@ for(Member meber : allMembers){
 ```
 for循环其实是封装了迭代的语法糖Iterator对象
 
-```
+```java
 int count = 0;
 Iterator<Member> iterator = allMembers.iterator(); 
 while(iterator.hasNext()){
@@ -58,7 +59,8 @@ while(iterator.hasNext()){
 } 
 ```
 **内部迭代**
-```
+
+```java
 int count  allMembers.stream().filter().count(member -> member.isMale());
 ```
 ### 2、常用流操作
@@ -71,19 +73,19 @@ int count  allMembers.stream().filter().count(member -> member.isMale());
 ### 3、集合和收集器
 `Collectors` 即为`java.util.stream.Collectors`
 #### 转换成其他集合
-```
+```java
 /** 转换成TreeSet **/
 List<Member> allMembers = new ArrayList<>();
 TreeSet set  = allMembers.stream().collect(ToCollection(TreeSet::new));
 ```
 #### 转换成值
-```
+```java
 /** 转换成TreeSet **/
 List<Member> allMembers = new ArrayList<>();
 TreeSet set  = allMembers.stream().collect(ToCollection(TreeSet::new));
 ```
 #### 数据分组
-```
+```java
 /** 使用主唱对专辑分组 **/
 /** 类似于sql的group by **/
 private Map<Artist,List<Album>> albumByArtist(Stream<Album> albums){
@@ -91,7 +93,7 @@ private Map<Artist,List<Album>> albumByArtist(Stream<Album> albums){
 }
 ```
 #### 组合收集器
-```
+```java
 /** 使用收集器求每个艺术家的专辑名 **/
 private Map<Artist,List<Album>> nameOfAllAlbums(Stream<Album> albums){
    return albums.collect(groupingBy(album -> album.getMainMusician(),mapping(Album::getName,toList())));

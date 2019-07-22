@@ -1,6 +1,6 @@
 ---
-title: 一些日常用的shell统计脚本
-subtitle:  一些日常用的shell统计脚本，实战中的case。用了awk等一些指令
+title: rpc跟踪日志常用shell统计脚本
+subtitle:  rpc跟踪日志作为时间序列数据，一般字段有：时间、traceId、接口名、执行时间ms、执行结果等。笔者将自己常用的shell统计脚本记录下来，也希望对大家有帮助。
 author: 
   nick: 王欣
   link: https://wangxin.io
@@ -13,10 +13,11 @@ date: 2018-12-31 20:40:02
 ---
 
 一、应用日志分析
+rpc跟踪日志作为时间序列数据，一般字段有：时间、traceId、接口名、执行时间ms、执行结果等。笔者将自己常用的shell统计脚本记录下来，也希望读大家有帮助。
 
 下面的日志信息`trace.log`,字段分别是：`时间| traceId|接口名|执行时间ms|执行结果`
 
-```log
+```verilog
 2018-10-01 14:00:00|1|getById|1|success|
 2018-10-01 03:01:00|2|getById|100|fail|
 2018-10-02 02:00:00|3|getById|1000|success|
@@ -39,7 +40,7 @@ awk -F "|" '{if($4>=200){print $1" "$2" "$3" "$4 }}' trace.log
 
 执行结果
 
-```
+```verilog
 2018-10-02 02:00:00 3 getById 1000
 2018-10-01 02:00:00 4 updateById 1000
 2018-10-01 02:00:00 4 getById 1000
@@ -55,7 +56,7 @@ awk '/2018-10-01/' trace.log |awk -F "|"	 '{print $3}'  |sort|uniq -c|sort -rn| 
 
 执行结果
 
-```
+```verilog
 5 updateById
 3 getById
 1 insert
@@ -69,7 +70,7 @@ awk '/2018-10-01/' trace.log |awk -F "|"	 '{print $3}'  |sort|uniq -c|sort -rn| 
 
 执行结果
 
-```
+```verilog
 getById 1 1 0 2
 updateById 2 1 2 1
 insert 1 0 0 0
@@ -83,7 +84,7 @@ awk -F "|" '{totalCnt[$3]++;if($5=="fail"){failCnt[$3]++}}END{for(i in totalCnt)
 
 执行结果
 
-```
+```verilog
 getById 25%
 updateById 16.6667%
 insert 0%
@@ -97,7 +98,7 @@ awk -F "|" '{totalCnt[$3]++;{rtSum[$3]+=$4}}END{for(i in totalCnt)print i,(rtSum
 
 执行结果
 
-```
+```verilog
 getById 525.25
 updateById 250
 insert 20
@@ -131,7 +132,6 @@ cat id.txt | sort | uniq
 2
 aaaaa
 ```
-
 
 
 一些参考：
