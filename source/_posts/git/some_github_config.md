@@ -1,6 +1,6 @@
 ---
 title:  一些有用的github配置
-cover: /images/gihub.jpg
+cover: /images/github.jpg
 subtitle:  在github的使用过程中，一些有用的github配置，明显改进了流程，方便了开发，随手记录了下来
 author: 
   nick: 王欣
