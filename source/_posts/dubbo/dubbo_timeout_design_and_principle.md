@@ -1,6 +1,6 @@
 ---
 title: Dubbo代码分析—超时和重试设计
-cover: /images/java.png
+cover: /images/dubbo.png
 subtitle:  拿dubbo这个rpc框架的timeout机制，配合tcp的超时处理
 author: 
   nick: 王欣

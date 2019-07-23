@@ -1,6 +1,6 @@
 ---
 title: Dubbo代码分析---服务端线程池
-cover: /images/java.png
+cover: /images/dubbo.png
 subtitle: Dubbo代码分析---服务端线程池
 author: 
   nick: 王欣

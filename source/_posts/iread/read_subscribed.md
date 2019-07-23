@@ -1,6 +1,6 @@
 ---
 title: 我看《subscribed》
-cover: /images/spring.png
+cover: /images/subscribed.jpg
 subtitle:  我看《subscribed》
 author: 
   nick: 王欣
