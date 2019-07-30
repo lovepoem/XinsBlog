@@ -2,15 +2,15 @@ friend_links:
   - name: hexo-theme-skapp
     desc: https://github.com/Mrminfive/hexo-theme-skapp
     link: https://github.com/Mrminfive/hexo-theme-skapp
-  - name: Servicemesher
-    desc: Servicemesher
-    link: http://www.servicemesher.com/
   - name: 程序猿DD
     desc: 程序猿DD
-    link: http://dubbo.apache.org
+    link: http://blog.didispace.com/
   - name: 芋道源码
-    desc: 芋道源码
+    desc: 纯源码解析博客
     link: http://www.iocoder.cn
   - name: 纯洁的微笑
     desc: 纯洁的微笑
     link: http://www.ityouknow.com
+  - name: 梁桂钊的博客
+    desc: 梁桂钊的博客
+    link: http://blog.720ui.com/
