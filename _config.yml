@@ -68,6 +68,7 @@ menu:
   archive: /archives
   tags: /tags
   about: /about
+  linkedfriend: /linkedfriend
   github: https://github.com/lovepoem
 
 # Deployment

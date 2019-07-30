@@ -2,19 +2,15 @@ friend_links:
   - name: hexo-theme-skapp
     desc: https://github.com/Mrminfive/hexo-theme-skapp
     link: https://github.com/Mrminfive/hexo-theme-skapp
-  - name: 美团技术团队
-    desc: https://tech.meituan.com/
-    link: https://tech.meituan.com/
   - name: Servicemesher
     desc: Servicemesher
     link: http://www.servicemesher.com/
-  - name: 阿里巴巴中间件团队博客
-    desc: 阿里巴巴中间件团队博客
-    link: http://jm.taobao.org
-  - name: 字节跳动技术博客
-    desc: 字节跳动技术博客
-    link: https://techblog.toutiao.com/
-  - name: Dubbo官方网站
-    desc: Dubbo官方网站
+  - name: 程序猿DD
+    desc: 程序猿DD
     link: http://dubbo.apache.org
-
+  - name: 芋道源码
+    desc: 芋道源码
+    link: http://www.iocoder.cn
+  - name: 纯洁的微笑
+    desc: 纯洁的微笑
+    link: http://www.ityouknow.com
