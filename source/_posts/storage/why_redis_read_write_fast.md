@@ -26,9 +26,9 @@ Redis两种持久化方式(RDB&AOF)
 
 **[RDB](https://github.com/sripathikrishnan/redis-rdb-tools/wiki/Redis-RDB-Dump-File-Format)**每次进行快照方式会重新记录整个数据集的所有信息。RDB在恢复数据时更快，可以最大化redis性能，子进程对父进程无任何性能影响。
 
-**AOF**有序的记录了redis的命令操作。意外情况下数据丢失甚少。他不断地对aof文件添加操作日志记录，你可能会说，这样的文件得多么庞大呀。是的，的确会变得庞大，但redis会有优化的策略，比如你对一个**key1**键的操作，set key1 001 , set key1 002, set key1 003。那优化的结果就是将前两条去掉咯，那具体优化的配置在配置文件中对应的是
+**[AOF](https://redis.io/topics/persistence)**有序的记录了redis的命令操作。意外情况下数据丢失甚少。AOF同步也是一种把记录写到硬盘上的行为，在上述两个步骤之外，Redis额外加一步命令，Redis先把记录追加到自己维护的一个aof_buf中。所以AOF持久化分为三步：1、命令追加 2、文件写入 3.文件同步
 
-https://redis.io/topics/persistence
+
 
 
 
