@@ -3,11 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.8.0"
+    "version": "4.0.0"
   },
   "dependencies": {
+    "bluebird": "^3.7.1",
     "gitalk": "^1.5.0",
-    "hexo": "^3.8.0",
+    "gulp-htmlmin": "^5.0.1",
+    "hexo": "^4.0.0",
     "hexo-autoprefixer": "^2.0.0",
     "hexo-deployer-git": "^1.0.0",
     "hexo-filter-cleanup": "^1.2.2",
@@ -19,16 +21,19 @@
     "hexo-generator-sitemap": "^1.2.0",
     "hexo-generator-tag": "^0.2.0",
     "hexo-renderer-ejs": "^0.1.1",
-    "hexo-renderer-marked": "^1.0.1",
+    "hexo-renderer-marked": "^2.0.0",
     "hexo-renderer-sass": "^0.3.2",
     "hexo-renderer-stylus": "^0.3.0",
     "hexo-renderer-swig": "^1.1.0",
     "hexo-server": "^0.2.2",
     "hexo-toc": "^1.1.0",
+    "html-minifier": "^4.0.0",
     "lunr": "github:mamboer/lunr.js",
     "moment": "^2.24.0",
-    "node-sass": "^4.12.0",
-    "npm": "^6.9.0",
-    "object-assign": "^4.1.1"
+    "node-sass": "^4.13.0",
+    "npm": "^6.12.1",
+    "object-assign": "^4.1.1",
+    "stream-to-array": "^2.3.0",
+    "uglify-js": "^2.6.0"
   }
 }

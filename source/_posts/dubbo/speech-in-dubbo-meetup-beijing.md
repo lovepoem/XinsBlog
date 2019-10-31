@@ -15,6 +15,6 @@ date: 2018-05-12 17:01:02
  主要讲了公司用dubbo实施服务化过程中，遇到的一些问题和自研的相关组件。
 ​    其中演讲稿下载地址： 
 
- * [中文版](https://github.com/dubbo/awesome-dubbo/raw/master/slides/meetup/201805%40Beijing/dubbo-and-weidian's-practice-on-microservice-architecture.pdf)
+ * [中文版](https://github.com/dubbo/awesome-dubbo/raw/master/slides/meetup/201805%40Beijing/dubbo-and-weidian%27s-practice-on-microservice-architecture.pdf)
    
- * [English Version](https://github.com/dubbo/awesome-dubbo/blob/master/slides/meetup/201805%40Beijing/dubbo-and-weidian's-practice-on-microservice-architecture-en.pdf) 
+ * [English Version](https://github.com/dubbo/awesome-dubbo/blob/master/slides/meetup/201805%40Beijing/dubbo-and-weidian%27s-practice-on-microservice-architecture-en.pdf) 
