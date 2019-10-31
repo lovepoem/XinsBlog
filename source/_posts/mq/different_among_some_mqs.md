@@ -6,10 +6,10 @@ author:
   nick: 王欣
   link: https://wangxin.io
 tags: 
-- jvm
+- mq
 categories: 
-- jvm
-date: 2018-10-08 02:01:02      
+- mq
+date: 2019-10-08 02:01:02      
 ---
 
 
