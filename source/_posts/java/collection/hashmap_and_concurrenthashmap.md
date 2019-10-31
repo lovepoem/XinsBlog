@@ -6,11 +6,8 @@ author:
   nick: 王欣
   link: https://wangxin.io
 tags: 
-- java
 - hide
 categories: 
-- java
-- 集合类
 date: 2018-10-31 02:01:02  
 ---
 1、HashMap和ConcurrentHashMap的实现基本数据结构是啥？

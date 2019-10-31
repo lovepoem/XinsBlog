@@ -13,9 +13,15 @@ date: 2019-10-31 09:01:02
 ---
 
 ```mermaid
-graph LR;
-  A-->B
-  B-->C
-  C-->D
-  D-->A
+graph TB
+    
+    subgraph one
+    a1-->a2-->a3
+    end
+    subgraph two
+    b1-->b2
+    end
+    subgraph thr    ee
+    c1-->c2
+    end
 ```
