@@ -1,5 +1,5 @@
 ---
-title: 目前市面上的MQ组件组件，你都用过哪些?区别是啥？
+title: MQ组件盘点，哪些你用在了生产中？
 cover: /images/java.png
 subtitle:  对比分析一下市面上都有哪些mq，区别一下这些消息队列的不同，分析其优缺点。
 author: 
@@ -9,10 +9,10 @@ tags:
 - mq
 categories: 
 - mq
-date: 2019-10-08 02:01:02      
+date: 2019-10-31 02:01:02      
 ---
 
-   工作这么多年，使用的MQ也好几种了，ActiveMq、RabbitMq、rocketMq、kafka、Pulsar。最近国内又陆陆续续开源了几个MQ，如：去哪儿网开源的qmq、腾讯开源的TubeMq、拍拍贷开源的pmq。
+   市面上的MQ也好几种了，ActiveMq、RabbitMq、rocketMq、kafka、Pulsar。最近国内又陆陆续续开源了几个MQ，如：去哪儿网开源的qmq、腾讯开源的TubeMq、拍拍贷开源的pmq。
    现在想需要对比区别一下这些消息队列的不同，分析其优缺点。
 
 ### 一、基本比较
@@ -37,7 +37,7 @@ date: 2019-10-08 02:01:02
 | **商业支持**     | 无             | 无             | 阿里云         | 无               |                |
 | **成熟度**      | 成熟           | 成熟            | 成熟       | 成熟日志领域   |    |
 | **支持协议**    | OpenWire、STOMP、REST、 XMPP、AMQP | AMQP | 白己定义的一套，社区提供JMS，不成熟）    |  |  |
-| **持久化**      | 内存、文件、数据库              | 内存、文件     | 磁盘文件       |  | [Apache BookKeeper](https://github.com/apache/bookkeeper) |
+| **持久化**      | 内存、文件、数据库              | 内存、文件     | 磁盘文件       | PageCache ->磁盘 | [Apache BookKeeper](https://github.com/apache/bookkeeper) |
 | **事务**       | 支持           | 支持           | 支持           |                  |                  |
 | **负载均衡**   | 支持           | 支持           | 支持           |                  |                  |
 | **管理界面**   | 一般           | 好             | 有web console实现                 |                  |                  |
@@ -68,3 +68,34 @@ date: 2019-10-08 02:01:02
 #### 5、ActiveMq
 
    项目较老，不够活跃，会丢消息，不适合在互联网项目使用
+
+### 三、一些问题
+   
+   #### 1、Kafka的数据丢失问题
+   一开始就是存储在PageCache上的，定期flush到磁盘上的，也就是说，不是每个消息都被存储在磁盘了，如果出现断电或者机器故障等，PageCache上的数据就丢失了。 
+这个是总结出的到目前为止没有发生丢失数据的情况
+
+```java   
+     //producer用于压缩数据的压缩类型。默认是无压缩。正确的选项值是none、gzip、snappy。压缩最好用于批量处理，批量处理消息越多，压缩性能越好
+     props.put("compression.type", "gzip");
+     //增加延迟
+     props.put("linger.ms", "50");
+     //这意味着leader需要等待所有备份都成功写入日志，这种策略会保证只要有一个备份存活就不会丢失数据。这是最强的保证。，
+     props.put("acks", "all");
+     //无限重试，直到你意识到出现了问题，设置大于0的值将使客户端重新发送任何数据，一旦这些数据发送失败。注意，这些重试与客户端接收到发送错误时的重试没有什么不同。允许重试将潜在的改变数据的顺序，如果这两个消息记录都是发送到同一个partition，则第一个消息失败第二个发送成功，则第二条消息会比第一条消息出现要早。
+     props.put("retries ", MAX_VALUE);
+     props.put("reconnect.backoff.ms ", 20000);
+     props.put("retry.backoff.ms", 20000);
+     
+     //关闭unclean leader选举，即不允许非ISR中的副本被选举为leader，以避免数据丢失
+     props.put("unclean.leader.election.enable", false);
+     //关闭自动提交offset
+     props.put("enable.auto.commit", false);
+     限制客户端在单个连接上能够发送的未响应请求的个数。设置此值是1表示kafka broker在响应请求之前client不能再向同一个broker发送请求。注意：设置此参数是为了避免消息乱序
+     props.put("max.in.flight.requests.per.connection", 1);
+``` 
+   #### 2、Kafka重复消费原因
+强行kill线程，导致消费后的数据，offset没有提交，partition就断开连接。比如，通常会遇到消费的数据，处理很耗时，导致超过了Kafka的session timeout时间（0.10.x版本默认是30秒），那么就会re-blance重平衡，此时有一定几率offset没提交，会导致重平衡后重复消费。
+如果在close之前调用了consumer.unsubscribe()则有可能部分offset没提交，下次重启会重复消费
+
+kafka数据重复 kafka设计的时候是设计了(at-least once)至少一次的逻辑，这样就决定了数据可能是重复的，kafka采用基于时间的SLA(服务水平保证)，消息保存一定时间（通常为7天）后会被删除

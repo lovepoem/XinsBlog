@@ -1,7 +1,7 @@
 ---
 title: 为什么Redis读写快？
 cover: /images/java.png
-subtitle:  为什么Redis读写快？
+subtitle:  为什么Redis读写快？其底层实现都使用了哪些数据结构？
 author: 
   nick: 王欣
   link: https://wangxin.io
@@ -52,4 +52,3 @@ Redis两种持久化方式(RDB&AOF)
 
 
 
- 
