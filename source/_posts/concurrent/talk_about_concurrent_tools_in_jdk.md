@@ -11,3 +11,8 @@ categories:
 - hide
 date: 2018-10-05 02:01:02  
 ---
+
+一、synchrized和ReentraLock 有什么区别？
+
+
+

@@ -40,3 +40,23 @@ https://github.com/lovepoem/codecov-travis-maven-junit5-example
 
 * Travis CI + Codecov + Junit4 + cobertura + java1.7 + Maven Java Example
 https://github.com/lovepoem/codecov-travis-maven-junit4-example
+
+### 5、添加状态检查
+
+在合作开发中，一些分支的提交者好久没有活动了，远程分支已经修改了很多东西。这个时候就需要提交权限的人来合并。
+
+配置方法如下：
+
+![](/images/enforce-update.png)
+
+效果： 
+
+![](/images/update-branch.png)
+
+参考：
+
+启用必须状态检查：
+https://help.github.com/cn/github/administering-a-repository/enabling-required-status-checks
+
+关于必需状态检查：
+https://help.github.com/cn/github/administering-a-repository/about-required-status-checks

@@ -75,7 +75,7 @@ date: 2019-10-31 02:01:02
    一开始就是存储在PageCache上的，定期flush到磁盘上的，也就是说，不是每个消息都被存储在磁盘了，如果出现断电或者机器故障等，PageCache上的数据就丢失了。 
 这个是总结出的到目前为止没有发生丢失数据的情况
 
-```java   
+```java  
      //producer用于压缩数据的压缩类型。默认是无压缩。正确的选项值是none、gzip、snappy。压缩最好用于批量处理，批量处理消息越多，压缩性能越好
      props.put("compression.type", "gzip");
      //增加延迟
@@ -93,7 +93,7 @@ date: 2019-10-31 02:01:02
      props.put("enable.auto.commit", false);
      限制客户端在单个连接上能够发送的未响应请求的个数。设置此值是1表示kafka broker在响应请求之前client不能再向同一个broker发送请求。注意：设置此参数是为了避免消息乱序
      props.put("max.in.flight.requests.per.connection", 1);
-``` 
+```
    #### 2、Kafka重复消费原因
 强行kill线程，导致消费后的数据，offset没有提交，partition就断开连接。比如，通常会遇到消费的数据，处理很耗时，导致超过了Kafka的session timeout时间（0.10.x版本默认是30秒），那么就会re-blance重平衡，此时有一定几率offset没提交，会导致重平衡后重复消费。
 如果在close之前调用了consumer.unsubscribe()则有可能部分offset没提交，下次重启会重复消费

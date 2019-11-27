@@ -103,6 +103,9 @@ private Map<Artist,List<Album>> nameOfAllAlbums(Stream<Album> albums){
 ### 4、利用lambda表达式编写并发程序
 非阻塞IO，异步IO,可以并发处理大量网络连接。Lambda可以方便api处理
 
+### 5、问题：一个数据操作 TreeSet set  = allMembers.stream().collect()的allMembers在最后被修改了么？哪一步在转换成流、流操作、收集几步中？哪一步真正对数进行了处理？
+    没有修改，在收集阶段对结果进行了修改
+
 #### 聊天室(回调) TODO
 
 #### 利用java8的CompletableFuture异步并行操作(Future)
