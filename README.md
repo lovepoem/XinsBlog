@@ -1,5 +1,5 @@
 # MyBlog
-* 1、install nodejs,npm
+* 1、install nodejs,npm 
 * 2 在source/_posts下写文章
 * 3、执行build.sh将代码上传到对应的项目
 
