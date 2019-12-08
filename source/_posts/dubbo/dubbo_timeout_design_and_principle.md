@@ -37,7 +37,7 @@ dubbo的超时是争对客户端的，由于是一种NIO模式，消费端发起
 
 之前有简单提到过, dubbo默认采用了netty做为网络组件，它属于一种NIO的模式。消费端发起远程请求后，线程不会阻塞等待服务端的返回，而是马上得到一个ResponseFuture，消费端通过不断的轮询机制判断结果是否有返回。因为是通过轮询，轮询有个需要特别注要的就是避免死循环，所以为了解决这个问题就引入了超时机制，只在一定时间范围内做轮询，如果超时时间就返回超时异常。
 ```java
-ResponseFuture接口定义
+//ResponseFuture接口定义
 
 public interface ResponseFuture {
 
@@ -72,8 +72,8 @@ public interface ResponseFuture {
 }
 
 
-ReponseFuture的实现类：DefaultFuture
-只看它的get方法，可以清楚看到轮询的机制。
+//ReponseFuture的实现类：DefaultFuture
+//只看它的get方法，可以清楚看到轮询的机制。
 
  public Object get(int timeout) throws RemotingException {
         if (timeout <= 0) {
@@ -109,10 +109,10 @@ ReponseFuture的实现类：DefaultFuture
 ## 二、Dubbo协议中的重试机制
 
 在客户端 
+`int DEFAULT_RETRIES = 2;` 
+看到重试次数是2 ，就是说出了本身的一次请求，再失败后，又会再请求一次。
 
-``` int DEFAULT_RETRIES = 2; ``` 看到重试次数是2 ，就是说出了本身的一次请求，再失败后，又会再请求一次。
-
-重试策略在集群的失败重试  ```FailoverClusterInvoker``` 的策略中：	
+重试策略在集群的失败重试 `FailoverClusterInvoker`  的策略中：	
 
 ```java
     public Result doInvoke(Invocation invocation, final List<Invoker<T>> invokers, LoadBalance loadbalance) throws RpcException {
@@ -147,8 +147,6 @@ ReponseFuture的实现类：DefaultFuture
 可以看到使用的是for循环做的失败重试的。当有异常发生时候，就重试一次访问，直到达到最大重试次数为止。
 
 参考：https://www.cnblogs.com/xuwc/p/8974709.html   
-
-重试在此时是怎么处理的？
 
 ​    
 
