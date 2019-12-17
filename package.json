@@ -21,6 +21,7 @@
     "hexo-generator-index2": "^0.2.0",
     "hexo-generator-sitemap": "^1.2.0",
     "hexo-generator-tag": "^0.2.0",
+    "hexo-generator-urls": "^1.0.2",
     "hexo-renderer-ejs": "^0.1.1",
     "hexo-renderer-marked": "^2.0.0",
     "hexo-renderer-sass": "^0.3.2",

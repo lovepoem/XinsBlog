@@ -6,9 +6,9 @@ author:
   nick: 王欣
   link: https://wangxin.io
 tags: 
-- hide
+- jvm
 categories: 
-- hide
+- jvm
 date: 2019-10-31 09:01:02      
 ---
 
@@ -35,28 +35,15 @@ date: 2019-10-31 09:01:02
 
 ![img](https://pic1.zhimg.com/80/v2-d928d79855d4448af061752168967d04_hd.jpg)
 
-### **二、java7到**
-
-
-
 ### **二、java7到java8的第二部分变化：运行时常量池**
 
 运行时常量池（Runtime Constant Pool）的所处区域一直在不断的变化，在java6时它是方法区的一部分；1.7又把他放到了堆内存中；1.8之后出现了元空间，它又回到了方法区。
 
 
 
-
-
-
-
 Metaspace 结构是怎么样的？
 
-![Mechanism](/images/java8struct.jpeg)
+![Mechanism](/images/java8struct.jpg)
 
 
-
-
-参考:
-————————————————
-版权声明：本文为CSDN博主「划船一哥」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/weixin_42711325/article/details/86533192
+参考：https://blog.csdn.net/weixin_42711325/article/details/86533192
