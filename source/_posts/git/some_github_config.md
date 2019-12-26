@@ -50,3 +50,6 @@ https://github.com/lovepoem/codecov-travis-maven-junit5-example
 * Travis CI + Codecov + Junit4 + cobertura + java1.7 + Maven Java Example
 https://github.com/lovepoem/codecov-travis-maven-junit4-example
 
+### 5、将issue指派给项目的contributor
+
+最早时候github不支持将一个issue指派给对项目没有写权限的用户。在2019年下半年开始，github增加了“Triage”角色：没有项目的直接写权限，却能review pr的人。首先issue可以指派给“Triage”角色；一般用户只要在issue上加评论，就可以将issue指派给她。
