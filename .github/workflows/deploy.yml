@@ -1,25 +1,19 @@
-name: wangxin.io deploy
-on:
-  push:
-    branches:
-      - master
+name: wangxin.io Deploy
+
+on: [push]
+
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Clean
-        uses: heowc/action-hexo@master
+      - uses: actions/checkout@v1
+      - name: Cache node modules
+        uses: actions/cache@v1
         with:
-          args: clean
-      - name: Generate
-        uses: heowc/action-hexo@master
+          path: node_modules
+          key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
+      - uses: yrpang/github-actions-hexo@master
         with:
-          args: generate
-      - name: Deploy
-        uses: heowc/action-hexo@master
-        env:
-          EMAIL: xin.victorwang@gmail.com
-          NAME: wx
-        with:
-          args: deploy
+          deploykey: ${{secrets.DEPLOY_KEY}}
+          username: Xin Wang
+          email: xin.victorwang@gmail.com
