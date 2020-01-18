@@ -17,6 +17,28 @@ date: 2018-08-08 12:01:02
 **需求点**：业务上常常有这样一个需求：一个服务常常会从多个数据源取得数据，然后并成一个结果。
    这个操作，假设有3个数据源，同步处理通常的做法是：需要queryData1，queryData2，queryData3。执行时间会是3个时间之和。
 ​      一般的异步设计方案为：起一个业务的线程池，并发执行业务，然后由一个守护的线程等各个业务结束(时间为业务执行最长的时间)，获取所有数据。这样明显执行时间会小于3个业务时间之和（例如下面的getAllInfoByProductId）。因为：消耗时间=执行最长的业务时间+守护线程的时间。
+```java
+int size = 5;
+CountDownLatch latch = new CountDownLatch(size);
+for (int i = 0; i < size; i++) {
+    Executors.newFixedThreadPool(size).submit(() -> {
+        try {
+            // long running task
+            System.out.println(Thread.currentThread().getName() + " " + latch.getCount());
+        } finally {
+            latch.countDown();
+        }
+    });
+}
+try {
+    latch.await();
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+// continue...
+System.out.println(Thread.currentThread().getName());
+```
 
 ​      例如用 jdk的Future和线程池实现类似功能，自己造了轮子各种调试。
 
@@ -98,10 +120,10 @@ public class ParallelTest {
     */
     @Test
     public void testGetAllInfoDirectly() throws ExecutionException, InterruptedException {
-        ParallelTest test = new ParallelTest();
-        String info1 = getProductBaseInfo("1111");
-        String info2 = getProductDetailInfo("1111");
-        String info3 = getProductSkuInfo("1111");
+	 ParallelTest test = new ParallelTest();
+        String baseInfo = getProductBaseInfo("1111");
+        String detailInfo = getProductDetailInfo("1111");
+        String skuInfo = getProductSkuInfo("1111");
         String info=baseInfo + "" + detailInfo + skuInfo;
         Assertions.assertNotNull(info);
     }
