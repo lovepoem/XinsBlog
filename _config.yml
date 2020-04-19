@@ -75,7 +75,7 @@ menu:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: https://GITHUB_ACCESS_TOKEN@github.com/lovepoem/lovepoem.github.io.git
+  repository: https://github.com/lovepoem/lovepoem.github.io.git
   branch: master
   # Pagination
   ## Set per_page to 0 to disable pagination
