@@ -1,8 +1,11 @@
 # MyBlog
+
+![CI](https://github.com/lovepoem/XinsBlog/workflows/CI/badge.svg)
+![wangxin.io deploy](https://github.com/lovepoem/XinsBlog/workflows/wangxin.io deploy/badge.svg)
+
 * 1、install nodejs,npm
 * 2 在source/_posts下写文章
 * 3、执行build.sh将代码上传到对应的项目
-
 
 相关： 
 * Hexo: https://hexo.io/ 
