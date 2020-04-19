@@ -6,21 +6,37 @@ on:
 
 jobs:
   build:
-    name: Build
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Clean
-        uses: heowc/action-hexo@master
+      - name: Download Source file
+        uses: actions/checkout@v2
         with:
-          args: clean
-      - name: Generate
-        uses: heowc/action-hexo@master
+          ref: master # 此处修改为自己存放 Hexo 源文件的分支
+
+      - name: Prepare Node env
+        uses: actions/setup-node@v1
         with:
-          args: generate
-      - name: Deploy
-        uses: heowc/action-hexo@master
+          node-version: "10.x"
+
+      - name: Set env
         env:
-          EMAIL: xin.victorwang@gmail.com
-          NAME: Xin Wang
-        with:
-          args: deploy
+          GITHUB_ACCESS_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          git config --global user.name 'Xin Wang'
+          git config --global user.email 'xin.victorwang@gmail.com'
+          sed -i "s/GITHUB_ACCESS_TOKEN/$DEPLOY_TOKEN/g" ./_config.yml
+
+      - name: Hexo Setup
+        run: |
+          npm i -g hexo-cli
+          npm i hexo-deployer-git --save
+
+      - name: Hexo Genarate
+        run: |
+          hexo clean && hexo g
+
+      - name: Hexo Deploy
+        run: |
+          hexo d
