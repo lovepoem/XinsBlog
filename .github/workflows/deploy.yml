@@ -6,29 +6,16 @@ on:
 
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Clean
-        uses: heowc/action-hexo@master
+      - uses: actions/checkout@v1
+      - name: Cache node modules
+        uses: actions/cache@v1
         with:
-          args: clean
-      - name: Generate
-        uses: heowc/action-hexo@master
+          path: node_modules
+          key: ${{runner.OS}}-${{hashFiles('**/package-lock.json')}}
+      - uses: yrpang/github-actions-hexo@master
         with:
-          args: generate
-      - name: Setup Deploy Private Key
-        env:
-          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$DEPLOY_TOKEN" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - name: Deploy
-        uses: heowc/action-hexo@master
-        env:
-          EMAIL: xin.victorwang@gmail.com
-          NAME: Xin Wang
-        with:
-          args: deploy
+          deploykey: ${{secrets.DEPLOY_TOKEN}}
+          username: YOUR_USER_NAME
+          email: YOUR_EMAIL_ADDRESS
