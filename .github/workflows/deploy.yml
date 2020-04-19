@@ -2,7 +2,8 @@ name: wangxin.io deploy
 on:
   push:
     branches:
-      - master
+    - master
+
 jobs:
   build:
     name: Build
