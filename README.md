@@ -1,7 +1,7 @@
 # MyBlog
 
 ![CI](https://github.com/lovepoem/XinsBlog/workflows/CI/badge.svg)
-![wangxin.io deploy](https://github.com/lovepoem/XinsBlog/workflows/wangxin.io deploy/badge.svg)
+![wangxin.io deploy](https://github.com/lovepoem/XinsBlog/workflows/wangxin.io%20deploy/badge.svg)
 
 * 1、install nodejs,npm
 * 2 在source/_posts下写文章
