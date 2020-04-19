@@ -36,6 +36,7 @@
     "npm": "^6.12.1",
     "object-assign": "^4.1.1",
     "stream-to-array": "^2.3.0",
-    "uglify-js": "^2.6.0"
+    "uglify-js": "^2.6.0",
+    "nodejieba": "2.3.2"
   }
 }
