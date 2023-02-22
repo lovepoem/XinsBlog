@@ -133,6 +133,12 @@ cat id.txt | sort | uniq
 aaaaa
 ```
 
+2、递归查看某个目录磁盘占用大小
+
+```
+du -h --max-depth=2 /data
+```
+
 
 一些参考：
 http://techslides.com/grep-awk-and-sed-in-bash-on-osx
