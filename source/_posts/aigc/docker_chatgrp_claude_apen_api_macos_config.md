@@ -5,9 +5,9 @@ author:
   nick: 王欣
   link: https://wangxin.io
 tags: 
-- 开发环境  
+- 大模型  
 categories: 
-- 开发环境
+- 大模型,AIGC
 date: 2024-11-08 10:01:02
 ---
 
