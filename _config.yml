@@ -10,10 +10,10 @@ subtitle: 王欣的博客
 subtitle_desc: 开源项目提交者
 
 # seo关键字
-keywords: 开源项目提交者,dubbo,rpc,apache,架构师,信息安全，AIGC
+keywords: 开源项目提交者,dubbo,rpc,seata ppmc，apache,架构师,信息安全，AIGC
 
 # 博客介绍（同时用于seo）
-description: 王欣，Apache Dubbo项目committer、PMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com
+description: 王欣，Apache Dubbo项目committer/PMC、Apache Seata项目PPMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com
 # 个人介绍
 introduction: 锲而不舍、金石可镂
 
