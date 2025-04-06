@@ -67,7 +67,7 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": EOF(base) wx
     "no-proxy": "localhost,127.0.0.0/8"
   },
   "registry-mirrors": [
-    "https://dockerproxy.cn"
+    "https://hub.rat.dev"
   ]
 }
 ```
