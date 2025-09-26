@@ -482,28 +482,27 @@
   </entry>
   
   <entry>
-    <title>谈谈并发包的工具都是用在什么地方，底层是怎么实现的？</title>
-    <link href="https://wangxin.io/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/"/>
-    <id>https://wangxin.io/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/</id>
+    <title>血的教训：线程池定义一定要全局化，共享使用</title>
+    <link href="https://wangxin.io/2018/10/05/concurrent/analysis_of_thread_pool_error_usage/"/>
+    <id>https://wangxin.io/2018/10/05/concurrent/analysis_of_thread_pool_error_usage/</id>
     <published>2018-10-04T18:01:02.000Z</published>
     <updated>2024-10-10T01:18:36.445Z</updated>
     
-    <content type="html"><![CDATA[<p>一、synchrized和ReentraLock 有什么区别？</p>]]></content>
+    <content type="html"><![CDATA[<h3><span id="一-发现问题">一、发现问题</span></h3><p>​    最近我们上线了一个比较底层的业务服务，上线后研发也去盯着服务器看了日志，没有发现有啥问题，就将服务全量上线了。谁知道过了15分钟左右，上游业务方打电话过来了，说报调用我们的业务服务出现超时。<br>这时候研发赶紧登上相关的机器去看，发现日志量很少，机器很卡。再有人去登入这台机器的时候就登入不了。研发初步考虑是网络问题或者宿主机问题，于是找来运维。</p><p>   运维登入进去机器通过</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef  | wc -l</span><br></pre></td></tr></table></figure><p>查看运行的进程数,结果为60000多。通过脚本查看linux进程的进程限制：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/security/limits.conf</span><br></pre></td></tr></table></figure><p>，结果是</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root soft nofile 65535</span><br><span class="line">root hard nofile 65535</span><br></pre></td></tr></table></figure><p>​    进程总数差不多进程总数的限制。考虑到半小时前更新了新服务，去服务的日志看了看，原来tomcat有jvm内存溢出的日志:</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java 进程out of memeory</span><br><span class="line">Java HotSpot(TM) <span class="number">64</span>-Bit Server VM warning: Exception java<span class="variable">.lang</span><span class="variable">.OutOfMemoryError</span> occurred dispatching signal SIGTERM to handler- the VM may need to be forcibly terminatedy</span><br></pre></td></tr></table></figure><h3><span id="二-查找和解决问题">二、查找和解决问题</span></h3><p>​    通过上面的一些现象，赶紧将刚才的发布的机器回滚了，避免更大的问题。观察了半个小时，上游再也没有发现我们的服务报错的问题了。于是我们终端review了刚刚上线的一个pr，<br>​      发现线程池的代码竟然定义在方法体里面：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BizService</span></span>&#123;</span><br><span class="line">    ...... </span><br><span class="line">    <span class="function">pulic <span class="title">processBiz</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(<span class="number">8</span>);</span><br><span class="line">    ......</span><br><span class="line">   &#125; </span><br><span class="line">   ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这样每次调用这个方法，就构建一个新的线程池，开启了新的8个线程。又查找了<a href="http://blog.sina.com.cn/s/blog_605f5b4f010198b5.html">《Java线程与Linux内核线程的映射关系》[1]</a> , 发现：JVM线程跟内核轻量级进程有一一对应的关系。线程数达到60000多，处级进程上限65535。    每开启一个进程。<br>​        对于应用进程发生：out of memory，是因为多线程的开销内存超过jvm的最大堆内存限制。 没开启一个进程，都有内存开销，内存超过linux内存的上限了，怪不得机器快僵死。<br>​        为了验证这个猜想，于是将有错误的代码进行压测，果然问题复现，出OutOfMemoryError和机器被拖挂。然后将代码修改为:</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BizService</span></span>&#123;</span><br><span class="line">    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(<span class="number">8</span>);</span><br><span class="line">    ...... </span><br><span class="line">    <span class="function">pulic <span class="title">processBiz</span><span class="params">()</span></span>&#123;</span><br><span class="line">    ......</span><br><span class="line">   &#125; </span><br><span class="line">   ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>然后进行了压测，问题没有复现，问题解决。</p><h3><span id="三-事后review和处理方案">三、事后review和处理方案：</span></h3><p>​       复盘会议上，qa和相关人一起提出了如下方案来避免类似问题：</p><h4><span id="1-完善监控指标">1、完善监控指标</span></h4><p>​      本次线程池超限，java进程也有报错，就是报<code>OutOfMemoryError</code>,可是报警系统竟然没有第一时间收到。查了监控系统，在前一段项目进程了重构，日志路径修改了，原来的采集配置竟然没有同时修改。导致造成损失却没有收到警报。</p><h4><span id="2-代码review一定要做并且认真做">2、代码review一定要做，并且认真做</span></h4><p>​      本次程序员的线程池代码为低级失误，review认真是可以看出来的。</p><h4><span id="3-有大的优化要进行压测">3、有大的优化要进行压测</span></h4><p>​      本次pr，有线程池的使用，所以要进行压测</p><h4><span id="4-添加平台监控">4、添加平台监控</span></h4><p>​     添加平台监控，当linux进程大于20000个时候就就对进程数进行报警<br><strong>参考：</strong><br>[1] <a href="http://blog.sina.com.cn/s/blog_605f5b4f010198b5.html">http://blog.sina.com.cn/s/blog_605f5b4f010198b5.html</a></p><p><strong>修改记录：</strong></p><p>2019-07-18 丰富了案例的描述</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;一、synchrized和ReentraLock 有什么区别？&lt;/p&gt;
-
+        &lt;h3&gt;&lt;span id=&quot;一-发现问题&quot;&gt;一、发现问题&lt;/span&gt;&lt;/h3&gt;&lt;p&gt;​    最近我们上线了一个比较底层的业务服务，上线后研发也去盯着服务器看了日志，没有发现有啥问题，就将服务全量上线了。谁知道过了15分钟左右，上游业务方打电话过来了，说报调用我们的业务服务出现
       
     
     </summary>
     
-      <category term="hide" scheme="https://wangxin.io/categories/hide/"/>
+      <category term="多线程" scheme="https://wangxin.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     
     
-      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+      <category term="多线程" scheme="https://wangxin.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     
   </entry>
   

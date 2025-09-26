@@ -25,11 +25,11 @@
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2019/10/31/mq/different_among_some_mqs/</loc>
+    <loc>https://wangxin.io/2019/12/08/mq/rocketmq-dead-message/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2019/12/08/mq/rocketmq-dead-message/</loc>
+    <loc>https://wangxin.io/2019/10/31/mq/different_among_some_mqs/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
@@ -37,19 +37,19 @@
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2018/07/08/java/java_lambda_syntax/</loc>
-    <lastmod>2024-10-10</lastmod>
-  </url>
-  <url>
     <loc>https://wangxin.io/2018/02/12/java/java_lambda_implement/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2018/10/08/jvm/jvm_basic_structure/</loc>
+    <loc>https://wangxin.io/2018/07/08/java/java_lambda_syntax/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
     <loc>https://wangxin.io/2018/08/08/java/parallel_operation_by_completable_future/</loc>
+    <lastmod>2024-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://wangxin.io/2018/10/08/jvm/jvm_basic_structure/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
@@ -61,11 +61,11 @@
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2018/09/05/framework/spring5_new_features/</loc>
+    <loc>https://wangxin.io/2019/07/23/git/some_github_config/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2019/07/23/git/some_github_config/</loc>
+    <loc>https://wangxin.io/2018/09/05/framework/spring5_new_features/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
@@ -73,11 +73,11 @@
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2019/10/31/io/netty_data_transport/</loc>
+    <loc>https://wangxin.io/2019/07/22/iread/read_subscribed/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2019/07/22/iread/read_subscribed/</loc>
+    <loc>https://wangxin.io/2019/10/31/io/netty_data_transport/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
@@ -93,15 +93,11 @@
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2019/10/31/framework/flow_engine_rule_engine/</loc>
-    <lastmod>2024-10-10</lastmod>
-  </url>
-  <url>
     <loc>https://wangxin.io/2019/02/11/dubbo/dubbo_timeout_design_and_principle/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
-    <loc>https://wangxin.io/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/</loc>
+    <loc>https://wangxin.io/2019/10/31/framework/flow_engine_rule_engine/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>
@@ -110,6 +106,10 @@
   </url>
   <url>
     <loc>https://wangxin.io/2019/10/31/distributed/distributed_system_consistency_algorithm_paxos_raft_zab/</loc>
+    <lastmod>2024-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://wangxin.io/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/</loc>
     <lastmod>2024-10-10</lastmod>
   </url>
   <url>

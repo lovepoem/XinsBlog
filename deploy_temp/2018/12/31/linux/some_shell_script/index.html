@@ -45,6 +45,24 @@
 
 
 
+<!-- 文章页面性能优化 -->
+
+    <!-- 预加载关键CSS -->
+    <link rel="preload" href="/scss/base/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/scss/views/page/post.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- 预加载关键字体 -->
+    <link rel="preload" href="/fonts/iconfont.woff" as="font" type="font/woff" crossorigin>
+    
+    <!-- DNS预解析 -->
+    <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
+    <link rel="dns-prefetch" href="//hm.baidu.com">
+    
+    <!-- 预连接重要的第三方域名 -->
+    <link rel="preconnect" href="//busuanzi.ibruce.info" crossorigin>
+    <link rel="preconnect" href="//hm.baidu.com" crossorigin>
+
+
 <!-- CSS -->
 
 <link rel="stylesheet" href="/scss/base/index.css">
@@ -151,7 +169,10 @@ var _hmt = _hmt || [];
     <div class="page__content">
         <article class="page__post">
     <div class="post__cover">
-        <img src="/images/java.png" alt="rpc跟踪日志常用shell统计脚本">
+        <img src="/images/java.png" 
+             alt="rpc跟踪日志常用shell统计脚本" 
+             loading="lazy"
+             decoding="async">
     </div>
 
     <header class="post__info">
@@ -639,9 +660,24 @@ var _hmt = _hmt || [];
 
 
 
-    <!-- 不蒜子统计 -->
+    <!-- 不蒜子统计 - 延迟加载优化 -->
+<script>
+// 延迟加载不蒜子统计脚本
+function loadBusuanzi() {
+    var script = document.createElement('script');
+    script.src = '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+    script.async = true;
+    document.head.appendChild(script);
+}
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+// 页面加载完成后延迟加载
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(loadBusuanzi, 1000);
+    });
+} else {
+    setTimeout(loadBusuanzi, 1000);
+}
 </script>
 
 

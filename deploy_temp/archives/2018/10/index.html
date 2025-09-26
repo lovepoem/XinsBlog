@@ -45,6 +45,9 @@
 
 
 
+<!-- 文章页面性能优化 -->
+
+
 <!-- CSS -->
 
 <link rel="stylesheet" href="/scss/base/index.css">
@@ -283,52 +286,6 @@ var _hmt = _hmt || [];
     <div class="mini-article__cover">
         
         
-            <img itemprop="image" src="/images/java.png" alt="谈谈并发包的工具都是用在什么地方，底层是怎么实现的？"/>
-        
-        <div itemprop="datePublished" content="" class="mini-article__date">
-            <span class="date__day">5</span>
-            
-                <span class="date__month">十月</span>
-            
-        </div>
-        <a itemprop="url" class="iconfont icon-enter" href="/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/"></a>
-    </div>
-    <div class="mini-article__info">
-        <h3 itemprop="name" class="mini-article__title">
-            <a itemprop="url" href="/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/" title="谈谈并发包的工具都是用在什么地方，底层是怎么实现的？">谈谈并发包的工具都是用在什么地方，底层是怎么实现的？</a>
-        </h3>
-        <p class="mini-article__author">2018-10-05&nbsp;&nbsp;&nbsp;&nbsp;by
-            
-                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-                    <a itemprop="url" href="https://wangxin.io" target="_blank">
-                        <span itemprop="name">王欣</span>
-                    </a>
-                </span>
-            
-        </p>
-        <p itemprop="articleSection" class="min-article__desc" style="cursor:pointer" onclick="window.location.href='/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/'">
-            <span itemprop="url" title="谈谈并发包的工具都是用在什么地方，底层是怎么实现的？">谈谈并发包的工具都是用在什么地方，底层是怎么实现的？</span>
-        </p>
-        <div class="min-article__tags">
-            <i class="iconfont icon-tab"></i>
-            <ul class="tags__list clearfix">
-                
-                    <li class="tags__item">
-                        <a href="/tags/hide/">hide</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-</article>
-
-                </div>
-            
-                <div class="page__post">
-                    <article itemscope itemtype="http://schema.org/Article" class="page__mini-article">
-    <div class="mini-article__cover">
-        
-        
             <img itemprop="image" src="/images/java.png" alt="血的教训：线程池定义一定要全局化，共享使用"/>
         
         <div itemprop="datePublished" content="" class="mini-article__date">
@@ -361,6 +318,52 @@ var _hmt = _hmt || [];
                 
                     <li class="tags__item">
                         <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</article>
+
+                </div>
+            
+                <div class="page__post">
+                    <article itemscope itemtype="http://schema.org/Article" class="page__mini-article">
+    <div class="mini-article__cover">
+        
+        
+            <img itemprop="image" src="/images/java.png" alt="谈谈并发包的工具都是用在什么地方，底层是怎么实现的？"/>
+        
+        <div itemprop="datePublished" content="" class="mini-article__date">
+            <span class="date__day">5</span>
+            
+                <span class="date__month">十月</span>
+            
+        </div>
+        <a itemprop="url" class="iconfont icon-enter" href="/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/"></a>
+    </div>
+    <div class="mini-article__info">
+        <h3 itemprop="name" class="mini-article__title">
+            <a itemprop="url" href="/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/" title="谈谈并发包的工具都是用在什么地方，底层是怎么实现的？">谈谈并发包的工具都是用在什么地方，底层是怎么实现的？</a>
+        </h3>
+        <p class="mini-article__author">2018-10-05&nbsp;&nbsp;&nbsp;&nbsp;by
+            
+                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <a itemprop="url" href="https://wangxin.io" target="_blank">
+                        <span itemprop="name">王欣</span>
+                    </a>
+                </span>
+            
+        </p>
+        <p itemprop="articleSection" class="min-article__desc" style="cursor:pointer" onclick="window.location.href='/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/'">
+            <span itemprop="url" title="谈谈并发包的工具都是用在什么地方，底层是怎么实现的？">谈谈并发包的工具都是用在什么地方，底层是怎么实现的？</span>
+        </p>
+        <div class="min-article__tags">
+            <i class="iconfont icon-tab"></i>
+            <ul class="tags__list clearfix">
+                
+                    <li class="tags__item">
+                        <a href="/tags/hide/">hide</a>
                     </li>
                 
             </ul>
@@ -558,9 +561,24 @@ var _hmt = _hmt || [];
         </ul>
     </div> -->
 </aside>
-    <!-- 不蒜子统计 -->
+    <!-- 不蒜子统计 - 延迟加载优化 -->
+<script>
+// 延迟加载不蒜子统计脚本
+function loadBusuanzi() {
+    var script = document.createElement('script');
+    script.src = '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+    script.async = true;
+    document.head.appendChild(script);
+}
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+// 页面加载完成后延迟加载
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(loadBusuanzi, 1000);
+    });
+} else {
+    setTimeout(loadBusuanzi, 1000);
+}
 </script>
 </main>
 
