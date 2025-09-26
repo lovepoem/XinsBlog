@@ -69,3 +69,4 @@ public/
 Would skip repository .deploy_git/
 package-lock.json
 .deploy_git/
+.deploy_manual/
