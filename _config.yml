@@ -51,6 +51,13 @@ url: https://wangxin.io/
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 root: /
+
+# CDN配置 - 使用jsDelivr加速静态资源
+cdn:
+  enable: true
+  css: https://cdn.jsdelivr.net/gh/lovepoem/lovepoem.github.io@master/scss/
+  js: https://cdn.jsdelivr.net/gh/lovepoem/lovepoem.github.io@master/js/
+  images: https://cdn.jsdelivr.net/gh/lovepoem/lovepoem.github.io@master/images/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -174,3 +181,6 @@ mermaid: ## mermaid url https://github.com/knsv/mermaid
   version: "7.1.2" # default v7.1.2
   options:  # find more api options from https://github.com/knsv/mermaid/blob/master/src/mermaidAPI.js
   #startOnload: true  // default true
+
+# 图片优化配置（使用主题内置功能）
+# imagemin插件有兼容性问题，使用主题的hfc_img配置

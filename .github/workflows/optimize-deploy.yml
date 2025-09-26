@@ -1,0 +1,68 @@
+name: 优化构建和部署
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+        fetch-depth: 0
+
+    - name: 设置 Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: 安装依赖
+      run: |
+        npm ci
+        npm install -g hexo-cli
+
+    - name: 优化图片
+      run: |
+        # 安装图片优化工具
+        sudo apt-get update
+        sudo apt-get install -y jpegoptim optipng
+        
+        # 优化JPEG图片
+        find source/images -name "*.jpg" -o -name "*.jpeg" | xargs jpegoptim --max=85 --strip-all
+        
+        # 优化PNG图片
+        find source/images -name "*.png" | xargs optipng -o7
+
+    - name: 构建网站
+      run: |
+        export NODE_ENV=production
+        hexo clean
+        hexo generate
+        
+        # 生成Gzip压缩文件
+        find public -name "*.html" -o -name "*.css" -o -name "*.js" | xargs gzip -k
+
+    - name: 性能检测
+      run: |
+        node performance-check.js || true
+
+    - name: 部署到GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
+        cname: wangxin.io
+        
+    - name: 通知部署结果
+      run: |
+        echo "✅ 部署完成！"
+        echo "🌐 网站地址: https://wangxin.io/"
+        echo "📊 构建统计:"
+        du -sh public/
