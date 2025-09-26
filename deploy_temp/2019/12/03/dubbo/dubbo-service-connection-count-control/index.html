@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    
+        <title>Dubbo服务间的连接是怎么控制处理的？ - 王欣的博客|微服务|RPC|信息安全|AIGC</title>
+    
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Xin Wang(王欣)" />
+<meta name="designer" content="minfive" />
+<meta name="keywords" content="开源项目提交者,dubbo,rpc,seata ppmc，apache,架构师,信息安全，AIGC"/>
+<meta name="description" content="王欣，Apache Dubbo项目committer/PMC、Apache Seata项目PPMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="robots" content="all" />
+
+<link rel="canonical" href="https://wangxin.io/2019/12/03/dubbo/dubbo-service-connection-count-control/index.html">
+
+<link rel="icon" type="image/png" href="/images/wangxin-min.png" sizes="32x32">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Prefetch -->
+
+
+
+
+
+
+<!-- CSS -->
+
+<link rel="stylesheet" href="/scss/base/index.css">
+
+
+<!-- RSS -->
+<link rel="alternate" href="/atom.xml" title="王欣的博客">
+
+<!-- 统计 -->
+<!-- 百度统计 -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?8dd700474b9448fa0d7db1f5e2236886";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1SDLZ60RR6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1SDLZ60RR6');
+  </script>
+
+
+
+    
+    
+<link rel="stylesheet" href="/scss/views/page/post.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body ontouchstart>
+    
+        <!-- loading 页面 -->
+<div id="page-loading" class="page page-loading" style="background-image: url('/images/loading.gif')"></div>
+    
+
+    <div id="page" class="page js-hidden">
+        
+    <!-- 页头 -->
+<header class="page__small-header page__header--small">
+    <nav class="page__navbar">
+        <div class="page__container navbar-container">
+            <a class="page__logo" href="/" title="王欣的博客" alt="王欣的博客">
+                <img src="/images/wangxin.png" alt="王欣的博客">
+            </a>
+
+            <nav class="page__nav">
+                <ul class="nav__list clearfix">
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/" alt="首页" title="首页">首页</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/archives" alt="归档" title="归档">归档</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/tags" alt="标签" title="标签">标签</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/about" alt="关于" title="关于">关于</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/linkedfriend" alt="友链" title="友链">友链</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="https://github.com/lovepoem" alt="Github" title="Github">Github</a>
+                        </li>
+                    
+                </ul>
+            </nav>
+
+            <button class="page__menu-btn" type="button">
+                <i class="iconfont icon-menu"></i>
+            </button>
+        </div>
+    </nav>
+</header>
+
+
+        
+    <main class="page__container page__main">
+    <div class="page__content">
+        <article class="page__post">
+    <div class="post__cover">
+        <img src="/images/dubbo.png" alt="Dubbo服务间的连接是怎么控制处理的？">
+    </div>
+
+    <header class="post__info">
+        <h1 class="post__title">Dubbo服务间的连接是怎么控制处理的？</h1>
+
+        <div class="post__mark">
+            <div class="mark__block">
+                <i class="mark__icon iconfont icon-write"></i>
+                <ul class="mark__list clearfix">
+                    
+                        <li class="mark__item">
+                            <a href="https://wangxin.io">王欣</a>
+                        </li>
+                    
+                </ul>
+            </div>
+            
+            <div class="mark__block">
+                <i class="mark__icon iconfont icon-time"></i>
+                <ul class="mark__list clearfix">
+                    <li class="mark__item"><span>2019-12-03</span></li>
+                </ul>
+            </div>
+
+            <div class="mark__block">
+                <i class="mark__icon iconfont icon-tab"></i>
+                <ul class="mark__list clearfix">
+                    
+                        <li class="mark__item">
+                            <a href="/tags/dubbo/">Dubbo</a>
+                        </li>
+                    
+                </ul>
+            </div>
+
+            
+            <div class="mark__block">
+                <i class="mark__icon iconfont icon-eye"></i>
+                <ul class="mark__list clearfix">
+                    <li id="busuanzi_container_page_pv" class="mark__item"><span id="busuanzi_value_page_pv"></span>次</li>
+                </ul>
+            </div>
+            
+        </div>
+    </header>
+
+    <div class="post__content">
+
+        <p>​        最近被问到一个<strong>问题</strong>: 有依赖关系的两个dubbo服务。通过TCP进行连接时候，他们之间的连接是怎么控制的？怎么达到一个合理的数量？</p>
+<p>​        我们从一个例子开始吧：一个订单服务 <code>OrderService</code>，IP为<code>192.168.0.110</code>  连接了商品服务   <code>ProductService</code>, ip 为<code>192.168.0.111</code>   ，其中订单服务中的方法比较多，并且很多请求也刚好路由到<code>192.168.0.111</code>的     <code>ProductService</code> 服务。那问题就来了：<code>110</code>机器作为客户端是怎么控制连接数的？会不会无限量地和<code>111</code>机器进行TCP连接？</p>
+<p>​       我们先看一下<code>Dubbo</code>的官方文档对“连接控制”的说明文档 ： <a href="http://dubbo.apache.org/zh-cn/docs/user/demos/config-connections.html">http://dubbo.apache.org/zh-cn/docs/user/demos/config-connections.html</a>  。 </p>
+<p>​      在xml配置方式中<code>xml accepts=&quot;10&quot;</code> 和 <code>connections=&quot;10&quot;</code> 分别在服务端和客户端进行了相应的连接控制。下面我们看一下源码，追一下连接控制的原理。</p>
+<p>​      我们看一下<code>DubboProtocol.java</code>的创建客户端tcp连接的方法，int connectNum正是每个客户端对服务端的tcp连接数，默认是<code>1</code>,当然可以修改成更大。默认是1，这样一个客户端的调用<code>service</code>数最多也不会超过1000吧。这样就不会出现单机创建TCP连接数过多的问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Bulk build client</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> url</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> connectNum</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List&lt;ReferenceCountExchangeClient&gt; <span class="title">buildReferenceCountExchangeClientList</span><span class="params">(URL url, <span class="keyword">int</span> connectNum)</span> </span>&#123;</span><br><span class="line">    List&lt;ReferenceCountExchangeClient&gt; clients = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; connectNum; i++) &#123;</span><br><span class="line">        clients.add(buildReferenceCountExchangeClient(url));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> clients;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>客户端和服务端是一对一的，建立长连接，那么如果客户端并发访问，他们是怎么和服务端交互的呢？<br>  经过看代码：<br><img src="/images/dubbo-customer-con.png"></p>
+<p>下面咱们试图从代码中找到痕迹。一路追踪，我们来到这个类：<code>com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeChannel.java</code>，先来看看其中的<code>request</code>方法，大概在第101行左右：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">public</span> ResponseFuture <span class="title">request</span><span class="params">(Object request, <span class="keyword">int</span> timeout)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (closed) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RemotingException(<span class="keyword">this</span>.getLocalAddress(), <span class="keyword">null</span>, <span class="string">"Failed to send request "</span> + request + <span class="string">", cause: The channel "</span> + <span class="keyword">this</span> + <span class="string">" is closed!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// create request.</span></span><br><span class="line">    Request req = <span class="keyword">new</span> Request();</span><br><span class="line">    req.setVersion(<span class="string">"2.0.0"</span>);</span><br><span class="line">    req.setTwoWay(<span class="keyword">true</span>);</span><br><span class="line">    req.setData(request);</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//这个future就是前面我们提到的：客户端并发请求线程阻塞的对象</span></span><br><span class="line">    DefaultFuture future = <span class="keyword">new</span> DefaultFuture(channel, req, timeout);</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        channel.send(req);  <span class="comment">//非阻塞调用</span></span><br><span class="line">    &#125;<span class="keyword">catch</span> (RemotingException e) &#123;</span><br><span class="line">        future.cancel();</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> future;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意这个方法返回的<code>ResponseFuture</code>对象，当前处理客户端请求的线程在经过一系列调用后，会拿到<code>ResponseFuture</code>对象，最终该线程会阻塞在这个对象的下面这个方法调用上，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">(<span class="keyword">int</span> timeout)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (timeout &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        timeout = Constants.DEFAULT_TIMEOUT;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (! isDone()) &#123;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (! isDone()) &#123;    <span class="comment">//无限连</span></span><br><span class="line">                done.await(timeout, TimeUnit.MILLISECONDS);</span><br><span class="line">                <span class="keyword">if</span> (isDone() || System.currentTimeMillis() - start &gt; timeout) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (! isDone()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> TimeoutException(sent &gt; <span class="number">0</span>, channel, getTimeoutMessage(<span class="keyword">false</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> returnFromResponse();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面我已经看到请求线程已经阻塞，那么又是如何被唤醒的呢？再看一下<code>com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.java</code>，其实所有实现了<code>ChannelHandler</code>接口的类都被设计为装饰器模式，所以你可以看到类似这样的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">protected</span> ChannelHandler <span class="title">wrapInternal</span><span class="params">(ChannelHandler handler, URL url)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MultiMessageHandler(</span><br><span class="line">            <span class="keyword">new</span> HeartbeatHandler(</span><br><span class="line">                    ExtensionLoader.getExtensionLoader(Dispather<span class="class">.<span class="keyword">class</span>).<span class="title">getAdaptiveExtension</span>().<span class="title">dispath</span>(<span class="title">handler</span>, <span class="title">url</span>)</span></span><br><span class="line"><span class="class">            ))</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在来仔细看一下<code>HeaderExchangeHandler</code>类的定义，先看一下它定义的<code>received</code>方法，下面是代码片段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">received</span><span class="params">(Channel channel, Object message)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">    channel.setAttribute(KEY_READ_TIMESTAMP, System.currentTimeMillis());</span><br><span class="line">    ExchangeChannel exchangeChannel = HeaderExchangeChannel.getOrAddChannel(channel);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (message <span class="keyword">instanceof</span> Request) &#123;</span><br><span class="line">          .....</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (message <span class="keyword">instanceof</span> Response) &#123;   </span><br><span class="line">            <span class="comment">//这里就是作为消费者的dubbo客户端在接收到响应后，触发通知对应等待线程的起点</span></span><br><span class="line">            handleResponse(channel, (Response) message);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (message <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">           .....</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            handler.received(exchangeChannel, message);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        HeaderExchangeChannel.removeChannelIfDisconnected(channel);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们主要看中间的那个条件分支，它是用来处理响应消息的，也就是说当dubbo客户端接收到来自服务端的响应后会执行到这个分支，它简单的调用了<code>handleResponse</code>方法，我们追过去看看：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handleResponse</span><span class="params">(Channel channel, Response response)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (response != <span class="keyword">null</span> &amp;&amp; !response.isHeartbeat()) &#123;  <span class="comment">//排除心跳类型的响应</span></span><br><span class="line">        DefaultFuture.received(channel, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>熟悉的身影：<code>DefaultFuture</code>，它是实现了我们上面说的<code>ResponseFuture</code>接口类型，实际上细心的童鞋应该可以看到，上面<code>request</code>方法中其实实例化的就是这个<code>DefaultFutrue</code>对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DefaultFuture future = <span class="keyword">new</span> DefaultFuture(channel, req, timeout);</span><br></pre></td></tr></table></figure>
+
+<p>那么我们可以继续来看一下<code>DefaultFuture.received</code>方法的实现细节：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">received</span><span class="params">(Channel channel, Response response)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        DefaultFuture future = FUTURES.remove(response.getId());</span><br><span class="line">        <span class="keyword">if</span> (future != <span class="keyword">null</span>) &#123;</span><br><span class="line">            future.doReceived(response);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            logger.warn(<span class="string">"The timeout response finally returned at "</span> </span><br><span class="line">                        + (<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>).format(<span class="keyword">new</span> Date())) </span><br><span class="line">                        + <span class="string">", response "</span> + response </span><br><span class="line">                        + (channel == <span class="keyword">null</span> ? <span class="string">""</span> : <span class="string">", channel: "</span> + channel.getLocalAddress() </span><br><span class="line">                            + <span class="string">" -&gt; "</span> + channel.getRemoteAddress()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        CHANNELS.remove(response.getId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>留一下我们之前提到的id的作用，这里可以看到它已经开始发挥作用了。通过<code>id</code>，<code>DefaultFuture.FUTURES</code>可以拿到具体的那个<code>DefaultFuture</code>对象，它就是上面我们提到的，阻塞请求线程的那个对象。好，找到目标后，调用它的<code>doReceived</code>方法，这就是标准的java多线程编程知识了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReceived</span><span class="params">(Response res)</span> </span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        response = res;</span><br><span class="line">        <span class="keyword">if</span> (done != <span class="keyword">null</span>) &#123;</span><br><span class="line">            done.signal();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (callback != <span class="keyword">null</span>) &#123;</span><br><span class="line">        invokeCallback(callback);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就可以证实上图中左边的绿色箭头所标注的两点。</p>
+<p>参考链接：<a href="https://blog.csdn.net/joeyon1985/article/details/51046548">https://blog.csdn.net/joeyon1985/article/details/51046548</a></p>
+
+
+        
+        <div class="post-announce">
+            感谢您的阅读，本文由
+            <a href="https://wangxin.io">王欣的博客</a>
+            版权所有。如若转载，请注明出处：王欣的博客（<a href="https://wangxin.io/2019/12/03/dubbo/dubbo-service-connection-count-control/">https://wangxin.io/2019/12/03/dubbo/dubbo-service-connection-count-control/</a>）
+        </div>
+        
+
+        <div class="post__prevs">
+            <div class="post__prev">
+                
+                <a href="/2019/10/31/distributed/distributed_system_consistency_algorithm_paxos_raft_zab/" title="Seata 基本原理和源码分析"><i class="iconfont icon-prev"></i>Seata 基本原理和源码分析</a>
+                
+            </div>
+            <div class="post__prev post__prev--right">
+                
+                <a href="/2019/12/08/mq/rocketmq-dead-message/" title="RocketMQ的死信队列你了解多少？怎么实现的？">RocketMQ的死信队列你了解多少？怎么实现的？<i class="iconfont icon-next"></i></a>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <div id="comment-container"></div>
+        
+        
+    </div>
+
+    <aside class="page__sidebar">
+    <!-- 
+        <div class="sidebar__img">
+            <img src="/images/me.png" alt="王欣的博客" title="王欣的博客">
+        </div>
+     -->
+
+    <form id="page-search-from" class="page__search-from" action="/search/">
+        <label class="search-form__item">
+            <input class="input" type="text" name="search" placeholder="Search...">
+            <i class="iconfont icon-search"></i>
+        </label>
+    </form>
+
+    
+        <div class="sidebar__block">
+            <h3 class="block__title">简介</h3>
+            <p class="block__text">王欣，Apache Dubbo项目committer/PMC、Apache Seata项目PPMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com</p>
+        </div>
+    
+
+    <div class="sidebar__block">
+        <h3 class="block__title">文章分类</h3>
+        <ul class="block-list"><li class="block-list-item"><a class="block-list-link" href="/categories/%E6%88%91%E7%9C%8B/">我看</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%B7%A5%E4%BD%9C%E6%B5%81/">工作流</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%AD%98%E5%82%A8/">存储</a><span class="block-list-count">1</span><ul class="block-list-child"><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%AD%98%E5%82%A8/redis/">redis</a><span class="block-list-count">1</span></li></ul></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/spring/">spring</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/shell/">shell</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/mybatis/">mybatis</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/mq/">mq</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/jvm/">jvm</a><span class="block-list-count">2</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/java/">java</a><span class="block-list-count">3</span><ul class="block-list-child"><li class="block-list-item"><a class="block-list-link" href="/categories/java/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">lambda表达式</a><span class="block-list-count">3</span></li></ul></li><li class="block-list-item"><a class="block-list-link" href="/categories/hide/">hide</a><span class="block-list-count">7</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/github/">github</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/dubbo/">dubbo</a><span class="block-list-count">4</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/apache%E6%B5%81%E7%A8%8B/">apache流程</a><span class="block-list-count">2</span></li></ul>
+    </div>
+    
+    <div class="sidebar__block">
+        <h3 class="block__title">最新文章</h3>
+        
+        <ul class="block-list latest-post-list">
+            
+                    <li class="latest-post-item">
+                        <a href="/2024/11/08/aigc/docker_chatgrp_claude_apen_api_macos_config/" title="Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记</h3>
+                                <span class="item__text">2024-11-08</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/12/08/mq/rocketmq-dead-message/" title="RocketMQ的死信队列你了解多少？怎么实现的？">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="RocketMQ的死信队列你了解多少？怎么实现的？" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">RocketMQ的死信队列你了解多少？怎么实现的？</h3>
+                                <span class="item__text">2019-12-08</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/12/03/dubbo/dubbo-service-connection-count-control/" title="Dubbo服务间的连接是怎么控制处理的？">
+                            <div class="item__cover">
+                                <img src="/images/dubbo.png" alt="Dubbo服务间的连接是怎么控制处理的？" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Dubbo服务间的连接是怎么控制处理的？</h3>
+                                <span class="item__text">2019-12-03</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/10/31/distributed/distributed_system_consistency_algorithm_paxos_raft_zab/" title="Seata 基本原理和源码分析">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="Seata 基本原理和源码分析" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Seata 基本原理和源码分析</h3>
+                                <span class="item__text">2019-10-31</span>
+                            </div>
+                        </a>
+                    </li>
+                
+        </ul>
+    
+    </div>
+
+    <div class="sidebar__block">
+        <h3 class="block__title">文章标签</h3>
+        
+        <ul class="block-list tag-list clearfix">
+            
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/apache%E6%B5%81%E7%A8%8B/">apache流程</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/dubbo/">dubbo</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/github/">github</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/hide/">hide</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/java8/">java8</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/jvm/">jvm</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/lambda/">lambda</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/mq/">mq</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/mybatis/">mybatis</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/redis/">redis</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/spring5/">spring5</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B-AIGC/">大模型,AIGC</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/">工作流</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E6%88%91%E7%9C%8B/">我看</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E7%BB%9F%E8%AE%A1/">统计</a>
+                    </li>  
+                
+        </ul>
+    
+    </div>
+
+    <!-- <div class="sidebar__block">
+        <h3 class="block__title">友情链接</h3>
+        <ul class="block-list">
+            
+        </ul>
+    </div> -->
+</aside>
+</main>
+
+
+        
+            <!-- 页脚 -->
+<footer class="page__footer">
+    <section class="footer__top">
+        <div class="page__container footer__container">
+            
+            <div class="footer-top__item footer-top__item--2">
+                <h3 class="item__title">关于</h3>
+                <div class="item__content">
+                    <p class="item__text">王欣的博客，工作生活的一些思考。</p>
+                    <ul class="footer__contact-info">
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-address"></i>
+                            <span>Beijing, China</span>
+                        </li>
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-email2"></i>
+                            <span>xin.victorwang@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            
+            
+                <div class="footer-top__item footer__image">
+                    <img src="/images/me.png" alt="logo" title="王欣的博客">
+                </div>
+            
+
+            
+            
+                
+                    <div class="footer-top__item">
+                        <h3 class="item__title">友情链接</h3>
+                        <div class="item__content">
+                            <ul class="footer-top__list">
+                                
+                                    <li class="list-item">
+                                        <a href="http://blog.didispace.com/" title="程序猿DD" target="_blank">程序猿DD</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.iocoder.cn" title="纯源码解析博客" target="_blank">芋道源码</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.ityouknow.com" title="纯洁的微笑" target="_blank">纯洁的微笑</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://blog.720ui.com/" title="梁桂钊的博客" target="_blank">梁桂钊的博客</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="https://fookwood.com" title="闷瓜蛋子的BLOG" target="_blank">闷瓜蛋子的BLOG</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.itmuch.com/" title="周立的博客" target="_blank">周立的博客</a>
+                                    </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                
+            
+        </div>
+    </section>
+    <section class="footer__bottom">
+        <div class="page__container footer__container">
+            <p class="footer__copyright">©
+                2024 powered by
+                <a href="https://github.com/Mrminfive/hexo-theme-skapp" target="_blank">Hexo - Skapp</a>
+                
+                <span id="busuanzi_container_site_pv">访问量：<span id="busuanzi_value_site_pv"></span></span>&nbsp;人数:<span id="busuanzi_value_site_uv"></span>
+                
+            </p>
+            <ul class="footer__social-network clearfix">
+                
+                
+                    <li class="social-network__item">
+                        <a href="https://github.com/lovepoem" target="_blank" title="github">
+                            <i class="iconfont icon-github"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="mailto:xin.victorwang@gmail.com" target="_blank" title="email">
+                            <i class="iconfont icon-email"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="https://weibo.com/wangxinvictor" target="_blank" title="weibo">
+                            <i class="iconfont icon-weibo"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="https://twitter.com/wangxinvictor" target="_blank" title="twitter">
+                            <i class="iconfont icon-twitter"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="/atom.xml" target="_blank" title="rss">
+                            <i class="iconfont icon-rss"></i>
+                        </a>
+                    </li>
+                
+                
+            </ul>
+        </div>
+    </section>
+</footer>
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+
+        
+            <!-- 返回顶部 -->
+<div id="back-top" class="back-top back-top--hidden js-hidden">
+    <i class="iconfont icon-top"></i>
+</div>
+        
+    </div>
+
+    <!-- build:js /js/common.js -->
+        <script type="text/javascript" src="js/common/utils.js"></script>
+        <script type="text/javascript" src="js/common/pack.js"></script>
+        <script type="text/javascript" src="js/common/animation.js"></script>
+        <script type="text/javascript" src="js/layout/loading.js"></script>
+        <script type="text/javascript" src="js/layout/header.js"></script>
+        <script type="text/javascript" src="js/layout/back-top.js"></script>
+        <script type="text/javascript" src="js/layout/post.js"></script>
+        <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?8dd700474b9448fa0d7db1f5e2236886";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+    <!-- endbuild -->
+
+    
+    
+<script src="/js/page/post.js"></script>
+
+
+
+    
+    
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+
+    <script>
+        var tags = ['dubbo', ];
+
+        var gitalk = new Gitalk({
+            clientID: 'dfeb42da2955f5c18a8f',
+            clientSecret: 'ec47674c973490128eda38c44beef41d08fe7ce5',
+            repo: 'lovepoem.github.io',
+            owner: 'lovepoem',
+            admin: ['lovepoem', ],
+            labels: tags,
+            id: md5(location.href)
+        });
+
+        gitalk.render('comment-container');
+    </script>
+
+
+
+
+    <!-- 不蒜子统计 -->
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+     
+
+
+
+
+
+
+
+
+</body>
+</html>

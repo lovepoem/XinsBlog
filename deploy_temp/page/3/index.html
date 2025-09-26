@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    
+        <title>王欣的博客|微服务|RPC|信息安全|AIGC</title>
+    
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Xin Wang(王欣)" />
+<meta name="designer" content="minfive" />
+<meta name="keywords" content="开源项目提交者,dubbo,rpc,seata ppmc，apache,架构师,信息安全，AIGC"/>
+<meta name="description" content="王欣，Apache Dubbo项目committer/PMC、Apache Seata项目PPMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="robots" content="all" />
+
+<link rel="canonical" href="https://wangxin.io/page/3/index.html">
+
+<link rel="icon" type="image/png" href="/images/wangxin-min.png" sizes="32x32">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Prefetch -->
+
+
+
+
+
+
+<!-- CSS -->
+
+<link rel="stylesheet" href="/scss/base/index.css">
+
+
+<!-- RSS -->
+<link rel="alternate" href="/atom.xml" title="王欣的博客">
+
+<!-- 统计 -->
+<!-- 百度统计 -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?8dd700474b9448fa0d7db1f5e2236886";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1SDLZ60RR6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1SDLZ60RR6');
+  </script>
+
+
+
+    
+    
+<link rel="stylesheet" href="/scss/views/page/index.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body ontouchstart>
+    
+        <!-- loading 页面 -->
+<div id="page-loading" class="page page-loading" style="background-image: url('/images/loading.gif')"></div>
+    
+
+    <div id="page" class="page js-hidden">
+        
+            <!-- 页头 -->
+<header id="page-header" class="page__header" style="background-image: url('/images/banner.jpeg');">
+    <nav class="page__navbar">
+        <div class="page__container navbar-container">
+            <a class="page__logo" href="/" title="王欣的博客" alt="王欣的博客">
+                <img src="/images/wangxin.png" alt="王欣的博客">
+            </a>
+
+            <nav class="page__nav">
+                <ul class="nav__list clearfix">
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/" alt="首页"  title="首页">首页</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/archives" alt="归档"  title="归档">归档</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/tags" alt="标签"  title="标签">标签</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/about" alt="关于"  title="关于">关于</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/linkedfriend" alt="友链"  title="友链">友链</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="https://github.com/lovepoem" alt="Github" target="_blank" title="Github">Github</a>
+                        </li>
+                    
+                </ul>
+            </nav>
+
+            <button class="page__menu-btn" type="button">
+                <i class="iconfont icon-menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <section class="page__info">
+        <h1 class="info__title">王欣的博客</h1>
+        <hr class="info__hr">
+        <p class="info__desc">开源项目提交者</p>
+    </section>
+</header>
+        
+
+        
+    <main class="page__container page__main">
+    <div class="page__content">
+        <div class="page__posts clearfix">
+            
+                <div class="page__post">
+                    <article itemscope itemtype="http://schema.org/Article" class="page__mini-article">
+    <div class="mini-article__cover">
+        
+        
+            <img itemprop="image" src="/images/workflow.png" alt="浅谈工作流引擎"/>
+        
+        <div itemprop="datePublished" content="" class="mini-article__date">
+            <span class="date__day">5</span>
+            
+                <span class="date__month">六月</span>
+            
+        </div>
+        <a itemprop="url" class="iconfont icon-enter" href="/2014/06/05/framework/workflow/"></a>
+    </div>
+    <div class="mini-article__info">
+        <h3 itemprop="name" class="mini-article__title">
+            <a itemprop="url" href="/2014/06/05/framework/workflow/" title="浅谈工作流引擎">浅谈工作流引擎</a>
+        </h3>
+        <p class="mini-article__author">2014-06-05&nbsp;&nbsp;&nbsp;&nbsp;by
+            
+                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <a itemprop="url" href="https://wangxin.io" target="_blank">
+                        <span itemprop="name">王欣</span>
+                    </a>
+                </span>
+            
+        </p>
+        <p itemprop="articleSection" class="min-article__desc" style="cursor:pointer" onclick="window.location.href='/2014/06/05/framework/workflow/'">
+            <span itemprop="url" title="工作流(Workflow) 是对工作流程及其各操作步骤之间业务规则的抽象、概括描述。工作流建模，即将工作流程中的工作如何前后组织在一起的逻辑和规则，在计算机中以恰当的模型表达并对其实施计算。工作流要解决的主要问题是：为实现某个业务目标，利用计算机在多个参与者之间按某种预定规则自动传递文档、信息或者任务。（维基百科[工作流技术](https://zh.wikipedia.org/wiki/工作流技术) ）">工作流(Workflow) 是对工作流程及其各操作步骤之间业务规则的抽象、概括描述。工作流建模，即将工作流程中的工作如何前后组织在一起的逻辑和规则，在计算机中以恰当的模型表达并对其实施计算。工作流要解决的主要问题是：为实现某个业务目标，利用计算机在多个参与者之间按某种预定规则自动传递文档、信息或者任务。（维基百科[工作流技术](https://zh.wikipedia.org/wiki/工作流技术) ）</span>
+        </p>
+        <div class="min-article__tags">
+            <i class="iconfont icon-tab"></i>
+            <ul class="tags__list clearfix">
+                
+                    <li class="tags__item">
+                        <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/">工作流</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</article>
+
+                </div>
+            
+        </div>
+
+        
+        <nav class="page__paginator">
+            <ul class="paginator__list clearfix">
+                
+            <li class="paginator__item">
+                <a href="/page/2/" title="上一页"><i class="iconfont icon-prev"></i></a>
+            </li>
+        
+            <li class="paginator__item">
+                <a href="/" >1</a>
+            </li>
+        
+            <li class="paginator__item">
+                <a href="/page/2/" >2</a>
+            </li>
+        
+            <li class="paginator__item">
+                <span>3</span>
+            </li>
+        
+            </ul>
+        </nav>
+    
+    </div>
+
+    <aside class="page__sidebar">
+    <!-- 
+        <div class="sidebar__img">
+            <img src="/images/me.png" alt="王欣的博客" title="王欣的博客">
+        </div>
+     -->
+
+    <form id="page-search-from" class="page__search-from" action="/search/">
+        <label class="search-form__item">
+            <input class="input" type="text" name="search" placeholder="Search...">
+            <i class="iconfont icon-search"></i>
+        </label>
+    </form>
+
+    
+        <div class="sidebar__block">
+            <h3 class="block__title">简介</h3>
+            <p class="block__text">王欣，Apache Dubbo项目committer/PMC、Apache Seata项目PPMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com</p>
+        </div>
+    
+
+    <div class="sidebar__block">
+        <h3 class="block__title">文章分类</h3>
+        <ul class="block-list"><li class="block-list-item"><a class="block-list-link" href="/categories/%E6%88%91%E7%9C%8B/">我看</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%B7%A5%E4%BD%9C%E6%B5%81/">工作流</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%AD%98%E5%82%A8/">存储</a><span class="block-list-count">1</span><ul class="block-list-child"><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%AD%98%E5%82%A8/redis/">redis</a><span class="block-list-count">1</span></li></ul></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/spring/">spring</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/shell/">shell</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/mybatis/">mybatis</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/mq/">mq</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/jvm/">jvm</a><span class="block-list-count">2</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/java/">java</a><span class="block-list-count">3</span><ul class="block-list-child"><li class="block-list-item"><a class="block-list-link" href="/categories/java/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">lambda表达式</a><span class="block-list-count">3</span></li></ul></li><li class="block-list-item"><a class="block-list-link" href="/categories/hide/">hide</a><span class="block-list-count">7</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/github/">github</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/dubbo/">dubbo</a><span class="block-list-count">4</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/apache%E6%B5%81%E7%A8%8B/">apache流程</a><span class="block-list-count">2</span></li></ul>
+    </div>
+    
+    <div class="sidebar__block">
+        <h3 class="block__title">最新文章</h3>
+        
+        <ul class="block-list latest-post-list">
+            
+                    <li class="latest-post-item">
+                        <a href="/2024/11/08/aigc/docker_chatgrp_claude_apen_api_macos_config/" title="Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记</h3>
+                                <span class="item__text">2024-11-08</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/12/08/mq/rocketmq-dead-message/" title="RocketMQ的死信队列你了解多少？怎么实现的？">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="RocketMQ的死信队列你了解多少？怎么实现的？" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">RocketMQ的死信队列你了解多少？怎么实现的？</h3>
+                                <span class="item__text">2019-12-08</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/12/03/dubbo/dubbo-service-connection-count-control/" title="Dubbo服务间的连接是怎么控制处理的？">
+                            <div class="item__cover">
+                                <img src="/images/dubbo.png" alt="Dubbo服务间的连接是怎么控制处理的？" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Dubbo服务间的连接是怎么控制处理的？</h3>
+                                <span class="item__text">2019-12-03</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/10/31/distributed/distributed_system_consistency_algorithm_paxos_raft_zab/" title="Seata 基本原理和源码分析">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="Seata 基本原理和源码分析" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Seata 基本原理和源码分析</h3>
+                                <span class="item__text">2019-10-31</span>
+                            </div>
+                        </a>
+                    </li>
+                
+        </ul>
+    
+    </div>
+
+    <div class="sidebar__block">
+        <h3 class="block__title">文章标签</h3>
+        
+        <ul class="block-list tag-list clearfix">
+            
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/apache%E6%B5%81%E7%A8%8B/">apache流程</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/dubbo/">dubbo</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/github/">github</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/hide/">hide</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/java8/">java8</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/jvm/">jvm</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/lambda/">lambda</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/mq/">mq</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/mybatis/">mybatis</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/redis/">redis</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/spring5/">spring5</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B-AIGC/">大模型,AIGC</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/">工作流</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E6%88%91%E7%9C%8B/">我看</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E7%BB%9F%E8%AE%A1/">统计</a>
+                    </li>  
+                
+        </ul>
+    
+    </div>
+
+    <!-- <div class="sidebar__block">
+        <h3 class="block__title">友情链接</h3>
+        <ul class="block-list">
+            
+        </ul>
+    </div> -->
+</aside>
+    <!-- 不蒜子统计 -->
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+</main>
+
+
+
+        
+            <!-- 页脚 -->
+<footer class="page__footer">
+    <section class="footer__top">
+        <div class="page__container footer__container">
+            
+            <div class="footer-top__item footer-top__item--2">
+                <h3 class="item__title">关于</h3>
+                <div class="item__content">
+                    <p class="item__text">王欣的博客，工作生活的一些思考。</p>
+                    <ul class="footer__contact-info">
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-address"></i>
+                            <span>Beijing, China</span>
+                        </li>
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-email2"></i>
+                            <span>xin.victorwang@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            
+            
+                <div class="footer-top__item footer__image">
+                    <img src="/images/me.png" alt="logo" title="王欣的博客">
+                </div>
+            
+
+            
+            
+                
+                    <div class="footer-top__item">
+                        <h3 class="item__title">友情链接</h3>
+                        <div class="item__content">
+                            <ul class="footer-top__list">
+                                
+                                    <li class="list-item">
+                                        <a href="http://blog.didispace.com/" title="程序猿DD" target="_blank">程序猿DD</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.iocoder.cn" title="纯源码解析博客" target="_blank">芋道源码</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.ityouknow.com" title="纯洁的微笑" target="_blank">纯洁的微笑</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://blog.720ui.com/" title="梁桂钊的博客" target="_blank">梁桂钊的博客</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="https://fookwood.com" title="闷瓜蛋子的BLOG" target="_blank">闷瓜蛋子的BLOG</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.itmuch.com/" title="周立的博客" target="_blank">周立的博客</a>
+                                    </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                
+            
+        </div>
+    </section>
+    <section class="footer__bottom">
+        <div class="page__container footer__container">
+            <p class="footer__copyright">©
+                2024 powered by
+                <a href="https://github.com/Mrminfive/hexo-theme-skapp" target="_blank">Hexo - Skapp</a>
+                
+                <span id="busuanzi_container_site_pv">访问量：<span id="busuanzi_value_site_pv"></span></span>&nbsp;人数:<span id="busuanzi_value_site_uv"></span>
+                
+            </p>
+            <ul class="footer__social-network clearfix">
+                
+                
+                    <li class="social-network__item">
+                        <a href="https://github.com/lovepoem" target="_blank" title="github">
+                            <i class="iconfont icon-github"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="mailto:xin.victorwang@gmail.com" target="_blank" title="email">
+                            <i class="iconfont icon-email"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="https://weibo.com/wangxinvictor" target="_blank" title="weibo">
+                            <i class="iconfont icon-weibo"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="https://twitter.com/wangxinvictor" target="_blank" title="twitter">
+                            <i class="iconfont icon-twitter"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="/atom.xml" target="_blank" title="rss">
+                            <i class="iconfont icon-rss"></i>
+                        </a>
+                    </li>
+                
+                
+            </ul>
+        </div>
+    </section>
+</footer>
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+
+        
+            <!-- 返回顶部 -->
+<div id="back-top" class="back-top back-top--hidden js-hidden">
+    <i class="iconfont icon-top"></i>
+</div>
+        
+    </div>
+
+    <!-- build:js /js/common.js -->
+        <script type="text/javascript" src="js/common/utils.js"></script>
+        <script type="text/javascript" src="js/common/pack.js"></script>
+        <script type="text/javascript" src="js/common/animation.js"></script>
+        <script type="text/javascript" src="js/layout/loading.js"></script>
+        <script type="text/javascript" src="js/layout/header.js"></script>
+        <script type="text/javascript" src="js/layout/back-top.js"></script>
+        <script type="text/javascript" src="js/layout/post.js"></script>
+        <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?8dd700474b9448fa0d7db1f5e2236886";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+    <!-- endbuild -->
+
+    
+    
+
+    
+    
+
+     
+
+
+
+
+
+
+
+
+</body>
+</html>

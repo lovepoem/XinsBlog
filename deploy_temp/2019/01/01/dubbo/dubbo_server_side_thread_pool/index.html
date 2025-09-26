@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    
+        <title>Dubbo代码分析---服务端线程池 - 王欣的博客|微服务|RPC|信息安全|AIGC</title>
+    
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Xin Wang(王欣)" />
+<meta name="designer" content="minfive" />
+<meta name="keywords" content="开源项目提交者,dubbo,rpc,seata ppmc，apache,架构师,信息安全，AIGC"/>
+<meta name="description" content="王欣，Apache Dubbo项目committer/PMC、Apache Seata项目PPMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="robots" content="all" />
+
+<link rel="canonical" href="https://wangxin.io/2019/01/01/dubbo/dubbo_server_side_thread_pool/index.html">
+
+<link rel="icon" type="image/png" href="/images/wangxin-min.png" sizes="32x32">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Prefetch -->
+
+
+
+
+
+
+<!-- CSS -->
+
+<link rel="stylesheet" href="/scss/base/index.css">
+
+
+<!-- RSS -->
+<link rel="alternate" href="/atom.xml" title="王欣的博客">
+
+<!-- 统计 -->
+<!-- 百度统计 -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?8dd700474b9448fa0d7db1f5e2236886";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1SDLZ60RR6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1SDLZ60RR6');
+  </script>
+
+
+
+    
+    
+<link rel="stylesheet" href="/scss/views/page/post.css">
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body ontouchstart>
+    
+        <!-- loading 页面 -->
+<div id="page-loading" class="page page-loading" style="background-image: url('/images/loading.gif')"></div>
+    
+
+    <div id="page" class="page js-hidden">
+        
+    <!-- 页头 -->
+<header class="page__small-header page__header--small">
+    <nav class="page__navbar">
+        <div class="page__container navbar-container">
+            <a class="page__logo" href="/" title="王欣的博客" alt="王欣的博客">
+                <img src="/images/wangxin.png" alt="王欣的博客">
+            </a>
+
+            <nav class="page__nav">
+                <ul class="nav__list clearfix">
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/" alt="首页" title="首页">首页</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/archives" alt="归档" title="归档">归档</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/tags" alt="标签" title="标签">标签</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/about" alt="关于" title="关于">关于</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="/linkedfriend" alt="友链" title="友链">友链</a>
+                        </li>
+                    
+                        
+                        <li class="nav__item">
+                            <a href="https://github.com/lovepoem" alt="Github" title="Github">Github</a>
+                        </li>
+                    
+                </ul>
+            </nav>
+
+            <button class="page__menu-btn" type="button">
+                <i class="iconfont icon-menu"></i>
+            </button>
+        </div>
+    </nav>
+</header>
+
+
+        
+    <main class="page__container page__main">
+    <div class="page__content">
+        <article class="page__post">
+    <div class="post__cover">
+        <img src="/images/dubbo.png" alt="Dubbo代码分析---服务端线程池">
+    </div>
+
+    <header class="post__info">
+        <h1 class="post__title">Dubbo代码分析---服务端线程池</h1>
+
+        <div class="post__mark">
+            <div class="mark__block">
+                <i class="mark__icon iconfont icon-write"></i>
+                <ul class="mark__list clearfix">
+                    
+                        <li class="mark__item">
+                            <a href="https://wangxin.io">王欣</a>
+                        </li>
+                    
+                </ul>
+            </div>
+            
+            <div class="mark__block">
+                <i class="mark__icon iconfont icon-time"></i>
+                <ul class="mark__list clearfix">
+                    <li class="mark__item"><span>2019-01-01</span></li>
+                </ul>
+            </div>
+
+            <div class="mark__block">
+                <i class="mark__icon iconfont icon-tab"></i>
+                <ul class="mark__list clearfix">
+                    
+                        <li class="mark__item">
+                            <a href="/tags/dubbo/">Dubbo</a>
+                        </li>
+                    
+                </ul>
+            </div>
+
+            
+            <div class="mark__block">
+                <i class="mark__icon iconfont icon-eye"></i>
+                <ul class="mark__list clearfix">
+                    <li id="busuanzi_container_page_pv" class="mark__item"><span id="busuanzi_value_page_pv"></span>次</li>
+                </ul>
+            </div>
+            
+        </div>
+    </header>
+
+    <div class="post__content">
+
+        <p>一、Dubbo服务端线程池耗尽问题</p>
+<p>在使用Dubbo的过程中，在服务端压力大时候我们常常会遇到说线程池耗尽的这样一个错误日志：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">17</span>:<span class="number">54</span>:<span class="number">34</span>,<span class="number">026</span> WARN [New I/O server worker #<span class="number">1</span>-<span class="number">4</span>] -  [DUBBO] Thread pool is EXHAUSTED! Thread Name: DubboServerHandler-<span class="number">10</span><span class="variable">.8</span><span class="variable">.64</span><span class="variable">.57</span>:<span class="number">20880</span>, Pool Size: <span class="number">300</span> (active: <span class="number">300</span>, core: <span class="number">300</span>, max: <span class="number">300</span>, largest: <span class="number">300</span>), Task: <span class="number">5821</span> (completed: <span class="number">5621</span>), Executor status:(isShutdown:false, isTerminated:false, isTerminating:false), in dubbo:<span class="comment">//x.x.x.x:20880!, dubbo version: 2.6.5, current host: x.x.x.x</span></span><br><span class="line">com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.ExecutionException</span>: <span class="keyword">class</span> com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.dispatcher</span><span class="variable">.all</span><span class="variable">.AllChannelHandler</span> error when process caught <span class="keyword">event</span> .</span><br><span class="line">	at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.dispatcher</span><span class="variable">.all</span><span class="variable">.AllChannelHandler</span><span class="variable">.caught</span>(AllChannelHandler<span class="variable">.java</span>:<span class="number">67</span>)</span><br><span class="line">	at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.AbstractChannelHandlerDelegate</span><span class="variable">.caught</span>(AbstractChannelHandlerDelegate<span class="variable">.java</span>:<span class="number">44</span>)</span><br><span class="line">	at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.AbstractChannelHandlerDelegate</span><span class="variable">.caught</span>(AbstractChannelHandlerDelegate<span class="variable">.java</span>:<span class="number">44</span>)</span><br><span class="line">	at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.AbstractPeer</span><span class="variable">.caught</span>(AbstractPeer<span class="variable">.java</span>:<span class="number">127</span>)</span><br><span class="line">	at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.netty</span><span class="variable">.NettyHandler</span><span class="variable">.exceptionCaught</span>(NettyHandler<span class="variable">.java</span>:<span class="number">112</span>)</span><br><span class="line">	at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.netty</span><span class="variable">.NettyCodecAdapter</span>$InternalDecoder<span class="variable">.exceptionCaught</span>(NettyCodecAdapter<span class="variable">.java</span>:<span class="number">165</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.Channels</span><span class="variable">.fireExceptionCaught</span>(Channels<span class="variable">.java</span>:<span class="number">432</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.AbstractChannelSink</span><span class="variable">.exceptionCaught</span>(AbstractChannelSink<span class="variable">.java</span>:<span class="number">52</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.Channels</span><span class="variable">.fireMessageReceived</span>(Channels<span class="variable">.java</span>:<span class="number">302</span>)</span><br><span class="line">	at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.netty</span><span class="variable">.NettyCodecAdapter</span>$InternalDecoder<span class="variable">.messageReceived</span>(NettyCodecAdapter<span class="variable">.java</span>:<span class="number">148</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.Channels</span><span class="variable">.fireMessageReceived</span>(Channels<span class="variable">.java</span>:<span class="number">274</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.Channels</span><span class="variable">.fireMessageReceived</span>(Channels<span class="variable">.java</span>:<span class="number">261</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.socket</span><span class="variable">.nio</span><span class="variable">.NioWorker</span><span class="variable">.read</span>(NioWorker<span class="variable">.java</span>:<span class="number">350</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.socket</span><span class="variable">.nio</span><span class="variable">.NioWorker</span><span class="variable">.processSelectedKeys</span>(NioWorker<span class="variable">.java</span>:<span class="number">281</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.socket</span><span class="variable">.nio</span><span class="variable">.NioWorker</span><span class="variable">.run</span>(NioWorker<span class="variable">.java</span>:<span class="number">201</span>)</span><br><span class="line">	at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.util</span><span class="variable">.internal</span><span class="variable">.IoWorkerRunnable</span><span class="variable">.run</span>(IoWorkerRunnable<span class="variable">.java</span>:<span class="number">46</span>)</span><br><span class="line">	at java<span class="variable">.util</span><span class="variable">.concurrent</span><span class="variable">.ThreadPoolExecutor</span>$Worker<span class="variable">.runTask</span>(ThreadPoolExecutor<span class="variable">.java</span>:<span class="number">886</span>)</span><br><span class="line">	at java<span class="variable">.util</span><span class="variable">.concurrent</span><span class="variable">.ThreadPoolExecutor</span>$Worker<span class="variable">.run</span>(ThreadPoolExecutor<span class="variable">.java</span>:<span class="number">908</span>)</span><br><span class="line">	at java<span class="variable">.lang</span><span class="variable">.Thread</span><span class="variable">.run</span>(Thread<span class="variable">.java</span>:<span class="number">619</span>)</span><br><span class="line"> </span><br><span class="line">Caused by: java<span class="variable">.util</span><span class="variable">.concurrent</span><span class="variable">.RejectedExecutionException</span>: Thread pool is EXHAUSTED! Thread Name: DubboServerHandler-<span class="number">10</span><span class="variable">.8</span><span class="variable">.64</span><span class="variable">.57</span>:<span class="number">20880</span>, Pool Size: <span class="number">300</span> (active: <span class="number">300</span>, core: <span class="number">300</span>, max: <span class="number">300</span>, largest: <span class="number">300</span>), Task: <span class="number">5821</span></span><br></pre></td></tr></table></figure>
+<p>我们从错误堆栈可以看到，是服务端线程池溢出了。</p>
+<p><strong>二、源码分析</strong><br>看一下服务端线程池代码是怎么写的，起到什么作用</p>
+<p>画图 dubbo客户端调用服务端线程池的示意图</p>
+<p><strong>三、线程池知识</strong></p>
+<p>解释一下线程池的定义是用来干嘛的。</p>
+<p>一些处理的办法：<br>适当加大服务端线程池，找到合理的配置。这个关联一线程池的配合准则，链接到老的文章。</p>
+<p><strong>四、分析原因，处理建议</strong></p>
+<p>为什么线程池升高呢？    主要从<strong>流量、cpu数据率、负载、jvm日志</strong>几方面分析<br>1）流量过大？(加缓存、对于上游上游服务)<br>2)   扩机器：cpu核数的增加<br>3)   宿主机此时负载高？<br>4）自己代码优化<br>5)  设置客户端快速失败</p>
+<p>  程序慢？io过多？（并行io）</p>
+
+
+        
+        <div class="post-announce">
+            感谢您的阅读，本文由
+            <a href="https://wangxin.io">王欣的博客</a>
+            版权所有。如若转载，请注明出处：王欣的博客（<a href="https://wangxin.io/2019/01/01/dubbo/dubbo_server_side_thread_pool/">https://wangxin.io/2019/01/01/dubbo/dubbo_server_side_thread_pool/</a>）
+        </div>
+        
+
+        <div class="post__prevs">
+            <div class="post__prev">
+                
+                <a href="/2018/12/31/linux/some_shell_script/" title="rpc跟踪日志常用shell统计脚本"><i class="iconfont icon-prev"></i>rpc跟踪日志常用shell统计脚本</a>
+                
+            </div>
+            <div class="post__prev post__prev--right">
+                
+                <a href="/2019/02/04/opensource/apache-roles/" title="【译】apache 基金会角色列表">【译】apache 基金会角色列表<i class="iconfont icon-next"></i></a>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+        
+            <div id="comment-container"></div>
+        
+        
+    </div>
+
+    <aside class="page__sidebar">
+    <!-- 
+        <div class="sidebar__img">
+            <img src="/images/me.png" alt="王欣的博客" title="王欣的博客">
+        </div>
+     -->
+
+    <form id="page-search-from" class="page__search-from" action="/search/">
+        <label class="search-form__item">
+            <input class="input" type="text" name="search" placeholder="Search...">
+            <i class="iconfont icon-search"></i>
+        </label>
+    </form>
+
+    
+        <div class="sidebar__block">
+            <h3 class="block__title">简介</h3>
+            <p class="block__text">王欣，Apache Dubbo项目committer/PMC、Apache Seata项目PPMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com</p>
+        </div>
+    
+
+    <div class="sidebar__block">
+        <h3 class="block__title">文章分类</h3>
+        <ul class="block-list"><li class="block-list-item"><a class="block-list-link" href="/categories/%E6%88%91%E7%9C%8B/">我看</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%B7%A5%E4%BD%9C%E6%B5%81/">工作流</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%AD%98%E5%82%A8/">存储</a><span class="block-list-count">1</span><ul class="block-list-child"><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%AD%98%E5%82%A8/redis/">redis</a><span class="block-list-count">1</span></li></ul></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/spring/">spring</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/shell/">shell</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/mybatis/">mybatis</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/mq/">mq</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/jvm/">jvm</a><span class="block-list-count">2</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/java/">java</a><span class="block-list-count">3</span><ul class="block-list-child"><li class="block-list-item"><a class="block-list-link" href="/categories/java/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/">lambda表达式</a><span class="block-list-count">3</span></li></ul></li><li class="block-list-item"><a class="block-list-link" href="/categories/hide/">hide</a><span class="block-list-count">7</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/github/">github</a><span class="block-list-count">1</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/dubbo/">dubbo</a><span class="block-list-count">4</span></li><li class="block-list-item"><a class="block-list-link" href="/categories/apache%E6%B5%81%E7%A8%8B/">apache流程</a><span class="block-list-count">2</span></li></ul>
+    </div>
+    
+    <div class="sidebar__block">
+        <h3 class="block__title">最新文章</h3>
+        
+        <ul class="block-list latest-post-list">
+            
+                    <li class="latest-post-item">
+                        <a href="/2024/11/08/aigc/docker_chatgrp_claude_apen_api_macos_config/" title="Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记</h3>
+                                <span class="item__text">2024-11-08</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/12/08/mq/rocketmq-dead-message/" title="RocketMQ的死信队列你了解多少？怎么实现的？">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="RocketMQ的死信队列你了解多少？怎么实现的？" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">RocketMQ的死信队列你了解多少？怎么实现的？</h3>
+                                <span class="item__text">2019-12-08</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/12/03/dubbo/dubbo-service-connection-count-control/" title="Dubbo服务间的连接是怎么控制处理的？">
+                            <div class="item__cover">
+                                <img src="/images/dubbo.png" alt="Dubbo服务间的连接是怎么控制处理的？" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Dubbo服务间的连接是怎么控制处理的？</h3>
+                                <span class="item__text">2019-12-03</span>
+                            </div>
+                        </a>
+                    </li>
+                
+                    <li class="latest-post-item">
+                        <a href="/2019/10/31/distributed/distributed_system_consistency_algorithm_paxos_raft_zab/" title="Seata 基本原理和源码分析">
+                            <div class="item__cover">
+                                <img src="/images/java.png" alt="Seata 基本原理和源码分析" />
+                            </div>
+                            <div class="item__info">
+                                <h3 class="item__title">Seata 基本原理和源码分析</h3>
+                                <span class="item__text">2019-10-31</span>
+                            </div>
+                        </a>
+                    </li>
+                
+        </ul>
+    
+    </div>
+
+    <div class="sidebar__block">
+        <h3 class="block__title">文章标签</h3>
+        
+        <ul class="block-list tag-list clearfix">
+            
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/apache%E6%B5%81%E7%A8%8B/">apache流程</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/dubbo/">dubbo</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/github/">github</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/hide/">hide</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/java8/">java8</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/jvm/">jvm</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/lambda/">lambda</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/mq/">mq</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/mybatis/">mybatis</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/redis/">redis</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/spring5/">spring5</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B-AIGC/">大模型,AIGC</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/">工作流</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E5%BC%82%E6%AD%A5/">异步</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E6%88%91%E7%9C%8B/">我看</a>
+                    </li>  
+                
+                    <li class="tag-item">
+                        <a class="tag-link" href="/tags/%E7%BB%9F%E8%AE%A1/">统计</a>
+                    </li>  
+                
+        </ul>
+    
+    </div>
+
+    <!-- <div class="sidebar__block">
+        <h3 class="block__title">友情链接</h3>
+        <ul class="block-list">
+            
+        </ul>
+    </div> -->
+</aside>
+</main>
+
+
+        
+            <!-- 页脚 -->
+<footer class="page__footer">
+    <section class="footer__top">
+        <div class="page__container footer__container">
+            
+            <div class="footer-top__item footer-top__item--2">
+                <h3 class="item__title">关于</h3>
+                <div class="item__content">
+                    <p class="item__text">王欣的博客，工作生活的一些思考。</p>
+                    <ul class="footer__contact-info">
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-address"></i>
+                            <span>Beijing, China</span>
+                        </li>
+                        <li class="contact-info__item">
+                            <i class="iconfont icon-email2"></i>
+                            <span>xin.victorwang@gmail.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            
+            
+                <div class="footer-top__item footer__image">
+                    <img src="/images/me.png" alt="logo" title="王欣的博客">
+                </div>
+            
+
+            
+            
+                
+                    <div class="footer-top__item">
+                        <h3 class="item__title">友情链接</h3>
+                        <div class="item__content">
+                            <ul class="footer-top__list">
+                                
+                                    <li class="list-item">
+                                        <a href="http://blog.didispace.com/" title="程序猿DD" target="_blank">程序猿DD</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.iocoder.cn" title="纯源码解析博客" target="_blank">芋道源码</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.ityouknow.com" title="纯洁的微笑" target="_blank">纯洁的微笑</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://blog.720ui.com/" title="梁桂钊的博客" target="_blank">梁桂钊的博客</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="https://fookwood.com" title="闷瓜蛋子的BLOG" target="_blank">闷瓜蛋子的BLOG</a>
+                                    </li>
+                                
+                                    <li class="list-item">
+                                        <a href="http://www.itmuch.com/" title="周立的博客" target="_blank">周立的博客</a>
+                                    </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                
+            
+        </div>
+    </section>
+    <section class="footer__bottom">
+        <div class="page__container footer__container">
+            <p class="footer__copyright">©
+                2024 powered by
+                <a href="https://github.com/Mrminfive/hexo-theme-skapp" target="_blank">Hexo - Skapp</a>
+                
+                <span id="busuanzi_container_site_pv">访问量：<span id="busuanzi_value_site_pv"></span></span>&nbsp;人数:<span id="busuanzi_value_site_uv"></span>
+                
+            </p>
+            <ul class="footer__social-network clearfix">
+                
+                
+                    <li class="social-network__item">
+                        <a href="https://github.com/lovepoem" target="_blank" title="github">
+                            <i class="iconfont icon-github"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="mailto:xin.victorwang@gmail.com" target="_blank" title="email">
+                            <i class="iconfont icon-email"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="https://weibo.com/wangxinvictor" target="_blank" title="weibo">
+                            <i class="iconfont icon-weibo"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="https://twitter.com/wangxinvictor" target="_blank" title="twitter">
+                            <i class="iconfont icon-twitter"></i>
+                        </a>
+                    </li>
+                
+                    <li class="social-network__item">
+                        <a href="/atom.xml" target="_blank" title="rss">
+                            <i class="iconfont icon-rss"></i>
+                        </a>
+                    </li>
+                
+                
+            </ul>
+        </div>
+    </section>
+</footer>
+
+  <script src='https://unpkg.com/mermaid@7.1.2/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+        
+
+        
+            <!-- 返回顶部 -->
+<div id="back-top" class="back-top back-top--hidden js-hidden">
+    <i class="iconfont icon-top"></i>
+</div>
+        
+    </div>
+
+    <!-- build:js /js/common.js -->
+        <script type="text/javascript" src="js/common/utils.js"></script>
+        <script type="text/javascript" src="js/common/pack.js"></script>
+        <script type="text/javascript" src="js/common/animation.js"></script>
+        <script type="text/javascript" src="js/layout/loading.js"></script>
+        <script type="text/javascript" src="js/layout/header.js"></script>
+        <script type="text/javascript" src="js/layout/back-top.js"></script>
+        <script type="text/javascript" src="js/layout/post.js"></script>
+        <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?8dd700474b9448fa0d7db1f5e2236886";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+    <!-- endbuild -->
+
+    
+    
+<script src="/js/page/post.js"></script>
+
+
+
+    
+    
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="/js/md5.min.js"></script>
+
+    <script>
+        var tags = ['dubbo', ];
+
+        var gitalk = new Gitalk({
+            clientID: 'dfeb42da2955f5c18a8f',
+            clientSecret: 'ec47674c973490128eda38c44beef41d08fe7ce5',
+            repo: 'lovepoem.github.io',
+            owner: 'lovepoem',
+            admin: ['lovepoem', ],
+            labels: tags,
+            id: md5(location.href)
+        });
+
+        gitalk.render('comment-container');
+    </script>
+
+
+
+
+    <!-- 不蒜子统计 -->
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+     
+
+
+
+
+
+
+
+
+</body>
+</html>

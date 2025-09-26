@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>王欣的博客</title>
+  
+  <subtitle>王欣的博客</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://wangxin.io/"/>
+  <updated>2025-04-06T03:40:12.456Z</updated>
+  <id>https://wangxin.io/</id>
+  
+  <author>
+    <name>[object Object]</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记</title>
+    <link href="https://wangxin.io/2024/11/08/aigc/docker_chatgrp_claude_apen_api_macos_config/"/>
+    <id>https://wangxin.io/2024/11/08/aigc/docker_chatgrp_claude_apen_api_macos_config/</id>
+    <published>2024-11-08T02:01:02.000Z</published>
+    <updated>2025-04-06T03:40:12.456Z</updated>
+    
+    <content type="html"><![CDATA[<h3><span id="问题">问题：</span></h3><p>docker、openai、claudeai等国外的站点对国内IP有限制，所以在使用vpn等要注意一些点</p><h3><span id="原因">原因：</span></h3><p>当使用docker指令启动项目，报错</p><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">Error</span> response from daemon: <span class="symbol">Get</span> <span class="string">"https://registry-1.docker.io/v2/"</span>: <span class="symbol">EOF</span>(base) wx@wxs-<span class="symbol">MacBook</span>-<span class="symbol">Pro</span> docker</span><br></pre></td></tr></table></figure><p><img src="/images/docker_error.jpeg" alt="img"></p><p>是因为：registry-1.docker.io被墙</p><h3><span id="解决方法">解决方法：</span></h3><h4><span id="1切记vpn要设置全局代理">1）切记VPN要设置“全局代理”</span></h4><p>在使用docker desktop、或者直接调用claude/chatgpt的open api时候，也需要设置<strong>“全局代理”</strong></p><p>例如我用的VPN是XXXXXVpn，是设置<strong>“安全模式”</strong></p><p><img src="/images/vpn_config.png" alt="img"></p><p>可以在一个网站查看是否生效：<a href="https://whatismyipaddress.com">https://whatismyipaddress.com</a></p><p><img src="/images/proxy_success.png" alt="img"></p><p>如图，我的已经生效。如果一直不生效，请在<strong>无痕模式</strong>下打开浏览器</p><h4><span id="2添加国内代理站点">2）添加国内代理站点：</span></h4><p>请将下面的代码：</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"builder"</span>: &#123;</span><br><span class="line">    <span class="string">"gc"</span>: &#123;</span><br><span class="line">      <span class="string">"defaultKeepStorage"</span>: <span class="string">"20GB"</span>,</span><br><span class="line">      <span class="string">"enabled"</span>: <span class="keyword">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"debug"</span>: <span class="keyword">true</span>,</span><br><span class="line">  <span class="string">"dns"</span>: [</span><br><span class="line">    <span class="string">"8.8.8.8"</span>,</span><br><span class="line">    <span class="string">"114.114.114.114"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"experimental"</span>: <span class="keyword">true</span>,</span><br><span class="line">  <span class="string">"proxies"</span>: &#123;</span><br><span class="line">    <span class="string">"http-proxy"</span>: <span class="string">"http://127.0.0.1:7890"</span>,</span><br><span class="line">    <span class="string">"https-proxy"</span>: <span class="string">"http://127.0.0.1:7890"</span>,</span><br><span class="line">    <span class="string">"no-proxy"</span>: <span class="string">"localhost,127.0.0.0/8"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [</span><br><span class="line">    <span class="string">"https://hub.rat.dev"</span></span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>拷贝到  Docker Desktop的  设置按钮–&gt; Docker Engine 文本框</p><p><img src="/images/docker_daemon.png" alt="img"></p><p>对应文件的磁盘存储路径为：~/.docker/daemon.json</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3&gt;&lt;span id=&quot;问题&quot;&gt;问题：&lt;/span&gt;&lt;/h3&gt;&lt;p&gt;docker、openai、claudeai等国外的站点对国内IP有限制，所以在使用vpn等要注意一些点&lt;/p&gt;
+&lt;h3&gt;&lt;span id=&quot;原因&quot;&gt;原因：&lt;/span&gt;&lt;/h3&gt;&lt;p&gt;当使用docker指令
+      
+    
+    </summary>
+    
+      <category term="大模型" scheme="https://wangxin.io/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B/"/>
+    
+    
+      <category term="大模型,AIGC" scheme="https://wangxin.io/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B-AIGC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RocketMQ的死信队列你了解多少？怎么实现的？</title>
+    <link href="https://wangxin.io/2019/12/08/mq/rocketmq-dead-message/"/>
+    <id>https://wangxin.io/2019/12/08/mq/rocketmq-dead-message/</id>
+    <published>2019-12-08T13:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.449Z</updated>
+    
+    <content type="html"><![CDATA[<p>​     在使用MQ的过程中，常常有这种情形：生产者向一个topic发送消息后，如果消费者一直消费失败。要确保消息不被丢弃，直到消费者服务正常消费这个条消息为止。这个在<code>RocketMQ</code> 中的实现正是<strong>死信队列</strong>。</p><p>​</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;​     在使用MQ的过程中，常常有这种情形：生产者向一个topic发送消息后，如果消费者一直消费失败。要确保消息不被丢弃，直到消费者服务正常消费这个条消息为止。这个在&lt;code&gt;RocketMQ&lt;/code&gt; 中的实现正是&lt;strong&gt;死信队列&lt;/strong&gt;。&lt;/
+      
+    
+    </summary>
+    
+      <category term="hide" scheme="https://wangxin.io/categories/hide/"/>
+    
+    
+      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo服务间的连接是怎么控制处理的？</title>
+    <link href="https://wangxin.io/2019/12/03/dubbo/dubbo-service-connection-count-control/"/>
+    <id>https://wangxin.io/2019/12/03/dubbo/dubbo-service-connection-count-control/</id>
+    <published>2019-12-03T10:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.446Z</updated>
+    
+    <content type="html"><![CDATA[<p>​        最近被问到一个<strong>问题</strong>: 有依赖关系的两个dubbo服务。通过TCP进行连接时候，他们之间的连接是怎么控制的？怎么达到一个合理的数量？</p><p>​        我们从一个例子开始吧：一个订单服务 <code>OrderService</code>，IP为<code>192.168.0.110</code>  连接了商品服务   <code>ProductService</code>, ip 为<code>192.168.0.111</code>   ，其中订单服务中的方法比较多，并且很多请求也刚好路由到<code>192.168.0.111</code>的     <code>ProductService</code> 服务。那问题就来了：<code>110</code>机器作为客户端是怎么控制连接数的？会不会无限量地和<code>111</code>机器进行TCP连接？</p><p>​       我们先看一下<code>Dubbo</code>的官方文档对“连接控制”的说明文档 ： <a href="http://dubbo.apache.org/zh-cn/docs/user/demos/config-connections.html">http://dubbo.apache.org/zh-cn/docs/user/demos/config-connections.html</a>  。 </p><p>​      在xml配置方式中<code>xml accepts=&quot;10&quot;</code> 和 <code>connections=&quot;10&quot;</code> 分别在服务端和客户端进行了相应的连接控制。下面我们看一下源码，追一下连接控制的原理。</p><p>​      我们看一下<code>DubboProtocol.java</code>的创建客户端tcp连接的方法，int connectNum正是每个客户端对服务端的tcp连接数，默认是<code>1</code>,当然可以修改成更大。默认是1，这样一个客户端的调用<code>service</code>数最多也不会超过1000吧。这样就不会出现单机创建TCP连接数过多的问题。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Bulk build client</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> url</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> connectNum</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> List&lt;ReferenceCountExchangeClient&gt; <span class="title">buildReferenceCountExchangeClientList</span><span class="params">(URL url, <span class="keyword">int</span> connectNum)</span> </span>&#123;</span><br><span class="line">    List&lt;ReferenceCountExchangeClient&gt; clients = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; connectNum; i++) &#123;</span><br><span class="line">        clients.add(buildReferenceCountExchangeClient(url));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> clients;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>客户端和服务端是一对一的，建立长连接，那么如果客户端并发访问，他们是怎么和服务端交互的呢？<br>  经过看代码：<br><img src="/images/dubbo-customer-con.png"></p><p>下面咱们试图从代码中找到痕迹。一路追踪，我们来到这个类：<code>com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeChannel.java</code>，先来看看其中的<code>request</code>方法，大概在第101行左右：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">public</span> ResponseFuture <span class="title">request</span><span class="params">(Object request, <span class="keyword">int</span> timeout)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (closed) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RemotingException(<span class="keyword">this</span>.getLocalAddress(), <span class="keyword">null</span>, <span class="string">"Failed to send request "</span> + request + <span class="string">", cause: The channel "</span> + <span class="keyword">this</span> + <span class="string">" is closed!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// create request.</span></span><br><span class="line">    Request req = <span class="keyword">new</span> Request();</span><br><span class="line">    req.setVersion(<span class="string">"2.0.0"</span>);</span><br><span class="line">    req.setTwoWay(<span class="keyword">true</span>);</span><br><span class="line">    req.setData(request);</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//这个future就是前面我们提到的：客户端并发请求线程阻塞的对象</span></span><br><span class="line">    DefaultFuture future = <span class="keyword">new</span> DefaultFuture(channel, req, timeout);</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        channel.send(req);  <span class="comment">//非阻塞调用</span></span><br><span class="line">    &#125;<span class="keyword">catch</span> (RemotingException e) &#123;</span><br><span class="line">        future.cancel();</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> future;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>注意这个方法返回的<code>ResponseFuture</code>对象，当前处理客户端请求的线程在经过一系列调用后，会拿到<code>ResponseFuture</code>对象，最终该线程会阻塞在这个对象的下面这个方法调用上，如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">(<span class="keyword">int</span> timeout)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (timeout &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        timeout = Constants.DEFAULT_TIMEOUT;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (! isDone()) &#123;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        lock.lock();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (! isDone()) &#123;    <span class="comment">//无限连</span></span><br><span class="line">                done.await(timeout, TimeUnit.MILLISECONDS);</span><br><span class="line">                <span class="keyword">if</span> (isDone() || System.currentTimeMillis() - start &gt; timeout) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            lock.unlock();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (! isDone()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> TimeoutException(sent &gt; <span class="number">0</span>, channel, getTimeoutMessage(<span class="keyword">false</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> returnFromResponse();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>上面我已经看到请求线程已经阻塞，那么又是如何被唤醒的呢？再看一下<code>com.alibaba.dubbo.remoting.exchange.support.header.HeaderExchangeHandler.java</code>，其实所有实现了<code>ChannelHandler</code>接口的类都被设计为装饰器模式，所以你可以看到类似这样的代码：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">protected</span> ChannelHandler <span class="title">wrapInternal</span><span class="params">(ChannelHandler handler, URL url)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MultiMessageHandler(</span><br><span class="line">            <span class="keyword">new</span> HeartbeatHandler(</span><br><span class="line">                    ExtensionLoader.getExtensionLoader(Dispather<span class="class">.<span class="keyword">class</span>).<span class="title">getAdaptiveExtension</span>().<span class="title">dispath</span>(<span class="title">handler</span>, <span class="title">url</span>)</span></span><br><span class="line"><span class="class">            ))</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>现在来仔细看一下<code>HeaderExchangeHandler</code>类的定义，先看一下它定义的<code>received</code>方法，下面是代码片段：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">received</span><span class="params">(Channel channel, Object message)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">    channel.setAttribute(KEY_READ_TIMESTAMP, System.currentTimeMillis());</span><br><span class="line">    ExchangeChannel exchangeChannel = HeaderExchangeChannel.getOrAddChannel(channel);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (message <span class="keyword">instanceof</span> Request) &#123;</span><br><span class="line">          .....</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (message <span class="keyword">instanceof</span> Response) &#123;   </span><br><span class="line">            <span class="comment">//这里就是作为消费者的dubbo客户端在接收到响应后，触发通知对应等待线程的起点</span></span><br><span class="line">            handleResponse(channel, (Response) message);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (message <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">           .....</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            handler.received(exchangeChannel, message);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        HeaderExchangeChannel.removeChannelIfDisconnected(channel);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>我们主要看中间的那个条件分支，它是用来处理响应消息的，也就是说当dubbo客户端接收到来自服务端的响应后会执行到这个分支，它简单的调用了<code>handleResponse</code>方法，我们追过去看看：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handleResponse</span><span class="params">(Channel channel, Response response)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (response != <span class="keyword">null</span> &amp;&amp; !response.isHeartbeat()) &#123;  <span class="comment">//排除心跳类型的响应</span></span><br><span class="line">        DefaultFuture.received(channel, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>熟悉的身影：<code>DefaultFuture</code>，它是实现了我们上面说的<code>ResponseFuture</code>接口类型，实际上细心的童鞋应该可以看到，上面<code>request</code>方法中其实实例化的就是这个<code>DefaultFutrue</code>对象：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DefaultFuture future = <span class="keyword">new</span> DefaultFuture(channel, req, timeout);</span><br></pre></td></tr></table></figure><p>那么我们可以继续来看一下<code>DefaultFuture.received</code>方法的实现细节：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">received</span><span class="params">(Channel channel, Response response)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        DefaultFuture future = FUTURES.remove(response.getId());</span><br><span class="line">        <span class="keyword">if</span> (future != <span class="keyword">null</span>) &#123;</span><br><span class="line">            future.doReceived(response);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            logger.warn(<span class="string">"The timeout response finally returned at "</span> </span><br><span class="line">                        + (<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss.SSS"</span>).format(<span class="keyword">new</span> Date())) </span><br><span class="line">                        + <span class="string">", response "</span> + response </span><br><span class="line">                        + (channel == <span class="keyword">null</span> ? <span class="string">""</span> : <span class="string">", channel: "</span> + channel.getLocalAddress() </span><br><span class="line">                            + <span class="string">" -&gt; "</span> + channel.getRemoteAddress()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        CHANNELS.remove(response.getId());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>留一下我们之前提到的id的作用，这里可以看到它已经开始发挥作用了。通过<code>id</code>，<code>DefaultFuture.FUTURES</code>可以拿到具体的那个<code>DefaultFuture</code>对象，它就是上面我们提到的，阻塞请求线程的那个对象。好，找到目标后，调用它的<code>doReceived</code>方法，这就是标准的java多线程编程知识了：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReceived</span><span class="params">(Response res)</span> </span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        response = res;</span><br><span class="line">        <span class="keyword">if</span> (done != <span class="keyword">null</span>) &#123;</span><br><span class="line">            done.signal();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (callback != <span class="keyword">null</span>) &#123;</span><br><span class="line">        invokeCallback(callback);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这样我们就可以证实上图中左边的绿色箭头所标注的两点。</p><p>参考链接：<a href="https://blog.csdn.net/joeyon1985/article/details/51046548">https://blog.csdn.net/joeyon1985/article/details/51046548</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;​        最近被问到一个&lt;strong&gt;问题&lt;/strong&gt;: 有依赖关系的两个dubbo服务。通过TCP进行连接时候，他们之间的连接是怎么控制的？怎么达到一个合理的数量？&lt;/p&gt;
+&lt;p&gt;​        我们从一个例子开始吧：一个订单服务 &lt;code&gt;Order
+      
+    
+    </summary>
+    
+      <category term="dubbo" scheme="https://wangxin.io/categories/dubbo/"/>
+    
+    
+      <category term="dubbo" scheme="https://wangxin.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Seata 基本原理和源码分析</title>
+    <link href="https://wangxin.io/2019/10/31/distributed/distributed_system_consistency_algorithm_paxos_raft_zab/"/>
+    <id>https://wangxin.io/2019/10/31/distributed/distributed_system_consistency_algorithm_paxos_raft_zab/</id>
+    <published>2019-10-31T01:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.445Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="hide" scheme="https://wangxin.io/categories/hide/"/>
+    
+    
+      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>分布式事务一致性算法Paxos、raft、zab等的比较</title>
+    <link href="https://wangxin.io/2019/10/31/distributed/distributed_transaction_seata/"/>
+    <id>https://wangxin.io/2019/10/31/distributed/distributed_transaction_seata/</id>
+    <published>2019-10-31T01:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.445Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="hide" scheme="https://wangxin.io/categories/hide/"/>
+    
+    
+      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>谈谈各种流程引擎、规则引擎</title>
+    <link href="https://wangxin.io/2019/10/31/framework/flow_engine_rule_engine/"/>
+    <id>https://wangxin.io/2019/10/31/framework/flow_engine_rule_engine/</id>
+    <published>2019-10-31T01:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.446Z</updated>
+    
+    <content type="html"><![CDATA[<p>开源：<br>  jbpm activiti drools QLexpress<br>  流程引擎 规则引擎 脚本引擎 区别  分别用在什么业务上？<br>  工作流</p><p>商业产品：<br>   普元：bps eos</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;开源：&lt;br&gt;  jbpm activiti drools QLexpress&lt;br&gt;  流程引擎 规则引擎 脚本引擎 区别  分别用在什么业务上？&lt;br&gt;  工作流&lt;/p&gt;
+&lt;p&gt;商业产品：&lt;br&gt;   普元：bps eos&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+      <category term="hide" scheme="https://wangxin.io/categories/hide/"/>
+    
+    
+      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>从netty组件的传输讲讲io</title>
+    <link href="https://wangxin.io/2019/10/31/io/netty_data_transport/"/>
+    <id>https://wangxin.io/2019/10/31/io/netty_data_transport/</id>
+    <published>2019-10-31T01:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.447Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="hide" scheme="https://wangxin.io/categories/hide/"/>
+    
+    
+      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JVM内存结构的历史 （从Jdk1.6、1.7、8）</title>
+    <link href="https://wangxin.io/2019/10/31/jvm/jvm_memory_change_history/"/>
+    <id>https://wangxin.io/2019/10/31/jvm/jvm_memory_change_history/</id>
+    <published>2019-10-31T01:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.449Z</updated>
+    
+    <content type="html"><![CDATA[<p>从JDK1.6到1.8, 运行时内存分配简图分别如下:</p><p><img src="/images/java1.6.png" alt="Mechanism"></p><p>在JDK1.7中的HotSpot中，已经把原本放在方法区的字符串常量池移出。</p><p>　　从JDK7开始永久代的移除工作，贮存在永久代的一部分数据已经转移到了Java Heap或者是Native Heap。但永久代仍然存在于JDK7，并没有完全的移除：符号引用(Symbols)转移到了native heap;字面量(interned strings)转移到了java heap;类的静态变量(class statics)转移到了java heap。<br><img src="/images/java1.7.png" alt="Mechanism"></p><p>随着JDK8的到来:</p><pre><code>JVM不再有PermGen。但类的元数据信息（metadata）还在，只不过不再是存储在连续的堆空间上，而是移动到叫做“Metaspace”的本地内存（Native memory）中。</code></pre><p><img src="/images/java8.png" alt="Mechanism"></p><h3><span id="一-java7到java8的第一部分变化元空间"><strong>一、java7到java8的第一部分变化：元空间</strong></span></h3><p>下面来一张图看一下java7到8的内存模型吧（这个是在网上找的图，如有侵权问题请联系我删除。）</p><p><img src="https://pic1.zhimg.com/80/v2-d928d79855d4448af061752168967d04_hd.jpg" alt="img"></p><h3><span id="二-java7到java8的第二部分变化运行时常量池"><strong>二、java7到java8的第二部分变化：运行时常量池</strong></span></h3><p>运行时常量池（Runtime Constant Pool）的所处区域一直在不断的变化，在java6时它是方法区的一部分；1.7又把他放到了堆内存中；1.8之后出现了元空间，它又回到了方法区。</p><p>Metaspace 结构是怎么样的？</p><p><img src="/images/java8struct.jpg" alt="Mechanism"></p><p>参考：<a href="https://blog.csdn.net/weixin_42711325/article/details/86533192">https://blog.csdn.net/weixin_42711325/article/details/86533192</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;从JDK1.6到1.8, 运行时内存分配简图分别如下:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/java1.6.png&quot; alt=&quot;Mechanism&quot;&gt;&lt;/p&gt;
+&lt;p&gt;在JDK1.7中的HotSpot中，已经把原本放在方法区的字符串常量池移出。&lt;/p&gt;
+&lt;p&gt;　
+      
+    
+    </summary>
+    
+      <category term="jvm" scheme="https://wangxin.io/categories/jvm/"/>
+    
+    
+      <category term="jvm" scheme="https://wangxin.io/tags/jvm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>怎么定位线上的内存溢出？</title>
+    <link href="https://wangxin.io/2019/10/31/performance/how_to_location_outof_memory/"/>
+    <id>https://wangxin.io/2019/10/31/performance/how_to_location_outof_memory/</id>
+    <published>2019-10-31T01:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.450Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="hide" scheme="https://wangxin.io/categories/hide/"/>
+    
+    
+      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MQ组件盘点，哪些你用在了生产中？</title>
+    <link href="https://wangxin.io/2019/10/31/mq/different_among_some_mqs/"/>
+    <id>https://wangxin.io/2019/10/31/mq/different_among_some_mqs/</id>
+    <published>2019-10-30T18:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.449Z</updated>
+    
+    <content type="html"><![CDATA[<p>市面上的MQ也好几种了，ActiveMq、RabbitMq、rocketMq、kafka、Pulsar。最近国内又陆陆续续开源了几个MQ，如：去哪儿网开源的qmq、腾讯开源的TubeMq、拍拍贷开源的pmq。<br>   现在想需要对比区别一下这些消息队列的不同，分析其优缺点。</p><h3><span id="一-基本比较">一、基本比较</span></h3><table><thead><tr><th></th><th>ActiveMQ</th><th>RabbitMQ</th><th>RocketMQ</th><th>Kafka</th><th>Pulsar</th></tr></thead><tbody><tr><td><strong>代码地址</strong></td><td><a href="https://github.com/apache/activemq">apache/activemq</a></td><td><a href="https://github.com/rabbitmq/rabbitmq-server">apache/rabbitmq-server</a></td><td><a href="https://github.com/apache/rocketmq">apache/rocketmq</a></td><td><a href="https://github.com/apache/kafka">apache/kafka</a></td><td><a href="https://github.com/apache/pulsar">apache/pulsar</a></td></tr><tr><td><strong>PRODUCER-COMSUMER</strong></td><td>支持</td><td>支持</td><td>支持</td><td>支持</td><td>支持</td></tr><tr><td><strong>PUBLISH-SUBSCRIBE</strong></td><td>支持</td><td>支持</td><td>支持</td><td>支持</td><td>支持</td></tr><tr><td><strong>REQUEST-REPLY</strong></td><td>支持</td><td>支持</td><td></td><td></td><td></td></tr><tr><td><strong>API完奋性</strong></td><td>高</td><td>高</td><td>高</td><td>高</td><td></td></tr><tr><td><strong>多语言支持</strong></td><td>支持，IAVA优先</td><td>语言无关</td><td>支持</td><td>支持，java优先</td><td></td></tr><tr><td><strong>单机吞吐量</strong></td><td>万级</td><td>万级</td><td>万级</td><td>十万级</td><td>单个分区高达 1.8 M 消息/秒</td></tr><tr><td><strong>消息延迟</strong></td><td></td><td>微秒级</td><td>毫秒级</td><td>毫秒级</td><td>99% 的生产延迟小于5ms。</td></tr><tr><td><strong>可用性</strong></td><td>高（主从）</td><td>高（主从）</td><td>非常高（分布式）</td><td>非常高（分布式）</td><td>高</td></tr><tr><td><strong>消息丢失</strong></td><td>低</td><td>低</td><td>理论上不会丢失</td><td>理论上不会丢失</td><td></td></tr><tr><td><strong>消息重复</strong></td><td></td><td>可控制</td><td></td><td>理论上会有重复</td><td></td></tr><tr><td><strong>文挡完备性</strong></td><td>高</td><td>高</td><td>高</td><td>高</td><td>高</td></tr><tr><td><strong>提供快速入门</strong></td><td>有</td><td>有</td><td>有</td><td>有</td><td>有</td></tr><tr><td><strong>首次部署难度</strong></td><td></td><td>低</td><td></td><td>中</td><td>高</td></tr><tr><td><strong>社区活跃度</strong></td><td>高</td><td>高</td><td>高</td><td>高</td><td>高</td></tr><tr><td><strong>商业支持</strong></td><td>无</td><td>无</td><td>阿里云</td><td>无</td><td></td></tr><tr><td><strong>成熟度</strong></td><td>成熟</td><td>成熟</td><td>成熟</td><td>成熟日志领域</td><td></td></tr><tr><td><strong>支持协议</strong></td><td>OpenWire、STOMP、REST、 XMPP、AMQP</td><td>AMQP</td><td>白己定义的一套，社区提供JMS，不成熟）</td><td></td><td></td></tr><tr><td><strong>持久化</strong></td><td>内存、文件、数据库</td><td>内存、文件</td><td>磁盘文件</td><td>PageCache -&gt;磁盘</td><td><a href="https://github.com/apache/bookkeeper">Apache BookKeeper</a></td></tr><tr><td><strong>事务</strong></td><td>支持</td><td>支持</td><td>支持</td><td></td><td></td></tr><tr><td><strong>负载均衡</strong></td><td>支持</td><td>支持</td><td>支持</td><td></td><td></td></tr><tr><td><strong>管理界面</strong></td><td>一般</td><td>好</td><td>有web console实现</td><td></td><td></td></tr><tr><td><strong>部署方式</strong></td><td>独立、嵌入</td><td>独立</td><td>独立</td><td></td><td></td></tr><tr><td><strong>特点</strong></td><td>功能齐全，被大 望开源项目使用</td><td>由于Erlang语言的并发能力，性能很好</td><td>各个环节分布式扩展设计，主从HA；支持上万个队列；多 种消费模式；性能很好</td><td></td><td></td></tr><tr><td><strong>评价：优点</strong></td><td>成熟的产品，已经在很多公司得到应用（非大规横场景）；有较多的文档；备种协议支持较好；有多重语富的成熟的客户端；</td><td>由于erlang语富的特 性，mq性能较好；管埋界面 较丰富，在互联网公司也有 较大规棋的应用；支持amqp协议，有多种语言且支持 amqp的客户端可用；</td><td>模型简单，接口易用（JMS接口在很多场合并不太实用）；在阿里大规棋应用；目前支付宝中的余额宝等新兴产品均使用rocketmq；集群规棋大槪在50台左右，单日处理消息上百亿；性能非常好，可以大量消息堆积在broker中；支持多种消费：包括集群消费、广播消费等；社区活跃，版本更新很快。</td><td></td><td>地域复制、多租户、扩展性、读写隔离等等;对 Kubernetes 的友好支持。</td></tr><tr><td><strong>评价：缺点</strong></td><td>根据其他用户反馈，会出现莫名其妙的问题，且会丢消息。目前社区不活跃；不适合用于上千个队列的应用场景。</td><td>erlang语言难度较大。集群不支持动态扩展。</td><td>多语言客户端支持需加强</td><td></td><td>部署相对复杂；新来者，文档较少</td></tr></tbody></table><h3><span id="二-各自优缺点">二、各自优缺点</span></h3><h4><span id="1-kafka">1、Kafka</span></h4><p>   大数据行业标配组件</p><h4><span id="2-rocketmq">2、RocketMq</span></h4><p>​    有事务性消息、私信队列等支持，适合交易场景    </p><h4><span id="3-pulsar">3、Pulsar</span></h4><p>​     新贵，地域复制、多租户、扩展性比较好 </p><h4><span id="4-rabbitmq">4、RabbitMq</span></h4><p>​      erlang编写，性能较好。有不少互联网公司用。不过因为erlang，社区开发者较少</p><h4><span id="5-activemq">5、ActiveMq</span></h4><p>   项目较老，不够活跃，会丢消息，不适合在互联网项目使用</p><h3><span id="三-一些问题">三、一些问题</span></h3><h4><span id="1-kafka的数据丢失问题">1、Kafka的数据丢失问题</span></h4><p>   一开始就是存储在PageCache上的，定期flush到磁盘上的，也就是说，不是每个消息都被存储在磁盘了，如果出现断电或者机器故障等，PageCache上的数据就丢失了。<br>这个是总结出的到目前为止没有发生丢失数据的情况</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//producer用于压缩数据的压缩类型。默认是无压缩。正确的选项值是none、gzip、snappy。压缩最好用于批量处理，批量处理消息越多，压缩性能越好</span></span><br><span class="line">props.put(<span class="string">"compression.type"</span>, <span class="string">"gzip"</span>);</span><br><span class="line"><span class="comment">//增加延迟</span></span><br><span class="line">props.put(<span class="string">"linger.ms"</span>, <span class="string">"50"</span>);</span><br><span class="line"><span class="comment">//这意味着leader需要等待所有备份都成功写入日志，这种策略会保证只要有一个备份存活就不会丢失数据。这是最强的保证。，</span></span><br><span class="line">props.put(<span class="string">"acks"</span>, <span class="string">"all"</span>);</span><br><span class="line"><span class="comment">//无限重试，直到你意识到出现了问题，设置大于0的值将使客户端重新发送任何数据，一旦这些数据发送失败。注意，这些重试与客户端接收到发送错误时的重试没有什么不同。允许重试将潜在的改变数据的顺序，如果这两个消息记录都是发送到同一个partition，则第一个消息失败第二个发送成功，则第二条消息会比第一条消息出现要早。</span></span><br><span class="line">props.put(<span class="string">"retries "</span>, MAX_VALUE);</span><br><span class="line">props.put(<span class="string">"reconnect.backoff.ms "</span>, <span class="number">20000</span>);</span><br><span class="line">props.put(<span class="string">"retry.backoff.ms"</span>, <span class="number">20000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//关闭unclean leader选举，即不允许非ISR中的副本被选举为leader，以避免数据丢失</span></span><br><span class="line">props.put(<span class="string">"unclean.leader.election.enable"</span>, <span class="keyword">false</span>);</span><br><span class="line"><span class="comment">//关闭自动提交offset</span></span><br><span class="line">props.put(<span class="string">"enable.auto.commit"</span>, <span class="keyword">false</span>);</span><br><span class="line">限制客户端在单个连接上能够发送的未响应请求的个数。设置此值是<span class="number">1</span>表示kafka broker在响应请求之前client不能再向同一个broker发送请求。注意：设置此参数是为了避免消息乱序</span><br><span class="line">props.put(<span class="string">"max.in.flight.requests.per.connection"</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure><h4><span id="2-kafka重复消费原因">2、Kafka重复消费原因</span></h4><p>强行kill线程，导致消费后的数据，offset没有提交，partition就断开连接。比如，通常会遇到消费的数据，处理很耗时，导致超过了Kafka的session timeout时间（0.10.x版本默认是30秒），那么就会re-blance重平衡，此时有一定几率offset没提交，会导致重平衡后重复消费。<br>如果在close之前调用了consumer.unsubscribe()则有可能部分offset没提交，下次重启会重复消费</p><p>kafka数据重复 kafka设计的时候是设计了(at-least once)至少一次的逻辑，这样就决定了数据可能是重复的，kafka采用基于时间的SLA(服务水平保证)，消息保存一定时间（通常为7天）后会被删除</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;市面上的MQ也好几种了，ActiveMq、RabbitMq、rocketMq、kafka、Pulsar。最近国内又陆陆续续开源了几个MQ，如：去哪儿网开源的qmq、腾讯开源的TubeMq、拍拍贷开源的pmq。&lt;br&gt;   现在想需要对比区别一下这些消息队列的不同，分析其优缺
+      
+    
+    </summary>
+    
+      <category term="mq" scheme="https://wangxin.io/categories/mq/"/>
+    
+    
+      <category term="mq" scheme="https://wangxin.io/tags/mq/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一些有用的github配置</title>
+    <link href="https://wangxin.io/2019/07/23/git/some_github_config/"/>
+    <id>https://wangxin.io/2019/07/23/git/some_github_config/</id>
+    <published>2019-07-23T11:40:02.000Z</published>
+    <updated>2024-10-10T01:18:36.447Z</updated>
+    
+    <content type="html"><![CDATA[<p>Github是Git的一个商业化平台，git对应的一些功能在Github上都有体现。 在github的使用过程中，一些有用的github配置，明显改进了流程，方便了开发，随手记录了下来。</p><h3><span id="1-pr完毕联动直接关闭issue">1、pr完毕联动直接关闭issue ：</span></h3><p><strong>功能：</strong> 当committer合并别人提交的<code>pull request</code>的时候，同时联动关闭问题issue<br><strong>配置：</strong> <a href="https://help.github.com/cn/articles/closing-issues-using-keywords">https://help.github.com/cn/articles/closing-issues-using-keywords</a></p><h3><span id="2-设置成sqash-合并提交点">2、设置成sqash 合并提交点：</span></h3><p><strong>功能：</strong> 当committer合并别人提交的选择将提交点进行合并,类似于指令<code>git squash</code><br><strong>配置：</strong> <a href="https://help.github.com/cn/articles/about-merge-methods-on-github">https://help.github.com/cn/articles/about-merge-methods-on-github</a></p><h3><span id="3-更新其他人的分支代码">3、更新其他人的分支代码：</span></h3><p><strong>功能：</strong>在合作开发中，一些分支的提交者好久没有活动了，远程分支已经修改了很多东西。 committer或者pr的提交可以在github界面手动同步主分支的最新代码.<br>类似于指令</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote update -p</span><br><span class="line">git pull origin master</span><br></pre></td></tr></table></figure><p>配置方法如下：</p><p><img src="/images/enforce-update.png" alt></p><p>效果： </p><p><img src="/images/update-branch.png" alt></p><p><strong>配置：</strong> <a href="https://help.github.com/cn/articles/enabling-required-status-checks">https://help.github.com/cn/articles/enabling-required-status-checks</a></p><h3><span id="4-添加测试覆盖率travis-ci-和codecov">4、添加测试覆盖率travis-ci 和codecov</span></h3><p><strong>功能：</strong> 用junit、travis-ci 和codecov等采集项目的测试覆盖率，从而进行持续集成<br><strong>配置：</strong> </p><ul><li><p>Travis CI + Codecov + Junit5 + jacoco + Maven + java8 above Java Example<br><a href="https://github.com/lovepoem/codecov-travis-maven-junit5-example">https://github.com/lovepoem/codecov-travis-maven-junit5-example</a></p></li><li><p>Travis CI + Codecov + Junit4 + cobertura + java1.7 + Maven Java Example<br><a href="https://github.com/lovepoem/codecov-travis-maven-junit4-example">https://github.com/lovepoem/codecov-travis-maven-junit4-example</a></p></li></ul><h3><span id="5-将issue指派给项目的contributor">5、将issue指派给项目的contributor</span></h3><p>最早时候github不支持将一个issue指派给对项目没有写权限的用户。在2019年下半年开始，github增加了“Triage”角色：没有项目的直接写权限，却能review pr的人。首先issue可以指派给“Triage”角色；一般用户只要在issue上加评论，就可以将issue指派给她。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Github是Git的一个商业化平台，git对应的一些功能在Github上都有体现。 在github的使用过程中，一些有用的github配置，明显改进了流程，方便了开发，随手记录了下来。&lt;/p&gt;
+&lt;h3&gt;&lt;span id=&quot;1-pr完毕联动直接关闭issue&quot;&gt;1、pr完毕
+      
+    
+    </summary>
+    
+      <category term="github" scheme="https://wangxin.io/categories/github/"/>
+    
+    
+      <category term="github" scheme="https://wangxin.io/tags/github/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我看《subscribed》</title>
+    <link href="https://wangxin.io/2019/07/22/iread/read_subscribed/"/>
+    <id>https://wangxin.io/2019/07/22/iread/read_subscribed/</id>
+    <published>2019-07-22T12:44:02.000Z</published>
+    <updated>2024-10-10T01:18:36.447Z</updated>
+    
+    <content type="html"><![CDATA[<p>前一段时间在朋友圈看到国内开源界大佬姜宁和冯嘉在推荐一本《subscribed》，<br>​    《订阅》，我是最近在朋友圈看到这个本书的。两个开源股界的大佬姜宁和冯嘉同时推荐这本书的。好奇后读起来。发现完全是一本商科的书呀，在推一个观点：各行各业的未来都会用“订阅”的模式进行发展。</p><p>​      订阅的含义是啥？？用图画一下订阅模式。一般情况：订报刊。搞技术的：消息队列，异步。<strong>为什么异步的模式是未来商业模式的方向和趋势？</strong>重点</p><p>​      将书中各个行业的异步商业模型简要讲解，必要时候画出流程图。</p><p>​      自己切身感受和思考。在<strong>软件架构</strong>方面，事情本来的样子是什么？异步编程，消息驱动。<strong>开源社区的运营和商业化方面</strong>：吸引同好，</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;前一段时间在朋友圈看到国内开源界大佬姜宁和冯嘉在推荐一本《subscribed》，&lt;br&gt;​    《订阅》，我是最近在朋友圈看到这个本书的。两个开源股界的大佬姜宁和冯嘉同时推荐这本书的。好奇后读起来。发现完全是一本商科的书呀，在推一个观点：各行各业的未来都会用“订阅”的模
+      
+    
+    </summary>
+    
+      <category term="我看" scheme="https://wangxin.io/categories/%E6%88%91%E7%9C%8B/"/>
+    
+    
+      <category term="我看" scheme="https://wangxin.io/tags/%E6%88%91%E7%9C%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>为什么Redis读写快？</title>
+    <link href="https://wangxin.io/2019/02/13/storage/why_redis_read_write_fast/"/>
+    <id>https://wangxin.io/2019/02/13/storage/why_redis_read_write_fast/</id>
+    <published>2019-02-13T10:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.450Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>问题一：</strong> Redis是单线程还是多线程？为什么redis会被认为读写都快呢？</p><p>   <strong>单线程的</strong>, Redis6 之后多线程IO</p><p>  1.redis是基于内存的，内存的读写速度非常快；</p><p>  2.redis是单线程的，省去了很多上下文切换线程的时间；</p><p>  3.redis使用多路复用技术，可以处理并发的连接。非阻塞IO 内部实现采用epoll，采用了epoll+自己实现的简单的事件框架。epoll中的读、写、关闭、连接都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间。</p><p><strong>问题二：</strong>Redis都有什么数据结构，内部存储数据结构是啥？</p><p>​    String——字符串 简单动态字符串(SDS[Simple Dynamic String])</p><p>​    Hash——字典</p><p>​    List——列表</p><p>​    Set——集合</p><p>​    Sorted Set——有序集合</p><p><strong>skiplist数据结构</strong></p><p> skiplist作为zset的存储结构，整体存储结构如下图，核心点主要是包括一个dict对象和一个skiplist对象。dict保存key/value，key为元素，value为分值；skiplist保存的有序的元素列表，每个元素包括元素和分值。两种数据结构下的元素指向相同的位置。</p><p><strong>问题三</strong> Redis的持久化策略有哪些?</p><p>Redis两种持久化方式(RDB&amp;AOF) </p><p><strong><a href="https://github.com/sripathikrishnan/redis-rdb-tools/wiki/Redis-RDB-Dump-File-Format">RDB</a></strong>每次进行快照方式会重新记录整个数据集的所有信息。RDB在恢复数据时更快，可以最大化redis性能，子进程对父进程无任何性能影响。</p><p><strong><a href="https://redis.io/topics/persistence">AOF</a></strong>有序的记录了redis的命令操作。意外情况下数据丢失甚少。AOF同步也是一种把记录写到硬盘上的行为，在上述两个步骤之外，Redis额外加一步命令，Redis先把记录追加到自己维护的一个aof_buf中。所以AOF持久化分为三步：1、命令追加 2、文件写入 3.文件同步</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;问题一：&lt;/strong&gt; Redis是单线程还是多线程？为什么redis会被认为读写都快呢？&lt;/p&gt;
+&lt;p&gt;   &lt;strong&gt;单线程的&lt;/strong&gt;, Redis6 之后多线程IO&lt;/p&gt;
+&lt;p&gt;  1.redis是基于内存的，内存的读写速度非常快
+      
+    
+    </summary>
+    
+      <category term="存储" scheme="https://wangxin.io/categories/%E5%AD%98%E5%82%A8/"/>
+    
+      <category term="redis" scheme="https://wangxin.io/categories/%E5%AD%98%E5%82%A8/redis/"/>
+    
+    
+      <category term="redis" scheme="https://wangxin.io/tags/redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo代码分析—超时和重试设计</title>
+    <link href="https://wangxin.io/2019/02/11/dubbo/dubbo_timeout_design_and_principle/"/>
+    <id>https://wangxin.io/2019/02/11/dubbo/dubbo_timeout_design_and_principle/</id>
+    <published>2019-02-11T10:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.446Z</updated>
+    
+    <content type="html"><![CDATA[<p>dubbo提供在provider和consumer端，都提供了超时(timeout)和重试(retries)的参数配置。</p><h2><span id="一-dubbo协议中的超时机制">一、Dubbo协议中的超时机制</span></h2><p>​      超时机制是dubbo中的一个很重要的机制。在“快速失败”设计中，能将客户端断掉，防止服务端资源耗尽而被压挂。</p><p>​      我们先看一下Dubbo协议中的超时机制是怎么实现的。</p><p>​      超时的实现原理是什么？<br><img src="/images/dubbo-architecture.png"><br>我们先回顾一下dubbo的大致流程图。</p><p>在生产过程中都是客户端向服务端发送请求，在流程4。</p><p>​        我们可以看到：4的流程是： 服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</p><p>​      超时是针对消费端还是服务端？</p><ul><li>如果是争对消费端，那么当消费端发起一次请求后，如果在规定时间内未得到服务端的响应则直接返回超时异常，但服务端的代码依然在执行。</li><li>如果是争取服务端，那么当消费端发起一次请求后，一直等待服务端的响应，服务端在方法执行到指定时间后如果未执行完，此时返回一个超时异常给到消费端。</li></ul><p>dubbo的超时是争对客户端的，由于是一种NIO模式，消费端发起请求后得到一个ResponseFuture，然后消费端一直轮询这个ResponseFuture直至超时或者收到服务端的返回结果。虽然超时了，但仅仅是消费端不再等待服务端的反馈并不代表此时服务端也停止了执行。</p><p>​       超时的实现原理是什么？</p><p>之前有简单提到过, dubbo默认采用了netty做为网络组件，它属于一种NIO的模式。消费端发起远程请求后，线程不会阻塞等待服务端的返回，而是马上得到一个ResponseFuture，消费端通过不断的轮询机制判断结果是否有返回。因为是通过轮询，轮询有个需要特别注要的就是避免死循环，所以为了解决这个问题就引入了超时机制，只在一定时间范围内做轮询，如果超时时间就返回超时异常。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ResponseFuture接口定义</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ResponseFuture</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * get result.</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> result.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Object <span class="title">get</span><span class="params">()</span> <span class="keyword">throws</span> RemotingException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * get result with the specified timeout.</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> timeoutInMillis timeout.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> result.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">Object <span class="title">get</span><span class="params">(<span class="keyword">int</span> timeoutInMillis)</span> <span class="keyword">throws</span> RemotingException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * set callback.</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> callback</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setCallback</span><span class="params">(ResponseCallback callback)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * check is done.</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> done or not.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">isDone</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//ReponseFuture的实现类：DefaultFuture</span></span><br><span class="line"><span class="comment">//只看它的get方法，可以清楚看到轮询的机制。</span></span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">(<span class="keyword">int</span> timeout)</span> <span class="keyword">throws</span> RemotingException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (timeout &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            timeout = Constants.DEFAULT_TIMEOUT;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (! isDone()) &#123;</span><br><span class="line">            <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">            lock.lock();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">while</span> (! isDone()) &#123;</span><br><span class="line">                    done.await(timeout, TimeUnit.MILLISECONDS);</span><br><span class="line">                    <span class="keyword">if</span> (isDone() || System.currentTimeMillis() - start &gt; timeout) &#123;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                lock.unlock();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (! isDone()) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> TimeoutException(sent &gt; <span class="number">0</span>, channel, getTimeoutMessage(<span class="keyword">false</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> returnFromResponse();</span><br><span class="line">    &#125;</span><br><span class="line">超时解</span><br></pre></td></tr></table></figure><p>超时的实现原理是什么？<br>之前有简单提到过, dubbo默认采用了netty做为网络组件，它属于一种NIO的模式。消费端发起远程请求后，线程不会阻塞等待服务端的返回，而是马上得到一个ResponseFuture，消费端通过不断的轮询机制判断结果是否有返回。因为是通过轮询，轮询有个需要特别注要的就是避免死循环，所以为了解决这个问题就引入了超时机制，只在一定时间范围内做轮询，如果超时时间就返回超时异常。</p><h2><span id="二-dubbo协议中的重试机制">二、Dubbo协议中的重试机制</span></h2><p>在客户端<br><code>int DEFAULT_RETRIES = 2;</code><br>看到重试次数是2 ，就是说出了本身的一次请求，再失败后，又会再请求一次。</p><p>重试策略在集群的失败重试 <code>FailoverClusterInvoker</code>  的策略中：    </p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Result <span class="title">doInvoke</span><span class="params">(Invocation invocation, <span class="keyword">final</span> List&lt;Invoker&lt;T&gt;&gt; invokers, LoadBalance loadbalance)</span> <span class="keyword">throws</span> RpcException </span>&#123;</span><br><span class="line">    List&lt;Invoker&lt;T&gt;&gt; copyInvokers = invokers;</span><br><span class="line">    checkInvokers(copyInvokers, invocation);</span><br><span class="line">    String methodName = RpcUtils.getMethodName(invocation);</span><br><span class="line">    <span class="keyword">int</span> len = getUrl().getMethodParameter(methodName, RETRIES_KEY, DEFAULT_RETRIES) + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (len &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        len = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// retry loop.</span></span><br><span class="line">    RpcException le = <span class="keyword">null</span>; <span class="comment">// last exception.</span></span><br><span class="line">    List&lt;Invoker&lt;T&gt;&gt; invoked = <span class="keyword">new</span> ArrayList&lt;Invoker&lt;T&gt;&gt;(copyInvokers.size()); <span class="comment">// invoked invokers.</span></span><br><span class="line">    Set&lt;String&gt; providers = <span class="keyword">new</span> HashSet&lt;String&gt;(len);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="comment">//Reselect before retry to avoid a change of candidate `invokers`.</span></span><br><span class="line">        <span class="comment">//<span class="doctag">NOTE:</span> if `invokers` changed, then `invoked` also lose accuracy.</span></span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            checkWhetherDestroyed();</span><br><span class="line">            copyInvokers = list(invocation);</span><br><span class="line">            <span class="comment">// check again</span></span><br><span class="line">            checkInvokers(copyInvokers, invocation);</span><br><span class="line">        &#125;</span><br><span class="line">        Invoker&lt;T&gt; invoker = select(loadbalance, invocation, copyInvokers, invoked);</span><br><span class="line">        invoked.add(invoker);</span><br><span class="line">        RpcContext.getContext().setInvokers((List) invoked);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Result result = invoker.invoke(invocation);</span><br><span class="line">     ......</span><br></pre></td></tr></table></figure><p>可以看到使用的是for循环做的失败重试的。当有异常发生时候，就重试一次访问，直到达到最大重试次数为止。</p><p>参考：<a href="https://www.cnblogs.com/xuwc/p/8974709.html">https://www.cnblogs.com/xuwc/p/8974709.html</a>   </p><p>​</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;dubbo提供在provider和consumer端，都提供了超时(timeout)和重试(retries)的参数配置。&lt;/p&gt;
+&lt;h2&gt;&lt;span id=&quot;一-dubbo协议中的超时机制&quot;&gt;一、Dubbo协议中的超时机制&lt;/span&gt;&lt;/h2&gt;&lt;p&gt;​      超时机制
+      
+    
+    </summary>
+    
+      <category term="dubbo" scheme="https://wangxin.io/categories/dubbo/"/>
+    
+    
+      <category term="dubbo" scheme="https://wangxin.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】apache 基金会角色列表</title>
+    <link href="https://wangxin.io/2019/02/04/opensource/apache-roles/"/>
+    <id>https://wangxin.io/2019/02/04/opensource/apache-roles/</id>
+    <published>2019-02-03T23:40:02.000Z</published>
+    <updated>2024-10-10T01:18:36.450Z</updated>
+    
+    <content type="html"><![CDATA[<h1><span id="角色">角色</span></h1><p>精英管理通常在每个Apache项目社区中都有不同的角色：</p><h3><span id="user用户">User(用户)</span></h3><p>​    <strong>用户</strong>是指使用 apache 软件的人。他们通过以错误报告和功能建议的形式向开发人员提供反馈，为Apache项目做出贡献。用户通过在邮件列表和用户支持论坛上帮助其他用户来参与Apache社区的建设。</p><h3><span id="contributor-开发者贡献者">Contributor (开发者/贡献者)</span></h3><p><strong>开发者</strong>是用代码或文档形式个 apache 项目做贡献的用户。他们采取额外步骤参与项目，积极参与开发人员邮件列表，参与讨论，提供补丁，文档，建议和批评。开发人员也被称为<strong>贡献者</strong>。</p><h3><span id="committer-提交者">Committer (提交者)</span></h3><p><strong>提交者</strong>是签订了<a href="http://www.apache.org/licenses/#clas">贡献者许可协议（CLA）</a>文件，并且被授予了 apache 代码库的写入权限的开发者。他们有一个apache.org邮件地址。他们不需要依赖其他人来打补丁，他们实际上正在为项目做出短期决策。PMC可以（甚至是默许）同意并批准它成为永久性的，或者他们可以拒绝它。但是请记住，是PMC做出的决定，而不是单个提交者。</p><h3><span id="pmc-member-pmc会员">PMC Member (PMC会员)</span></h3><p><strong>PMC会员</strong>由于项目的发展和承诺的证明而当选的开发商或委员会成员。他们拥有对代码存储库的写访问权、apache.org邮件地址、对与社区相关的决策进行投票的权利以及向活动用户建议提交的权利。作为一个整体，项目管理咨询公司是控制项目的实体，没有其他人。特别是，项目管理委员会必须对其项目软件产品的任何正式发布进行投票。</p><h3><span id="pmc-chair-pmc主席">PMC CHAIR (PMC主席)</span></h3><p>项目管理委员会（PMC）的<strong>主席</strong>由董事会从<a href="http://apache.org/foundation/how-it-works.html#pmc-members">PMC成员</a>中任命。PMC作为一个整体是控制和领导项目的实体。主席是理事会与项目之间的接口。 <a href="https://www.apache.org/dev/pmc.html#chair">PMC主席有特定的职责</a>。</p><h3><span id="asf-member-asf会员">ASF MEMBER (ASF会员)</span></h3><p><strong>ASF成员</strong>是由现任成员提名并因基金会的发展和进步而当选的人。会员关心ASF本身。这通常通过与项目相关和跨项目活动的根源来证明。法律上，会员是基金会的“股东”之一。他们有权选举董事会，作为董事会选举的候选人，并提名一名委员为成员。他们也有权提出一个新的孵化项目（稍后我们将看到这意味着什么）。成员通过邮件列表和年度会议协调其活动。我们有一个<a href="https://www.apache.org/foundation/members.html">完整的Apache成员列表</a>。 </p><p>原文地址：<a href="http://apache.org/foundation/how-it-works.html#roles">http://apache.org/foundation/how-it-works.html#roles</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1&gt;&lt;span id=&quot;角色&quot;&gt;角色&lt;/span&gt;&lt;/h1&gt;&lt;p&gt;精英管理通常在每个Apache项目社区中都有不同的角色：&lt;/p&gt;
+&lt;h3&gt;&lt;span id=&quot;user用户&quot;&gt;User(用户)&lt;/span&gt;&lt;/h3&gt;&lt;p&gt;​    &lt;strong&gt;用户&lt;/strong&gt;是指使
+      
+    
+    </summary>
+    
+      <category term="apache流程" scheme="https://wangxin.io/categories/apache%E6%B5%81%E7%A8%8B/"/>
+    
+    
+      <category term="apache流程" scheme="https://wangxin.io/tags/apache%E6%B5%81%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Dubbo代码分析---服务端线程池</title>
+    <link href="https://wangxin.io/2019/01/01/dubbo/dubbo_server_side_thread_pool/"/>
+    <id>https://wangxin.io/2019/01/01/dubbo/dubbo_server_side_thread_pool/</id>
+    <published>2018-12-31T18:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.446Z</updated>
+    
+    <content type="html"><![CDATA[<p>一、Dubbo服务端线程池耗尽问题</p><p>在使用Dubbo的过程中，在服务端压力大时候我们常常会遇到说线程池耗尽的这样一个错误日志：</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">17</span>:<span class="number">54</span>:<span class="number">34</span>,<span class="number">026</span> WARN [New I/O server worker #<span class="number">1</span>-<span class="number">4</span>] -  [DUBBO] Thread pool is EXHAUSTED! Thread Name: DubboServerHandler-<span class="number">10</span><span class="variable">.8</span><span class="variable">.64</span><span class="variable">.57</span>:<span class="number">20880</span>, Pool Size: <span class="number">300</span> (active: <span class="number">300</span>, core: <span class="number">300</span>, max: <span class="number">300</span>, largest: <span class="number">300</span>), Task: <span class="number">5821</span> (completed: <span class="number">5621</span>), Executor status:(isShutdown:false, isTerminated:false, isTerminating:false), in dubbo:<span class="comment">//x.x.x.x:20880!, dubbo version: 2.6.5, current host: x.x.x.x</span></span><br><span class="line">com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.ExecutionException</span>: <span class="keyword">class</span> com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.dispatcher</span><span class="variable">.all</span><span class="variable">.AllChannelHandler</span> error when process caught <span class="keyword">event</span> .</span><br><span class="line">at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.dispatcher</span><span class="variable">.all</span><span class="variable">.AllChannelHandler</span><span class="variable">.caught</span>(AllChannelHandler<span class="variable">.java</span>:<span class="number">67</span>)</span><br><span class="line">at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.AbstractChannelHandlerDelegate</span><span class="variable">.caught</span>(AbstractChannelHandlerDelegate<span class="variable">.java</span>:<span class="number">44</span>)</span><br><span class="line">at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.AbstractChannelHandlerDelegate</span><span class="variable">.caught</span>(AbstractChannelHandlerDelegate<span class="variable">.java</span>:<span class="number">44</span>)</span><br><span class="line">at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.AbstractPeer</span><span class="variable">.caught</span>(AbstractPeer<span class="variable">.java</span>:<span class="number">127</span>)</span><br><span class="line">at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.netty</span><span class="variable">.NettyHandler</span><span class="variable">.exceptionCaught</span>(NettyHandler<span class="variable">.java</span>:<span class="number">112</span>)</span><br><span class="line">at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.netty</span><span class="variable">.NettyCodecAdapter</span>$InternalDecoder<span class="variable">.exceptionCaught</span>(NettyCodecAdapter<span class="variable">.java</span>:<span class="number">165</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.Channels</span><span class="variable">.fireExceptionCaught</span>(Channels<span class="variable">.java</span>:<span class="number">432</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.AbstractChannelSink</span><span class="variable">.exceptionCaught</span>(AbstractChannelSink<span class="variable">.java</span>:<span class="number">52</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.Channels</span><span class="variable">.fireMessageReceived</span>(Channels<span class="variable">.java</span>:<span class="number">302</span>)</span><br><span class="line">at com<span class="variable">.alibaba</span><span class="variable">.dubbo</span><span class="variable">.remoting</span><span class="variable">.transport</span><span class="variable">.netty</span><span class="variable">.NettyCodecAdapter</span>$InternalDecoder<span class="variable">.messageReceived</span>(NettyCodecAdapter<span class="variable">.java</span>:<span class="number">148</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.Channels</span><span class="variable">.fireMessageReceived</span>(Channels<span class="variable">.java</span>:<span class="number">274</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.Channels</span><span class="variable">.fireMessageReceived</span>(Channels<span class="variable">.java</span>:<span class="number">261</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.socket</span><span class="variable">.nio</span><span class="variable">.NioWorker</span><span class="variable">.read</span>(NioWorker<span class="variable">.java</span>:<span class="number">350</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.socket</span><span class="variable">.nio</span><span class="variable">.NioWorker</span><span class="variable">.processSelectedKeys</span>(NioWorker<span class="variable">.java</span>:<span class="number">281</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.channel</span><span class="variable">.socket</span><span class="variable">.nio</span><span class="variable">.NioWorker</span><span class="variable">.run</span>(NioWorker<span class="variable">.java</span>:<span class="number">201</span>)</span><br><span class="line">at org<span class="variable">.jboss</span><span class="variable">.netty</span><span class="variable">.util</span><span class="variable">.internal</span><span class="variable">.IoWorkerRunnable</span><span class="variable">.run</span>(IoWorkerRunnable<span class="variable">.java</span>:<span class="number">46</span>)</span><br><span class="line">at java<span class="variable">.util</span><span class="variable">.concurrent</span><span class="variable">.ThreadPoolExecutor</span>$Worker<span class="variable">.runTask</span>(ThreadPoolExecutor<span class="variable">.java</span>:<span class="number">886</span>)</span><br><span class="line">at java<span class="variable">.util</span><span class="variable">.concurrent</span><span class="variable">.ThreadPoolExecutor</span>$Worker<span class="variable">.run</span>(ThreadPoolExecutor<span class="variable">.java</span>:<span class="number">908</span>)</span><br><span class="line">at java<span class="variable">.lang</span><span class="variable">.Thread</span><span class="variable">.run</span>(Thread<span class="variable">.java</span>:<span class="number">619</span>)</span><br><span class="line"> </span><br><span class="line">Caused by: java<span class="variable">.util</span><span class="variable">.concurrent</span><span class="variable">.RejectedExecutionException</span>: Thread pool is EXHAUSTED! Thread Name: DubboServerHandler-<span class="number">10</span><span class="variable">.8</span><span class="variable">.64</span><span class="variable">.57</span>:<span class="number">20880</span>, Pool Size: <span class="number">300</span> (active: <span class="number">300</span>, core: <span class="number">300</span>, max: <span class="number">300</span>, largest: <span class="number">300</span>), Task: <span class="number">5821</span></span><br></pre></td></tr></table></figure><p>我们从错误堆栈可以看到，是服务端线程池溢出了。</p><p><strong>二、源码分析</strong><br>看一下服务端线程池代码是怎么写的，起到什么作用</p><p>画图 dubbo客户端调用服务端线程池的示意图</p><p><strong>三、线程池知识</strong></p><p>解释一下线程池的定义是用来干嘛的。</p><p>一些处理的办法：<br>适当加大服务端线程池，找到合理的配置。这个关联一线程池的配合准则，链接到老的文章。</p><p><strong>四、分析原因，处理建议</strong></p><p>为什么线程池升高呢？    主要从<strong>流量、cpu数据率、负载、jvm日志</strong>几方面分析<br>1）流量过大？(加缓存、对于上游上游服务)<br>2)   扩机器：cpu核数的增加<br>3)   宿主机此时负载高？<br>4）自己代码优化<br>5)  设置客户端快速失败</p><p>  程序慢？io过多？（并行io）</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;一、Dubbo服务端线程池耗尽问题&lt;/p&gt;
+&lt;p&gt;在使用Dubbo的过程中，在服务端压力大时候我们常常会遇到说线程池耗尽的这样一个错误日志：&lt;/p&gt;
+&lt;figure class=&quot;highlight verilog&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter
+      
+    
+    </summary>
+    
+      <category term="dubbo" scheme="https://wangxin.io/categories/dubbo/"/>
+    
+    
+      <category term="dubbo" scheme="https://wangxin.io/tags/dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>rpc跟踪日志常用shell统计脚本</title>
+    <link href="https://wangxin.io/2018/12/31/linux/some_shell_script/"/>
+    <id>https://wangxin.io/2018/12/31/linux/some_shell_script/</id>
+    <published>2018-12-31T12:40:02.000Z</published>
+    <updated>2024-10-10T01:18:36.449Z</updated>
+    
+    <content type="html"><![CDATA[<p>一、应用日志分析<br>rpc跟踪日志作为时间序列数据，一般字段有：时间、traceId、接口名、执行时间ms、执行结果等。笔者将自己常用的shell统计脚本记录下来，也希望读大家有帮助。</p><p>下面的日志信息<code>trace.log</code>,字段分别是：<code>时间| traceId|接口名|执行时间ms|执行结果</code></p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">14</span>:<span class="number">00</span>:<span class="number">00</span>|<span class="number">1</span>|getById|<span class="number">1</span>|success|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">03</span>:<span class="number">01</span>:<span class="number">00</span>|<span class="number">2</span>|getById|<span class="number">100</span>|fail|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">02</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span>|<span class="number">3</span>|getById|<span class="number">1000</span>|success|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span>|<span class="number">4</span>|updateById|<span class="number">1000</span>|success|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span>|<span class="number">5</span>|getById|<span class="number">1000</span>|success|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span>|<span class="number">6</span>|updateById|<span class="number">200</span>|success|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">02</span> <span class="number">14</span>:<span class="number">56</span>:<span class="number">00</span>|<span class="number">7</span>|updateById|<span class="number">20</span>|success|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span>|<span class="number">8</span>|updateById|<span class="number">60</span>|fail|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">03</span>:<span class="number">00</span>:<span class="number">00</span>|<span class="number">9</span>|updateById|<span class="number">200</span>|success|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">02</span>:<span class="number">00</span>|<span class="number">10</span>|updateById|<span class="number">20</span>|success|</span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">03</span>:<span class="number">02</span>:<span class="number">00</span>|<span class="number">11</span>|insert|<span class="number">20</span>|success|</span><br></pre></td></tr></table></figure><p>请实现如下需求：</p><p>1、执行结果大于200ms的记录</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -F "|" '&#123;if($4&gt;=200)&#123;print $1" "$2" "$3" "$4 &#125;&#125;' trace.log</span><br></pre></td></tr></table></figure><p>执行结果</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">02</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span> <span class="number">3</span> getById <span class="number">1000</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span> <span class="number">4</span> updateById <span class="number">1000</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span> <span class="number">4</span> getById <span class="number">1000</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">00</span>:<span class="number">00</span> <span class="number">5</span> updateById <span class="number">200</span></span><br><span class="line"><span class="number">2018</span>-<span class="number">10</span>-<span class="number">01</span> <span class="number">03</span>:<span class="number">00</span>:<span class="number">00</span> <span class="number">8</span> updateById <span class="number">200</span></span><br></pre></td></tr></table></figure><p>2、2018-10-01 日接口数量排行前3</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk '/2018-10-01/' trace.log |awk -F "|" '&#123;print $3&#125;'  |sort|uniq -c|sort -rn| head -3</span><br></pre></td></tr></table></figure><p>执行结果</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> updateById</span><br><span class="line"><span class="number">3</span> getById</span><br><span class="line"><span class="number">1</span> insert</span><br></pre></td></tr></table></figure><p>3、对于各个接口的执行时间ms按照(0-50,50-100，100-300，300以上)范围进行数量统计</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -F "|" '&#123;totalCnt[$3]++;if($4&lt;=50)&#123;ms50[$3]++&#125;;if($4&gt;50 &amp;&amp; $4&lt;=100)&#123;ms100[$3]++&#125;;if($4&gt;100 &amp;&amp; $4&lt;=300)&#123;ms300[$3]++&#125;;if($4&gt;300)&#123;ms300b[$3]++&#125;&#125;END&#123;for(i in totalCnt)print i,int(ms50[i]),int(ms100[i]),int(ms300[i]),int(ms300b[i])&#125;' trace.log</span><br></pre></td></tr></table></figure><p>执行结果</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getById <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">2</span></span><br><span class="line">updateById <span class="number">2</span> <span class="number">1</span> <span class="number">2</span> <span class="number">1</span></span><br><span class="line">insert <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span></span><br></pre></td></tr></table></figure><p>4、查询trace.log文件各个接口的失败率</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -F "|" '&#123;totalCnt[$3]++;if($5=="fail")&#123;failCnt[$3]++&#125;&#125;END&#123;for(i in totalCnt)print i,(failCnt[i]/totalCnt[i])*100"%"&#125;' trace.log</span><br></pre></td></tr></table></figure><p>执行结果</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getById <span class="number">25</span>%</span><br><span class="line">updateById <span class="number">16</span><span class="variable">.6667</span>%</span><br><span class="line">insert <span class="number">0</span>%</span><br></pre></td></tr></table></figure><p>5、查询trace.log各个接口的平均耗时</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -F "|" '&#123;totalCnt[$3]++;&#123;rtSum[$3]+=$4&#125;&#125;END&#123;for(i in totalCnt)print i,(rtSum[i]/totalCnt[i])&#125;' trace.log</span><br></pre></td></tr></table></figure><p>执行结果</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getById <span class="number">525</span><span class="variable">.25</span></span><br><span class="line">updateById <span class="number">250</span></span><br><span class="line">insert <span class="number">20</span></span><br></pre></td></tr></table></figure><p>二 、简单数据处理</p><p>1、删除id.txt重复id </p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">aaaaa</span><br><span class="line">2</span><br><span class="line">111</span><br><span class="line">2</span><br><span class="line">111</span><br><span class="line">aaaaa</span><br><span class="line">aaaaa</span><br><span class="line">aaaaa</span><br></pre></td></tr></table></figure><p>脚本</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat id.txt | sort | uniq</span><br></pre></td></tr></table></figure><p><strong>执行结果</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">111</span><br><span class="line">2</span><br><span class="line">aaaaa</span><br></pre></td></tr></table></figure><p>2、递归查看某个目录磁盘占用大小</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -h --max-depth&#x3D;2 &#x2F;data</span><br></pre></td></tr></table></figure><p>一些参考：<br><a href="http://techslides.com/grep-awk-and-sed-in-bash-on-osx">http://techslides.com/grep-awk-and-sed-in-bash-on-osx</a><br><a href="http://www.grapenthin.org/teaching/geop501/lectures/lecture_10_unix2.pdf">http://www.grapenthin.org/teaching/geop501/lectures/lecture_10_unix2.pdf</a><br><a href="http://coewww.rutgers.edu/www1/linuxclass2005/lessons/lesson9/shell_script_tutorial.html">http://coewww.rutgers.edu/www1/linuxclass2005/lessons/lesson9/shell_script_tutorial.html</a><br><a href="http://blog.chinaunix.net/uid-26736384-id-5756343.html">http://blog.chinaunix.net/uid-26736384-id-5756343.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;一、应用日志分析&lt;br&gt;rpc跟踪日志作为时间序列数据，一般字段有：时间、traceId、接口名、执行时间ms、执行结果等。笔者将自己常用的shell统计脚本记录下来，也希望读大家有帮助。&lt;/p&gt;
+&lt;p&gt;下面的日志信息&lt;code&gt;trace.log&lt;/code&gt;,字段分别是
+      
+    
+    </summary>
+    
+      <category term="shell" scheme="https://wangxin.io/categories/shell/"/>
+    
+    
+      <category term="统计" scheme="https://wangxin.io/tags/%E7%BB%9F%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>并发 - 谈谈HashMap和ConcurrentHashMap</title>
+    <link href="https://wangxin.io/2018/10/31/java/collection/hashmap_and_concurrenthashmap/"/>
+    <id>https://wangxin.io/2018/10/31/java/collection/hashmap_and_concurrenthashmap/</id>
+    <published>2018-10-30T18:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.448Z</updated>
+    
+    <content type="html"><![CDATA[<p>1、HashMap和ConcurrentHashMap的实现基本数据结构是啥？</p><p>2、ConcurrentHashMap怎么做到线程安全的？</p><p>3、java8的，ConcurrentHashMap实现有哪些变化？</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;1、HashMap和ConcurrentHashMap的实现基本数据结构是啥？&lt;/p&gt;
+&lt;p&gt;2、ConcurrentHashMap怎么做到线程安全的？&lt;/p&gt;
+&lt;p&gt;3、java8的，ConcurrentHashMap实现有哪些变化？&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JVM基本结构</title>
+    <link href="https://wangxin.io/2018/10/08/jvm/jvm_basic_structure/"/>
+    <id>https://wangxin.io/2018/10/08/jvm/jvm_basic_structure/</id>
+    <published>2018-10-07T18:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.448Z</updated>
+    
+    <content type="html"><![CDATA[<h3><span id="一-什么是-java-gc-垃圾回收">一、什么是 Java GC (垃圾回收) ?</span></h3><p>​       我们知道，java语言不像C++，将内存的分配和回收给程序员来处理。java用统一的垃圾回收机制来管理java进程的内存，就是通常所说的垃圾回收：<strong>GC（Garbage Collection）</strong>。<br>先到维基百科上看一下<a href="https://en.wikipedia.org/wiki/Garbage_collection_(computer_science)">Garbage Collection</a>的概念:<br>​      In computer science, <strong>garbage collection</strong> (<strong>GC</strong>) is a form of automatic <a href="https://en.wikipedia.org/wiki/Memory_management">memory management</a>. The <em>garbage collector</em>, or just <em>collector</em>, attempts to reclaim <em>garbage</em>, or memory occupied by objectst that are no longer in use by the program. Garbage collection was invented by <a href="https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)">John McCarthy</a> around 1959 to simplify manual memory management in Lisp.<br>​     这就面临一些问题：java进程到底是什么样的结构？java进程的内存哪些需要被回收，在什么条件下才回收，谁来回收？我们首先来看一些概念</p><h3><span id="二-什么是jvm">二、什么是JVM ?</span></h3><p>从维基百科上看<a href="https://en.wikipedia.org/wiki/Java_virtual_machine">jvm的定义</a>:<br>   A Java virtual machine (JVM) is a virtual machine that enables a computer to run Java programs as well as programs written in other languages that are also compiled to Java bytecode.         </p><h3><span id="三-jvm运行时数据区">三、Jvm运行时数据区</span></h3><p>在Java语言中，采用的是共享内存模型来实现多线程之间的信息交换和数据同步的。 根据<a href="https://docs.oracle.com/javase/specs/index.html">《Java虚拟机文档》</a> 第七版的规定，Java虚拟机锁管理的内存包含下面几个运行时数据区域：<br><img src="/images/jvmcons.png"><br><strong>方法区、虚拟机栈、本地方法栈、队、程序计数器</strong>等。</p><ul><li><p>程序计数器：</p><p>一块较小的内存空间，可以看做是当前线程所执行的<strong>字节码的行数指示器</strong>。</p></li><li><p>JAVA虚拟机栈：</p><p><strong>虚拟机栈</strong>描述的是Java方法执行的内存模型：每个方法在执行的同时会创建一个栈帧（Stack Frame）用于存储<strong>局部变量表、操作数栈、动态链接、方法出口</strong>等信息。</p><p><strong>局部变量表</strong>存放了编译器可知的：</p><ul><li><strong>基本数据类型</strong>（boolean、byte、char、short、int、float、long、double）  </li><li><strong>对象引用</strong>：reference类型，可能是一个指向对象起始地址的引用指针，也可能是一个指向对象起始地址的引用指针</li><li><strong>returnAddress地址</strong>：指向了一条字节码指令的地址</li></ul></li><li><p>本地方法栈：</p><p>为虚拟机使用到的Native方法服务，与虚拟机栈的作用类似。</p></li><li><p>JAVA堆：</p><p>Java堆是被所有线程共享的一块内存区域，此内存区域的唯一目的就是存放内存实例，所有的对象实例以及数组都要在堆上分配，是垃圾收集管理的主要区域。</p></li><li><p>方法区：<br> 和Java堆一样，是各个线程共享的内存区域，用于存储已被虚拟机加载的<strong>类信息、常量、静态变量、即时编辑器编译后的代码</strong>等 </p></li><li><p>运行时常量池</p><p> 是方法区的一部分。Class文件中除了有类的版本、字段、方法、接口等描述信息外，还有常量池来存放编译期生成的各种字面量和符号引用。</p></li><li><p>直接内存</p><p> 对外内存，不是jvm的存储，所以不受jvm的堆参数控制。NIO可以直接分配对外内存，可能会导致OutOfMemoryError，导致java进程僵死。</p></li></ul><h3><span id="四-对象的访问定位">四、对象的访问定位</span></h3><p>​        我们Java程序需要通过<strong>栈上</strong>的reference数据来操作<strong>堆上</strong>的具体对象。 有两种方式：<strong>使用句柄访问</strong>和<strong>通过指针访问</strong>。      </p><ul><li><p>使用句柄</p><p>Java堆中将会划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址，句柄中包含了对象实例与类型数据各自的具体地址信息。</p><img src="/images/jvmhandler.png"></li><li><p>通过指针</p><p>Java堆对象的布局中就必须考虑如何放置访问类型数据的相关信息，而reference中存储的直接就是对象地址。       </p><img src="/images/jvmdirect.png"></li></ul><p><strong>参考：</strong></p><ul><li>《深入理解java虚拟机》周志明</li><li>图片来自网络</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3&gt;&lt;span id=&quot;一-什么是-java-gc-垃圾回收&quot;&gt;一、什么是 Java GC (垃圾回收) ?&lt;/span&gt;&lt;/h3&gt;&lt;p&gt;​       我们知道，java语言不像C++，将内存的分配和回收给程序员来处理。java用统一的垃圾回收机制来管理java进程的内存，
+      
+    
+    </summary>
+    
+      <category term="jvm" scheme="https://wangxin.io/categories/jvm/"/>
+    
+    
+      <category term="jvm" scheme="https://wangxin.io/tags/jvm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>谈谈并发包的工具都是用在什么地方，底层是怎么实现的？</title>
+    <link href="https://wangxin.io/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/"/>
+    <id>https://wangxin.io/2018/10/05/concurrent/talk_about_concurrent_tools_in_jdk/</id>
+    <published>2018-10-04T18:01:02.000Z</published>
+    <updated>2024-10-10T01:18:36.445Z</updated>
+    
+    <content type="html"><![CDATA[<p>一、synchrized和ReentraLock 有什么区别？</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;一、synchrized和ReentraLock 有什么区别？&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+      <category term="hide" scheme="https://wangxin.io/categories/hide/"/>
+    
+    
+      <category term="hide" scheme="https://wangxin.io/tags/hide/"/>
+    
+  </entry>
+  
+</feed>
