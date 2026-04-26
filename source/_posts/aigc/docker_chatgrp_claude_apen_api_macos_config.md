@@ -1,11 +1,13 @@
 ---
 title: Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记
 subtitle:  docker、chatgpt、claudeai等国外的站点对国内IP有限制，使用vpn时候的注意点
+cover: /images/aitalk.png
 author: 
   nick: 王欣
   link: https://wangxin.io
 tags: 
-- 大模型,AIGC  
+- 大模型
+- AIGC  
 categories: 
 - 大模型
 date: 2024-11-08 10:01:02
