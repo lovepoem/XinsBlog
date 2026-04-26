@@ -10,7 +10,7 @@ tags:
 - AI就业
 - Anthropic
 categories:
-- 大模型
+- AIGC
 date: 2026-03-12 10:00:00
 ---
 

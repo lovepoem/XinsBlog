@@ -11,7 +11,7 @@ tags:
 - AIAgent
 - 飞书机器人
 categories:
-- 大模型
+- AIGC
 date: 2026-03-19 10:00:00
 ---
 

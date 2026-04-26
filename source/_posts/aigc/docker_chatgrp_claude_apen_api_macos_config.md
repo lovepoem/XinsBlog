@@ -9,7 +9,7 @@ tags:
 - 大模型
 - AIGC  
 categories: 
-- 大模型
+- AIGC
 date: 2024-11-08 10:01:02
 ---
 

@@ -11,7 +11,7 @@ tags:
 - SpaceX
 - AI编程
 categories:
-- 大模型
+- AIGC
 date: 2026-04-22 10:00:00
 ---
 

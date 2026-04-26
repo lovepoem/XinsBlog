@@ -10,7 +10,7 @@ tags:
 - ClaudeCode
 - 技术架构
 categories:
-- 大模型
+- AIGC
 date: 2026-04-01 10:00:00
 ---
 

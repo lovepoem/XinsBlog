@@ -11,7 +11,7 @@ tags:
 - Agent
 - Context Engineering
 categories:
-- 大模型
+- AIGC
 date: 2026-04-05 10:00:00
 ---
 

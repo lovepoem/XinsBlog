@@ -9,7 +9,7 @@ tags:
 - AIGC
 - 做剧经验
 categories:
-- 大模型
+- AIGC
 date: 2026-03-22 10:00:00
 ---
 
