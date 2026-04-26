@@ -1,19 +1,19 @@
 # Site
 # 博客的标题
-title: 王欣的博客
+title: 王欣说AI
 
-seotitle: 王欣的博客|微服务|RPC|信息安全|AIGC
+seotitle: 王欣说AI|信息安全|AIGC|AI
 # banner显示的子标题
-subtitle: 王欣的博客
+subtitle: 王欣说AI
 
 # banner显示的简短介绍
-subtitle_desc: 开源项目提交者
+subtitle_desc: All in AI
 
 # seo关键字
 keywords: 开源项目提交者,dubbo,rpc,seata ppmc，apache,架构师,信息安全，AIGC
 
 # 博客介绍（同时用于seo）
-description: 王欣，Apache Dubbo项目committer/PMC、Apache Seata项目PPMC。专注于rpc、云原生、性能优化、信息安全、AIGC相关的技术，拥抱开源。github：https://github.com/lovepoem email：xin.victorwang@gmail.com
+description: 王欣，AI 技术和产品研究者、创业者。分享大家听得懂、用得上、能赚钱的AI技术。开源项目提交者和推广者： Apache Dubbo项目/PMC、Apache Seata项目PPMC。github：https://github.com/lovepoem email：xin.victorwang@gmail.com
 # 个人介绍
 introduction: 锲而不舍、金石可镂
 
@@ -25,11 +25,14 @@ logo: /images/wangxin.png
 # 头像/二维码（用于显示在底部）二选一
 avatar: /images/me.png
 
+# 侧边栏公众号二维码（显示在简介下方）
+wechat_qrcode: /images/wechat-qrcode.png
+
 # 文章的默认封面
 default_cover: /images/java.png
 
 # header 的背景图
-header_cover: /images/banner.jpeg
+header_cover: /images/banner.png
 
 # 404 页面的背景图
 error_page_bg: /images/404.jpg
@@ -43,7 +46,7 @@ author:
   link: https://wangxin.io/
 # 用于页面 footer 的站长信息
 about:
-  info: 王欣的博客，工作生活的一些思考。
+  info: 王欣说AI，工作生活的一些思考。
   address: Beijing, China
   email: xin.victorwang@gmail.com
 language: zh-cn
@@ -58,7 +61,7 @@ cdn:
   css: https://cdn.jsdelivr.net/gh/lovepoem/lovepoem.github.io@master/scss/
   js: https://cdn.jsdelivr.net/gh/lovepoem/lovepoem.github.io@master/js/
   images: https://cdn.jsdelivr.net/gh/lovepoem/lovepoem.github.io@master/images/
-permalink: :year/:month/:day/:title/
+permalink: :route_path/
 permalink_defaults:
 
 # Directory

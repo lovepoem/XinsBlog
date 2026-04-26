@@ -1,4 +1,4 @@
-# 王欣的博客
+# 王欣说AI
 
 ![CI](https://github.com/lovepoem/XinsBlog/workflows/CI/badge.svg)
 ![wangxin.io deploy](https://github.com/lovepoem/XinsBlog/workflows/wangxin.io%20deploy/badge.svg)
