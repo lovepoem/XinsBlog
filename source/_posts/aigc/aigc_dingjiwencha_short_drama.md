@@ -1,16 +1,17 @@
 ---
 title: 没团队、没演员、没经验——我一个写代码的，用AI独自做完了短剧《顶级温差》
 subtitle: 从争议话题出发到AI独立完成短剧制作，一个程序员零基础实战记录
-cover: /images/temdiff.png
 author:
   nick: 王欣
   link: https://wangxin.io
 tags:
 - AIGC
-- 做剧经验
+- AI短剧
+- 顶级温差
 categories:
-- AIGC
-date: 2026-03-22 10:00:00
+- 大模型
+date: 2026-04-26 10:00:00
+cover: /images/temdiff.webp
 ---
 
 > *"你能不能别光写，直接拍个短剧？"*
@@ -226,4 +227,3 @@ date: 2026-03-22 10:00:00
 如果你觉得这件事有点意思，欢迎转发给那个也想搞点创作的朋友。
 
 也许他只差一个"我真拍了"的勇气。
-

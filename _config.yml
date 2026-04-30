@@ -32,7 +32,9 @@ wechat_qrcode: /images/wechat-qrcode.png
 default_cover: /images/java.png
 
 # header 的背景图
-header_cover: /images/banner.png
+header_cover: /images/banner.webp
+# 小屏设备的 header 背景图（用于响应式首屏优化）
+header_cover_mobile: /images/banner-mobile.webp
 
 # 404 页面的背景图
 error_page_bg: /images/404.jpg
