@@ -41,7 +41,7 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": EOF(base) wx
 
 可以在一个网站查看是否生效：https://whatismyipaddress.com
 
-![img](/images/proxy_success.png)
+![img](/images/proxy_success.webp)
 
 如图，我的已经生效。如果一直不生效，请在**无痕模式**下打开浏览器
 
@@ -76,7 +76,7 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": EOF(base) wx
 
 拷贝到  Docker Desktop的  设置按钮--> Docker Engine 文本框
 
-![img](/images/docker_daemon.png)
+![img](/images/docker_daemon.webp)
 
 对应文件的磁盘存储路径为：~/.docker/daemon.json
 
