@@ -152,8 +152,8 @@ highlight_theme: normal
 baidu_statistic: 8dd700474b9448fa0d7db1f5e2236886
 # Google statistic
 google_statistic: G-1SDLZ60RR6
-# Vercel Analytics
-vercel_analytics: true
+# Vercel Speed Insights
+vercel_speed_insights: true
 # Busuanzi
 busuanzi: true
 # Feed Atom
