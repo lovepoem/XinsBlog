@@ -1,7 +1,7 @@
 ---
 title: Macos上跑Docker Desktop遇到registry-1.docker.io网络不通问题填坑笔记
 subtitle:  docker、chatgpt、claudeai等国外的站点对国内IP有限制，使用vpn时候的注意点
-cover: /images/aitalk.png
+cover: /images/aitalk.webp
 author: 
   nick: 王欣
   link: https://wangxin.io
@@ -37,7 +37,7 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": EOF(base) wx
 
 例如我用的VPN是XXXXXVpn，是设置**"安全模式"**
 
-![img](/images/vpn_config.png)
+![img](/images/vpn_config.webp)
 
 可以在一个网站查看是否生效：https://whatismyipaddress.com
 

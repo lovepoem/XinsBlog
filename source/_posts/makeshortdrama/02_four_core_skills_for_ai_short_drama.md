@@ -1,7 +1,7 @@
 ---
 title: 第2篇：四项基本功——提示词、镜头语言、剪映、投流 - 怎么用AI从0做出短剧/漫剧？
 subtitle: 开拍前必须掌握的四项底层能力：提示词工程、影视基础、剪映操作与投流分发
-cover: /images/makedrama.png
+cover: /images/makedrama.webp
 author:
   nick: 王欣
   link: https://wangxin.io

@@ -1,7 +1,7 @@
 ---
 title: 第3篇：编剧篇——一切从一个好故事开始 - 怎么用AI从0做出短剧/漫剧？
 subtitle: 选对题材就是成功的一半，先避开AI短剧制作中的高风险叙事坑位
-cover: /images/makedrama.png
+cover: /images/makedrama.webp
 author:
   nick: 王欣
   link: https://wangxin.io

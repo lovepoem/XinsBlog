@@ -23,7 +23,7 @@ favicon_ico: /images/wangxin-min.png
 logo: /images/wangxin.png
 
 # 头像/二维码（用于显示在底部）二选一
-avatar: /images/me.png
+avatar: /images/me.webp
 
 # 侧边栏公众号二维码（显示在简介下方）
 wechat_qrcode: /images/wechat-qrcode.png

@@ -1,7 +1,7 @@
 ---
 title: AI公司亲自下场研究"谁会被取代"：这份报告让整个白领圈沉默了
 subtitle: Anthropic基于真实使用数据发布劳动力市场报告，揭示AI在白领工作中的实际覆盖与未来趋势
-cover: /images/aitalk.png
+cover: /images/aitalk.webp
 author:
   nick: 王欣
   link: https://wangxin.io

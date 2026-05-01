@@ -1,7 +1,7 @@
 ---
 title: 第4篇：导演思维 + AI素材生成全流程 - 怎么用AI从0做出短剧/漫剧？
 subtitle: 从导演视角出发，系统掌握场景、角色与镜头语言在AI短剧中的落地方法
-cover: /images/makedrama.png
+cover: /images/makedrama.webp
 author:
   nick: 王欣
   link: https://wangxin.io

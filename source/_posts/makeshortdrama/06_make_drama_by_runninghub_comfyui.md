@@ -1,7 +1,7 @@
 ---
 title: 第6章：工具篇——使用 RunningHub（ComfyUI）生成短剧
 subtitle: 从工作流思维出发，掌握RunningHub云端ComfyUI在短剧创作中的进阶用法
-cover: /images/makedrama.png
+cover: /images/makedrama.webp
 author:
   nick: 王欣
   link: https://wangxin.io

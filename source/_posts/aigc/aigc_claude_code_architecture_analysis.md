@@ -1,7 +1,7 @@
 ---
 title: 通过Claude Code的源码分析其技术架构
 subtitle: 从Claude Code 2.1.88源码出发，拆解其分层架构、Agent Loop与工具系统设计
-cover: /images/aitalk.png
+cover: /images/aitalk.webp
 author:
   nick: 王欣
   link: https://wangxin.io
@@ -244,7 +244,7 @@ Claude API 返回的是一个 token 流。Claude Code 构建了一套完整的**
 
 让我们追踪一个真实请求的完整旅程：
 
-![图片](../../images/claude-code-architecture-04.png)
+![图片](../../images/claude-code-architecture-04.webp)
 
 用户输入: "帮我给 utils.ts 中的 parseDate 函数添加单元测试"
 

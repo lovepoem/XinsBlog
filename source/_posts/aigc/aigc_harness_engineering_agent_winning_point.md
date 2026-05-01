@@ -1,7 +1,7 @@
 ---
 title: 2026 AI 开发新范式：Harness Engineering（驾驭工程）为何是智能体的决胜点？
 subtitle: 从提示词、上下文到驾驭工程，理解AI智能体从“会聊”到“能上岗”的关键跃迁
-cover: /images/aitalk.png
+cover: /images/aitalk.webp
 author:
   nick: 王欣
   link: https://wangxin.io

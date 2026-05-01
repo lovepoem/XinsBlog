@@ -1,7 +1,7 @@
 ---
 title: 第5章：工具篇——使用小云雀Agent生成短剧
 subtitle: 通过字节的小云雀agnet来制作一部AI短剧，实操演示从剧本到成片的全过程
-cover: /images/makedrama.png
+cover: /images/makedrama.webp
 author:
   nick: 王欣
   link: https://wangxin.io

@@ -1,7 +1,7 @@
 ---
 title: 第1篇：为什么2026年是一个人拍短剧的最佳时机？- 怎么用AI从0做出短剧/漫剧？ 
 subtitle: 从零搭建AI短剧认知体系，理解一人创作时代的底层机会
-cover: /images/makedrama.png
+cover: /images/makedrama.webp
 author:
   nick: 王欣
   link: https://wangxin.io

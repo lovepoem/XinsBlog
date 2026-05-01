@@ -132,7 +132,7 @@ cover: /images/temdiff.webp
 
 ------
 
-![图片](../../images/dingjiwencha-story-04.png)
+![图片](../../images/dingjiwencha-story-04.webp)
 
 当苏晚质问他为何擅自去见许靖时，江驰说出了那句关键的话：
 

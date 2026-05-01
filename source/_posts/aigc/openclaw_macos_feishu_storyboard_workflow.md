@@ -1,7 +1,7 @@
 ---
 title: OpenClaw macOS安装：飞书机器人一键生成小说+分镜
 subtitle: Mac裸机部署OpenClaw并接入飞书机器人，实测13分钟跑通小说到分镜提示词全流程
-cover: /images/aitalk.png
+cover: /images/aitalk.webp
 author:
   nick: 王欣
   link: https://wangxin.io
@@ -129,7 +129,7 @@ openclaw pairing approve feishu xxxxx
 
 📸 **【燕小乙执行结果】**
 
-![图片](../../images/openclaw-feishu-run-result-2.png)
+![图片](../../images/openclaw-feishu-run-result-2.webp)
 
 ------
 
@@ -232,11 +232,11 @@ Agent让AI从"聊天"变成"干活"，而干活意味着**成倍的Token消耗**
 
 ## 🧑‍💻 给程序员
 
-![图片](../../images/openclaw-advice-for-devs.png)
+![图片](../../images/openclaw-advice-for-devs.webp)
 
 ## 👨‍👩‍👦 给普通人
 
-![图片](../../images/openclaw-advice-for-everyone.png)
+![图片](../../images/openclaw-advice-for-everyone.webp)
 
 ## 🤔 要不要学龙虾？
 

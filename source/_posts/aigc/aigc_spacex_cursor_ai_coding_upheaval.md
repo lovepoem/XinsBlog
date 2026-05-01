@@ -1,7 +1,7 @@
 ---
 title: 马斯克出手！SpaceX 豪掷 600 亿美元锁定 Cursor，AI 编程江湖巨变
 subtitle: 从SpaceX上市窗口到Cursor收购期权，拆解AI编程工具新一轮全球竞赛
-cover: /images/aitalk.png
+cover: /images/aitalk.webp
 author:
   nick: 王欣
   link: https://wangxin.io

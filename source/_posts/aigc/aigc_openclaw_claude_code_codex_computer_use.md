@@ -1,7 +1,7 @@
 ---
 title: 谁能替你操作电脑？OpenClaw vs Claude Code vs Codex 终极拆解
 subtitle: 从Computer Use赛道出发，深度对比三大AI操作电脑方案的技术路线与实战边界
-cover: /images/aitalk.png
+cover: /images/aitalk.webp
 author:
   nick: 王欣
   link: https://wangxin.io
