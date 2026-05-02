@@ -117,7 +117,7 @@ public static void test()throwsSQLException{
 3)      基础支撑层：负责最基础的功能支撑，包括连接管理、事务管理、配置加载和缓存处理，这些都是共用的东西，将他们抽取出来作为最基础的组件。为上层的数据处理层提供最基础的支撑。
 #### 2、整体流程图
 
-![img](http://img.my.csdn.net/uploads/201306/09/1370783456_4126.JPG)
+![img](/images/mybatis-process-01.webp)
 
 ​     初始化Mybatis，所有的配置都在Configuration对象中 使用Mybatis，从SqlSessionFactory工厂中获取SqlSession，从Configuration对象中获取mapper对象，并返回结果 Mybatis在加载mapper的时候对mapper接口的注解进行解析 重要的几个包：io、session、builder、mapper（annotations、binding）、executor
 
@@ -145,7 +145,7 @@ private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionI
 ```
 　　最终返回的对象是一个DefaultSqlSession对象，在调试模式下，我们看到autoCommit为false，executor为CachingExecutor类型，在CachingExecutor里面有属性delegate，其类型为simpleExecutor：
 
-![img](http://images.cnitblog.com/blog/677938/201412/131414173377016.png)
+![img](/images/mybatis-process-02.webp)
 
 ​      现在，我们跟进DefaultSqlSession的selectOne()方法，查看该方法的调用流程，selectOne()方法又会调用selectList()方法：
 
@@ -275,7 +275,7 @@ public <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBo
 
 　　终于，我们看到熟悉的代码了，首先得到Connection，然后从Connection中得到Statement，同时在调试模式下我们看到，我们的sql语句已经被设置到stmt中了：
 
-![img](http://images.cnitblog.com/blog/677938/201412/131511151502445.png)
+![img](/images/mybatis-process-03.webp)
 
 　　现在Statement对象有了，sql也设置进去了，就只差执行以及对象映射了，继续跟进代码，我们会跟踪到org.apache.ibatis.executor.statement.
 

@@ -33,7 +33,7 @@ date: 2019-10-31 09:01:02
 
 下面来一张图看一下java7到8的内存模型吧（这个是在网上找的图，如有侵权问题请联系我删除。）
 
-![img](https://pic1.zhimg.com/80/v2-d928d79855d4448af061752168967d04_hd.jpg)
+![img](/images/jvm-memory-change-history-01.webp)
 
 ### **二、java7到java8的第二部分变化：运行时常量池**
 

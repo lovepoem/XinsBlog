@@ -39,7 +39,7 @@ date: 2026-04-13 10:00:00
 
 🎨 全文知识地图
 
-![img](https://static.xiaobot.net/file/2026-04-15/1122533/51e600d9a22354e3cda5e175f2a3fe62.png!post)
+![img](/images/makeshortdrama-01-map.webp)
 
 # 第一章：认知篇——AI能帮你做什么？
 
@@ -47,7 +47,7 @@ date: 2026-04-13 10:00:00
 
 **写作建议：**用一张表格 + 一段生动的描述，让读者感知传统制作的复杂度。
 
-![img](https://static.xiaobot.net/file/2026-04-15/1122533/89138edaa9d8cb80f5767f9a850751a2.png!post)
+![img](/images/makeshortdrama-01-roles.webp)
 
 > 一部最低配的短剧，也需要至少5-10个人协作，花费5-20万，周期1-3个月。
 
@@ -55,7 +55,7 @@ date: 2026-04-13 10:00:00
 
 **核心论点：**AI不是替代了某一个角色，而是替代了“大部分角色的大部分执行工作”。你作为“一人剧组”，承担的是**导演+制片人**的角色——做决策、定方向、把控质量。AI是你的整个团队。
 
-![img](https://static.xiaobot.net/file/2026-04-15/1122533/ca43130ce9762b54f31be1dfa16af8c1.png!post)
+![img](/images/makeshortdrama-01-ai-replacement.webp)
 
 > 2026年版本的 Nano Banana 2 在角色一致性与多图融合方面有显著提升。原生视频模型（如 Veo）已支持长镜头稳定生成与音频同步，减少拼接痕迹。
 
@@ -89,7 +89,7 @@ Agent可以串联所有模态完成复杂创作任务
 
 AI发展三阶段
 
-![img](https://static.xiaobot.net/file/2026-04-15/1122533/6df03f96f1f32a939d3c42f3697517ef.png!post)
+![img](/images/makeshortdrama-01-ai-stages.webp)
 
 ## 1.4 大模型能做什么？
 
@@ -111,7 +111,7 @@ AI发展三阶段
 
 ------
 
-![img](https://static.xiaobot.net/file/2026-04-15/1122533/e531ff0196334634fecb6f29e22581d3.png!post)
+![img](/images/makeshortdrama-01-model-landscape.webp)
 
 ## 1.5 什么是Agent？为什么它是关键？
 
@@ -140,7 +140,7 @@ AI发展三阶段
 
 Agent工作原理
 
-![img](https://static.xiaobot.net/file/2026-04-15/1122533/c8f20ffe05b34c5edaa0d3a34cd922f8.png!post)
+![img](/images/makeshortdrama-01-agent-principle.webp)
 
 2026年的关键变化：多模态统一
 
