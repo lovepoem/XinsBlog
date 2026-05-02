@@ -14,17 +14,17 @@ date: 2014-07-05 02:01:02
 [TOC]
 ### 一、什么是MyBatis      
 
-​     MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。可以对配置和原生Map使用简单的 XML 或注解，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。MyBatis并不刻意于完成ORM(对象映射)的完整概念，而是旨在更简单、更方便地完成数据库操作功能，减轻开发人员的工作量.
+    MyBatis 是支持定制化 SQL、存储过程以及高级映射的优秀的持久层框架。避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。可以对配置和原生Map使用简单的 XML 或注解，将接口和 Java 的 POJOs(Plain Old Java Objects,普通的 Java对象)映射成数据库中的记录。MyBatis并不刻意于完成ORM(对象映射)的完整概念，而是旨在更简单、更方便地完成数据库操作功能，减轻开发人员的工作量.
 
-​       1.根据 JDBC 规范建立与数据库的连接；
+      1.根据 JDBC 规范建立与数据库的连接；
 
-​       2.通过反射打通 Java 对象与数据库参数交互之间相互转化关系。
+      2.通过反射打通 Java 对象与数据库参数交互之间相互转化关系。
 
 ### 二、MyBatis简单示例
 
 #### 1、mybatis实例
 
-​      虽然在使用MyBatis时一般都会使用XML文件，但是本文为了分析程序的简单性，简单的测试程序将不包含XML配置，该测试程序包含一个接口、一个启动类：
+     虽然在使用MyBatis时一般都会使用XML文件，但是本文为了分析程序的简单性，简单的测试程序将不包含XML配置，该测试程序包含一个接口、一个启动类：
 
  ```java
 public interface UserMapper {
@@ -66,10 +66,10 @@ public class MybatisTest {
 
 #### 2、JDBC基础回顾
 
-​      直接使用JDBC是很痛苦的，JDBC连接数据库包含以下几个基本步骤：1、注册驱动 ；2、建立连接(Connection)；3、创建SQL语句(Statement)；4、执行语句；5、处理执行结果(ResultSet)；6、释放资源，示例代码如下：
+     直接使用JDBC是很痛苦的，JDBC连接数据库包含以下几个基本步骤：1、注册驱动 ；2、建立连接(Connection)；3、创建SQL语句(Statement)；4、执行语句；5、处理执行结果(ResultSet)；6、释放资源，示例代码如下：
 
 ```java
-public static void test()throwsSQLException{
+public static void test() throwsSQLException{
     // 1.注册驱动
     Class.forName("com.mysql.jdbc.Driver");
    
@@ -96,13 +96,13 @@ public static void test()throwsSQLException{
 
 　　可以看到与直接使用JDBC相比，MyBatis为我们简化了很多工作：
 
-​      1、把创建连接相关工作抽象成一个sqlSessionFactory对象，一次创建多次使用；
+     1、把创建连接相关工作抽象成一个sqlSessionFactory对象，一次创建多次使用；
 
-​      2、把sql语句从业务层剥离，代码逻辑更加清晰，增加可维护性；
+     2、把sql语句从业务层剥离，代码逻辑更加清晰，增加可维护性；
 
-​      3、自动完成结果集处理，不需要我们编写重复代码。
+     3、自动完成结果集处理，不需要我们编写重复代码。
 
-​      但是，我们应该知道的是，框架虽然能够帮助我们简化工作，但是框架底层的代码肯定还是最基础的JDBC代码，因为这是Java平台连接数据库的通用方法，今天我将分析一下MyBatis源码，看看MyBatis是如何把这些基础代码封装成一个框架的。
+     但是，我们应该知道的是，框架虽然能够帮助我们简化工作，但是框架底层的代码肯定还是最基础的JDBC代码，因为这是Java平台连接数据库的通用方法，今天我将分析一下MyBatis源码，看看MyBatis是如何把这些基础代码封装成一个框架的。
 
 ### 三、mybatis 的架构体系
 
@@ -117,11 +117,11 @@ public static void test()throwsSQLException{
 3)      基础支撑层：负责最基础的功能支撑，包括连接管理、事务管理、配置加载和缓存处理，这些都是共用的东西，将他们抽取出来作为最基础的组件。为上层的数据处理层提供最基础的支撑。
 #### 2、整体流程图
 
-![img](/images/mybatis-process-01.webp)
+![img](/images/mybatis_0.webp)
 
-​     初始化Mybatis，所有的配置都在Configuration对象中 使用Mybatis，从SqlSessionFactory工厂中获取SqlSession，从Configuration对象中获取mapper对象，并返回结果 Mybatis在加载mapper的时候对mapper接口的注解进行解析 重要的几个包：io、session、builder、mapper（annotations、binding）、executor
+    初始化Mybatis，所有的配置都在Configuration对象中 使用Mybatis，从SqlSessionFactory工厂中获取SqlSession，从Configuration对象中获取mapper对象，并返回结果 Mybatis在加载mapper的时候对mapper接口的注解进行解析 重要的几个包：io、session、builder、mapper（annotations、binding）、executor
 
-​    源代码主要在org.apache.ibatis目录下，18个包，其中在应用中主要的包有：builder、session、cache、type、transaction、datasource、jdbc、mapping，提供支撑服务的包有annotation、binding、io、logging、plugin、reflection、scripting、exception、executor、parsing
+   源代码主要在org.apache.ibatis目录下，18个包，其中在应用中主要的包有：builder、session、cache、type、transaction、datasource、jdbc、mapping，提供支撑服务的包有annotation、binding、io、logging、plugin、reflection、scripting、exception、executor、parsing
 
 #### 3、代码堆栈跟踪
 
@@ -145,9 +145,7 @@ private SqlSession openSessionFromDataSource(ExecutorType execType, TransactionI
 ```
 　　最终返回的对象是一个DefaultSqlSession对象，在调试模式下，我们看到autoCommit为false，executor为CachingExecutor类型，在CachingExecutor里面有属性delegate，其类型为simpleExecutor：
 
-![img](/images/mybatis-process-02.webp)
-
-​      现在，我们跟进DefaultSqlSession的selectOne()方法，查看该方法的调用流程，selectOne()方法又会调用selectList()方法：
+     现在，我们跟进DefaultSqlSession的selectOne()方法，查看该方法的调用流程，selectOne()方法又会调用selectList()方法：
 
 ```java
 public <E> List<E> selectList(String statement, Object parameter, RowBounds rowBounds) {
@@ -193,7 +191,7 @@ public <E> List<E> query(MappedStatement ms, Object parameterObject, RowBounds r
 ```
 MyBatis框架首先生成了一个boundSql和CacheKey，在boundSql中包含有我们传入的sql语句
 
-​      生成boundSql和CacheKey后会调用一个重载函数，在重载函数中，我们会检测是否有缓存，这个缓存是MyBatis的二级缓存，我们没有配置，那么直接调用最后一句delegate.<E> query(ms, parameterObject, rowBounds, resultHandler, key, boundSql)，前面说过这个delagate其实就是simpleExecutor，跟进去查看一下：
+     生成boundSql和CacheKey后会调用一个重载函数，在重载函数中，我们会检测是否有缓存，这个缓存是MyBatis的二级缓存，我们没有配置，那么直接调用最后一句delegate.<E> query(ms, parameterObject, rowBounds, resultHandler, key, boundSql)，前面说过这个delagate其实就是simpleExecutor，跟进去查看一下：
 ```java
 public <E> List<E> query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, CacheKey key, BoundSql boundSql)throwsSQLException {
     ErrorContext.instance().resource(ms.getResource()).activity("executing a query").object(ms.getId());
@@ -252,7 +250,7 @@ private <E> List<E> queryFromDatabase(MappedStatement ms, Object parameter, RowB
   returnlist;
 }
 ```
-​      其中关键代码是调用doQuery()代码，SimpleExecutor的doQuery()方法如下：
+     其中关键代码是调用doQuery()代码，SimpleExecutor的doQuery()方法如下：
 
 ```java
 ThreadLocalContainer.setRequestString(paramString);
@@ -275,7 +273,7 @@ public <E> List<E> doQuery(MappedStatement ms, Object parameter, RowBounds rowBo
 
 　　终于，我们看到熟悉的代码了，首先得到Connection，然后从Connection中得到Statement，同时在调试模式下我们看到，我们的sql语句已经被设置到stmt中了：
 
-![img](/images/mybatis-process-03.webp)
+![img](/images/mybatis_1.webp)
 
 　　现在Statement对象有了，sql也设置进去了，就只差执行以及对象映射了，继续跟进代码，我们会跟踪到org.apache.ibatis.executor.statement.
 
