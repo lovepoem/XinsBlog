@@ -29,7 +29,7 @@ avatar: /images/me.webp
 wechat_qrcode: /images/wechat-qrcode.png
 
 # 文章的默认封面
-default_cover: /images/java.png
+default_cover: /images/java.webp
 
 # header 的背景图
 header_cover: /images/banner.webp

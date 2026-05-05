@@ -1,6 +1,6 @@
 ---
 title: RocketMQ的死信队列你了解多少？怎么实现的？
-cover: /images/java.png
+cover: /images/java.webp
 subtitle:  RocketMQ的死信队列你了解多少？怎么实现的？
 author: 
   nick: 王欣

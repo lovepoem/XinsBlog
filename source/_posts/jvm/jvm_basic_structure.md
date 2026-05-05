@@ -1,6 +1,6 @@
 ---
 title: JVM基本结构
-cover: /images/java.png
+cover: /images/java.webp
 subtitle:  本文讲述了jvm,gc等的基本概念和jvm的内存基本结构，对内存的访问定位等。
 author: 
   nick: 王欣

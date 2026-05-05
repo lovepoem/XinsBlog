@@ -1,6 +1,6 @@
 ---
 title: MQ组件盘点，哪些你用在了生产中？
-cover: /images/java.png
+cover: /images/java.webp
 subtitle:  对比分析一下市面上都有哪些mq，区别一下这些消息队列的不同，分析其优缺点。
 author: 
   nick: 王欣

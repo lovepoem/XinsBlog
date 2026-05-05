@@ -1,6 +1,6 @@
 ---
 title: JVM内存结构的历史 （从Jdk1.6、1.7、8）
-cover: /images/java.png
+cover: /images/java.webp
 subtitle:  从Jdk1.6、1.7、8，JVM内存结构经历了不少的变化，本文将按照时间说开去
 author: 
   nick: 王欣

@@ -1,6 +1,6 @@
 ---
 title: 血的教训：线程池定义一定要全局化，共享使用
-cover: /images/java.png
+cover: /images/java.webp
 subtitle: 在我们业务项目上线过程中，有同事大意将线程池的的定义放到了局部变量中，导致服务运行一段后Java进程僵死，宿主机也处于僵死状态。血的教训：线程池使用时候一定注意要全局化，共享使用。
 author: 
   nick: 王欣

@@ -1,6 +1,6 @@
 ---
 title: 为什么Redis读写快？
-cover: /images/java.png
+cover: /images/java.webp
 subtitle:  为什么Redis读写快？其底层实现都使用了哪些数据结构？
 author: 
   nick: 王欣
